@@ -1,0 +1,69 @@
+@startuml Sequence_UC07_GhiChiSoHuyetAp
+!theme plain
+autonumber
+skinparam backgroundColor #FAFAFA
+skinparam sequenceParticipantBorderColor #4A90D9
+skinparam sequenceParticipantBackgroundColor #E8F4FD
+skinparam sequenceLifeLineBorderColor #4A90D9
+skinparam sequenceArrowColor #2C5F8A
+skinparam sequenceGroupBorderColor #F59E0B
+skinparam sequenceGroupBackgroundColor #FFFDE7
+skinparam titleFontSize 15
+skinparam titleFontStyle bold
+
+title Biểu đồ Tuần tự – UC07: Ghi chỉ số huyết áp
+
+actor "Người dùng" as User
+participant "AddBloodPressurePage\n(Giao diện Nhập)" as UI
+participant "HealthRepository" as Repo
+database "Cloud Firestore" as DB
+participant "Cloud Functions & FCM" as Cloud
+actor "Con cái / Người thân" as Caregiver
+
+User -> UI: Chọn "Ghi nhận huyết áp"
+activate UI
+UI --> User: Hiển thị form đo huyết áp (Tâm thu, Tâm trương, Nhịp tim, Ghi chú)
+deactivate UI
+
+User -> UI: Điền chỉ số Tâm thu, Tâm trương, Nhịp tim & Ghi chú
+activate UI
+
+alt Người dùng chọn "Huỷ"
+    User -> UI: Bấm nút "Huỷ"
+    UI --> User: Đóng form, quay lại màn hình Sức khỏe
+else Người dùng chọn "Xác nhận"
+    User -> UI: Bấm "Lưu kết quả"
+    UI -> Repo: saveBloodPressureRecord(elderId, systolic, diastolic, pulse, note)
+    activate Repo
+    Repo -> Repo: Kiểm tra ràng buộc y tế:
+- 70 <= systolic <= 250
+- 40 <= diastolic <= 150
+- systolic > diastolic
+- 30 <= pulse <= 220
+    alt Dữ liệu không hợp lệ (false)
+        Repo --> UI: Báo lỗi vi phạm dải đo y tế hoặc logic tâm thu <= tâm trương
+        UI --> User: Hiển thị hộp thoại cảnh báo chỉ số đo không hợp lệ
+    else Dữ liệu hợp lệ (true)
+        Repo -> Repo: Phân loại theo tiêu chuẩn WHO/AHA
+(Bình thường / Tiền THA / Độ 1 / Độ 2 / Thấp)
+        Repo -> DB: addDoc(/blood_pressure_records, recordData)
+        activate DB
+        DB --> Repo: DocumentReference (recordId)
+        Repo -> DB: updateDoc(/users/{elderId}, {latestBP: recordData})
+        DB --> Repo: Cập nhật thành công
+        deactivate DB
+
+        opt Chỉ số bất thường nguy hiểm (Systolic >= 160 hoặc Diastolic >= 100)
+            Repo -> Cloud: Trigger cảnh báo bất thường (UC09)
+            activate Cloud
+            Cloud -> Caregiver: Gửi Push Notification "Cảnh báo huyết áp báo động!"
+            deactivate Cloud
+        end
+
+        Repo --> UI: Lưu kết quả thành công kèm phân loại
+        deactivate Repo
+        UI --> User: Thông báo lưu thành công & hiển thị thẻ kết quả kèm khuyến nghị y tế
+    end
+end
+deactivate UI
+@enduml

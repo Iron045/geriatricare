@@ -1,0 +1,39 @@
+@startuml Activity_UC05_TiepNhanCanhBao
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC05: Tiếp nhận cảnh báo
+
+|Con cái / Người thân|
+start
+:Chọn tiếp nhận cảnh báo (Chạm thông báo FCM);
+
+|Hệ thống|
+label form_UC05
+:Hiển thị màn hình chi tiết cảnh báo và vị trí bản đồ;
+
+|Con cái / Người thân|
+:Chọn thao tác hỗ trợ (Gọi điện thoại / Chỉ đường);
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo cảnh báo đã được thành viên khác xử lý;
+    goto form_UC05
+  else (true)
+    :Cập nhật trạng thái đã tiếp nhận cảnh báo;
+    :Mở bản đồ chỉ đường và kích hoạt cuộc gọi hỗ trợ;
+    stop
+  endif
+endif
+@enduml

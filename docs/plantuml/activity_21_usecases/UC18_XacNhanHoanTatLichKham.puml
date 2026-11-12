@@ -1,0 +1,39 @@
+@startuml Activity_UC18_XacNhanHoanTatLichKham
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC18: Xác nhận hoàn tất lịch khám
+
+|Người dùng|
+start
+:Chọn Xác nhận hoàn tất buổi khám;
+
+|Hệ thống|
+label form_UC18
+:Hiển thị form ghi nhận kết quả khám bệnh;
+
+|Người dùng|
+:Điền kết luận của bác sĩ và chọn ngày tái khám;
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo ngày hẹn tái khám không hợp lệ;
+    goto form_UC18
+  else (true)
+    :Cập nhật status: completed & tạo gợi ý lịch tái khám;
+    :Thông báo hoàn tất buổi khám bệnh thành công;
+    stop
+  endif
+endif
+@enduml

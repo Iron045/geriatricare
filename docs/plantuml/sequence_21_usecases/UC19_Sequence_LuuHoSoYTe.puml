@@ -1,0 +1,54 @@
+@startuml Sequence_UC19_LuuHoSoYTe
+!theme plain
+autonumber
+skinparam backgroundColor #FAFAFA
+skinparam sequenceParticipantBorderColor #4A90D9
+skinparam sequenceParticipantBackgroundColor #E8F4FD
+skinparam sequenceLifeLineBorderColor #4A90D9
+skinparam sequenceArrowColor #2C5F8A
+skinparam sequenceGroupBorderColor #F59E0B
+skinparam sequenceGroupBackgroundColor #FFFDE7
+skinparam titleFontSize 15
+skinparam titleFontStyle bold
+
+title Biểu đồ Tuần tự – UC19: Lưu hồ sơ y tế
+
+actor "Người dùng" as User
+participant "AddMedicalRecordPage\n(Tạo hồ sơ y tế)" as UI
+participant "MedicalRecordRepository" as Repo
+database "Cloud Firestore" as DB
+
+User -> UI: Chọn "Tạo hồ sơ bệnh án mới"
+activate UI
+UI --> User: Hiển thị form nhập hồ sơ (Bệnh viện, Chẩn đoán, Ngày khám, Bác sĩ, Đơn thuốc)
+deactivate UI
+
+User -> UI: Điền Tên bệnh viện, Chẩn đoán, Ngày khám (yyyy-MM-dd), Bác sĩ, Đơn thuốc
+activate UI
+
+alt Người dùng chọn "Huỷ"
+    User -> UI: Bấm nút "Huỷ"
+    UI --> User: Đóng form, quay lại Sổ hồ sơ bệnh án
+else Người dùng chọn "Xác nhận"
+    User -> UI: Bấm "Lưu hồ sơ bệnh án"
+    UI -> Repo: createMedicalRecord(elderId, recordData)
+    activate Repo
+    Repo -> Repo: Kiểm tra ràng buộc:
+- Bệnh viện & Chẩn đoán != rỗng
+- 2000-01-01 <= recordDate <= now
+    alt Dữ liệu không hợp lệ (false)
+        Repo --> UI: Báo lỗi thiếu thông tin hoặc ngày khám trong tương lai
+        UI --> User: Hiển thị thông báo lỗi yêu cầu điền đủ thông tin
+    else Dữ liệu hợp lệ (true)
+        Repo -> DB: addDoc(/medical_records, {elderId, ...recordData, createdAt: now})
+        activate DB
+        DB --> Repo: DocumentReference (recordId)
+        deactivate DB
+
+        Repo --> UI: Lưu hồ sơ y tế thành công
+        deactivate Repo
+        UI --> User: Thông báo lưu hồ sơ bệnh án thành công, chuyển sang màn hình chi tiết & gợi ý đính kèm ảnh
+    end
+end
+deactivate UI
+@enduml

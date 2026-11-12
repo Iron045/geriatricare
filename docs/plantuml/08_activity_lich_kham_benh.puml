@@ -1,0 +1,59 @@
+@startuml Activity_06_QuanLyLichKham
+!theme plain
+skinparam backgroundColor #FAFAFA
+skinparam activityBorderColor #27AE60
+skinparam activityBackgroundColor #EAFAF1
+skinparam activityDiamondBackgroundColor #FFF9C4
+skinparam activityDiamondBorderColor #F59E0B
+skinparam arrowColor #1E8449
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+
+title Biểu đồ Hoạt động - Phân hệ 6: Quản lý Lịch khám Sức khỏe (UC16, UC17, UC18)
+
+|Con cái / Người cao tuổi|
+start
+:Mở mục 'Lịch khám sức khỏe';
+if (Thao tác?) then (Tạo lịch khám mới - UC16)
+    label sp_create_app
+    :Nhấn 'Tạo lịch khám bệnh mới';
+    :Nhập Tiêu đề, Tên bệnh viện, Bác sĩ/Khoa,
+    Chọn Thời gian khám (> hiện tại + 30m), Ghi chú dặn dò;
+    :Nhấn 'Lưu lịch khám';
+    |Ứng dụng Flutter|
+    if (Thời gian hợp lệ & Đủ tiêu đề?) then (Không)
+        :Báo lỗi (Để trống / Thời gian trong quá khứ);
+        goto sp_create_app
+    else (Hợp lệ)
+        |Hệ thống Backend (Firebase)|
+        :Lưu vào 'medical_appointments/{id}' (status = 'scheduled');
+        :Đồng bộ lịch khám lên màn hình cả gia đình;
+        stop
+    endif
+elseif (Điều phối người đưa đi khám - UC17)
+    |Con cái / Người thân|
+    :Mở chi tiết lịch khám của cha mẹ;
+    :Nhấn 'Nhận đưa đi' hoặc 'Phân công người thân đưa đi';
+    :Chọn thành viên phụ trách và nhập ghi chú di chuyển;
+    :Nhấn 'Xác nhận điều phối';
+    |Hệ thống Backend (Firebase)|
+    :Cập nhật assignedCaregiverId, isEscorted = true;
+    :Gửi thông báo đến thành viên được phân công;
+    |Thiết bị Người cao tuổi|
+    :Hiển thị rõ tên người thân đưa đi trên thẻ lịch khám;
+    stop
+else (Xác nhận hoàn tất lịch khám - UC18)
+    |Con cái / Người thân|
+    :Sau khi khám xong, mở chi tiết lịch khám;
+    :Nhấn 'Xác nhận hoàn tất buổi khám';
+    :Nhập Kết luận của bác sĩ (tối đa 500 ký tự);
+    :Chọn Ngày hẹn tái khám (nếu có: > ngày hiện tại);
+    :Nhấn 'Hoàn tất';
+    |Hệ thống Backend (Firebase)|
+    :Cập nhật lịch khám (status = 'completed', completedAt = now);
+    if (Có ngày hẹn tái khám?) then (Có)
+        :Tự động gợi ý tạo lịch khám mới cho đợt tái khám;
+    endif
+    stop
+endif
+@enduml

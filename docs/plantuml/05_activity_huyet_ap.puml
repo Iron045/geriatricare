@@ -1,0 +1,62 @@
+@startuml Activity_03_QuanLyHuyetAp
+!theme plain
+skinparam backgroundColor #FAFAFA
+skinparam activityBorderColor #D35400
+skinparam activityBackgroundColor #FBEEE6
+skinparam activityDiamondBackgroundColor #FFF9C4
+skinparam activityDiamondBorderColor #F59E0B
+skinparam arrowColor #A04000
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+
+title Biểu đồ Hoạt động - Phân hệ 3: Quản lý Chỉ số Huyết áp (UC07, UC08, UC09)
+
+|Người dùng (Cao tuổi / Con cái)|
+start
+:Mở module 'Sức khỏe & Huyết áp';
+if (Chọn chức năng?) then (Theo dõi lịch sử - UC08)
+    :Chọn khoảng thời gian (7 ngày, 30 ngày, tùy chọn);
+    |Hệ thống Backend (Firebase)|
+    :Truy vấn 'blood_pressure_records' theo elderId;
+    :Tính toán huyết áp & nhịp tim trung bình;
+    |Ứng dụng Flutter|
+    :Dựng biểu đồ đường biến thiên huyết áp theo ngày;
+    :Hiển thị danh sách các lần đo kèm màu cảnh báo;
+    stop
+else (Ghi nhận kết quả đo mới - UC07)
+    label sp_input_bp
+    |Người dùng (Cao tuổi / Con cái)|
+    :Mở màn hình 'Ghi huyết áp';
+    :Nhập Huyết áp tâm thu (70-250 mmHg),
+    Huyết áp tâm trương (40-150 mmHg),
+    Nhịp tim (30-220 bpm) và Ghi chú;
+    :Nhấn nút 'Lưu kết quả';
+    |Ứng dụng Flutter|
+    :Kiểm tra dải giá trị & Logic (Tâm thu > Tâm trương);
+    if (Chỉ số đo hợp lệ?) then (Không hợp lệ)
+        :Báo lỗi vi phạm dải đo hoặc logic;
+        goto sp_input_bp
+    else (Hợp lệ)
+        :Phân loại mức độ theo WHO/AHA
+        (Bình thường / Tiền THA / Độ 1 / Độ 2 / Thấp);
+        |Hệ thống Backend (Firebase)|
+        :Lưu bản ghi vào 'blood_pressure_records/{id}';
+        :Cập nhật chỉ số mới nhất vào hồ sơ người cao tuổi;
+        |Hệ thống Backend (Firebase)|
+        if (Chỉ số bất thường nguy hiểm? - UC09) then (Có: Tâm thu>=160 hoặc Tâm trương>=100 hoặc Nhịp tim bất thường)
+            :Đánh dấu cờ isAbnormal = true, severity = 'critical';
+            :Tạo tài liệu thông báo trong 'notifications';
+            :Kích hoạt FCM gửi Push Notification cảnh báo khẩn cấp;
+            |Thiết bị Con cái (Từ xa)|
+            :Nhận thông báo cảnh báo đỏ trên điện thoại;
+            :Mở ứng dụng xem ngay chỉ số nguy hiểm;
+            |Thiết bị Người cao tuổi|
+            :Hiển thị khuyến nghị y tế khẩn cấp tại chỗ;
+        else (Chỉ số ổn định / bình thường)
+            |Ứng dụng Flutter|
+            :Hiển thị kết quả đo và nhãn trạng thái an toàn;
+        endif
+        stop
+    endif
+endif
+@enduml

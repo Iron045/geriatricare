@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/app_error_dialog.dart';
 import '../../domain/entities/pill_schedule.dart';
 import '../providers/medication_providers.dart';
 
@@ -61,16 +62,18 @@ class _StopMedicationButtonState extends ConsumerState<StopMedicationButton> {
             elderId: widget.schedule.elderUserId,
           );
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Đã xóa ${widget.schedule.medicationName}.'),
-          ),
+        await showAppMessageDialog(
+          context,
+          message: 'Đã xóa ${widget.schedule.medicationName}.',
+          type: AppMessageType.success,
         );
       }
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Không thể xóa thuốc: $error')),
+        await showAppErrorDialog(
+          context,
+          title: 'Không thể xóa thuốc',
+          message: error,
         );
       }
     } finally {

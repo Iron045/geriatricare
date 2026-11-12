@@ -1,0 +1,65 @@
+@startuml Sequence_UC14_QuanLyDanhSachNguoiThan
+!theme plain
+autonumber
+skinparam backgroundColor #FAFAFA
+skinparam sequenceParticipantBorderColor #4A90D9
+skinparam sequenceParticipantBackgroundColor #E8F4FD
+skinparam sequenceLifeLineBorderColor #4A90D9
+skinparam sequenceArrowColor #2C5F8A
+skinparam sequenceGroupBorderColor #F59E0B
+skinparam sequenceGroupBackgroundColor #FFFDE7
+skinparam titleFontSize 15
+skinparam titleFontStyle bold
+
+title Biểu đồ Tuần tự – UC14: Quản lý danh sách người thân
+
+actor "Người dùng" as User
+participant "FamilyListPage\n(Giao diện Gia đình)" as UI
+participant "FamilyLinkRepository" as Repo
+database "Cloud Firestore" as DB
+
+User -> UI: Mở màn hình "Danh sách người thân"
+activate UI
+UI -> Repo: getFamilyMembers(userId)
+activate Repo
+Repo -> DB: query(/family_links where userId and status == "accepted")
+activate DB
+DB --> Repo: Danh sách các liên kết
+deactivate DB
+Repo --> UI: Trả về danh sách thành viên gia đình
+deactivate Repo
+UI --> User: Hiển thị danh sách: Tên, SĐT, Biệt danh, Vai trò
+
+alt Người dùng chọn "Đổi biệt danh"
+    User -> UI: Nhập biệt danh mới & Bấm "Lưu"
+    UI -> Repo: updateNickname(linkId, newNickname)
+    activate Repo
+    Repo -> DB: updateDoc(/family_links/{linkId}, {nickname: newNickname})
+    activate DB
+    DB --> Repo: Cập nhật thành công
+    deactivate DB
+    Repo --> UI: Đổi biệt danh thành công
+    deactivate Repo
+    UI --> User: Cập nhật biệt danh mới lên giao diện
+else Người dùng chọn "Hủy liên kết"
+    User -> UI: Bấm nút "Hủy liên kết thành viên"
+    UI --> User: Hiển thị cảnh báo bảo mật: "Mất quyền theo dõi vị trí và sức khỏe?"
+    alt Người dùng chọn "Huỷ bỏ"
+        User -> UI: Bấm "Không"
+        UI --> User: Đóng cảnh báo, giữ nguyên liên kết
+    else Người dùng chọn "Xác nhận hủy"
+        User -> UI: Bấm "Đồng ý Hủy"
+        UI -> Repo: cancelFamilyLink(linkId, memberId)
+        activate Repo
+        Repo -> DB: updateDoc(/family_links/{linkId}, {status: "cancelled"})
+        activate DB
+        Repo -> DB: Xóa quyền truy cập dữ liệu chéo giữa 2 tài khoản
+        DB --> Repo: Hủy liên kết thành công
+        deactivate DB
+        Repo --> UI: Hủy liên kết hoàn tất
+        deactivate Repo
+        UI --> User: Thông báo đã hủy liên kết & xóa thành viên khỏi danh sách
+    end
+end
+deactivate UI
+@enduml

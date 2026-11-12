@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/app_error_dialog.dart';
 
 class EmergencyPhoneCard extends StatelessWidget {
   const EmergencyPhoneCard({super.key});
@@ -17,10 +18,7 @@ class EmergencyPhoneCard extends StatelessWidget {
           color: AppColors.danger,
           size: 54,
         ),
-        title: const Text(
-          'Gọi cấp cứu 115?',
-          textAlign: TextAlign.center,
-        ),
+        title: const Text('Gọi cấp cứu 115?', textAlign: TextAlign.center),
         content: const Text(
           'Chỉ gọi 115 khi cần hỗ trợ y tế khẩn cấp.',
           textAlign: TextAlign.center,
@@ -58,10 +56,14 @@ class EmergencyPhoneCard extends StatelessWidget {
       ),
     );
     if (confirmed != true || !context.mounted) return;
-    final launched = await launchUrl(Uri(scheme: 'tel', path: number));
+    final launched = await launchUrl(
+      Uri(scheme: 'tel', path: number),
+      mode: LaunchMode.externalApplication,
+    );
     if (!launched && context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Thiết bị không thể thực hiện cuộc gọi.')),
+      await showAppErrorDialog(
+        context,
+        message: 'Thiết bị không thể thực hiện cuộc gọi.',
       );
     }
   }

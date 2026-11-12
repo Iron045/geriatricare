@@ -1,0 +1,39 @@
+@startuml Activity_UC12_GhiNhanNhatKyUongThuoc
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC12: Ghi nhận nhật ký uống thuốc
+
+|Người cao tuổi|
+start
+:Chọn cữ thuốc đang chờ uống;
+
+|Hệ thống|
+label form_UC12
+:Hiển thị popup xác nhận: Đã uống hoặc Bỏ qua;
+
+|Người cao tuổi|
+:Điền xác nhận Đã uống (hoặc Bỏ qua và nhập lý do);
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo chưa điền lý do khi chọn bỏ qua cữ thuốc;
+    goto form_UC12
+  else (true)
+    :Cập nhật status taken/skipped & tính tỷ lệ tuân thủ;
+    :Thông báo ghi nhận nhật ký uống thuốc thành công;
+    stop
+  endif
+endif
+@enduml

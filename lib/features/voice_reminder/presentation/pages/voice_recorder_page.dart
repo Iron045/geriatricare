@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:record/record.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/app_error_dialog.dart';
 import '../../../../core/widgets/app_brand.dart';
 import '../../../authentication/presentation/providers/auth_providers.dart';
 import '../../../medication/data/services/medication_notification_service.dart';
@@ -51,8 +52,10 @@ class _VoiceRecorderPageState extends ConsumerState<VoiceRecorderPage> {
     try {
       if (!await recorder.hasPermission()) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Bạn cần cấp quyền microphone.')),
+          await showAppMessageDialog(
+            context,
+            message: 'Bạn cần cấp quyền microphone.',
+            type: AppMessageType.warning,
           );
         }
         return;
@@ -85,7 +88,7 @@ class _VoiceRecorderPageState extends ConsumerState<VoiceRecorderPage> {
       });
       setState(() => recording = true);
     } catch (error) {
-      if (mounted) _showError('Không thể bắt đầu ghi âm', error);
+      if (mounted) await _showError('Không thể bắt đầu ghi âm', error);
     }
   }
 
@@ -111,7 +114,7 @@ class _VoiceRecorderPageState extends ConsumerState<VoiceRecorderPage> {
         recordedBytes = bytes.isEmpty ? null : bytes;
       });
     } catch (error) {
-      if (mounted) _showError('Không thể dừng ghi âm', error);
+      if (mounted) await _showError('Không thể dừng ghi âm', error);
     }
   }
 
@@ -167,13 +170,16 @@ class _VoiceRecorderPageState extends ConsumerState<VoiceRecorderPage> {
           ? 'Đã lưu lên Firebase nhưng chưa đặt được âm báo: $localSoundError'
           : 'Đã lưu bản ghi âm lên Firebase.';
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(successMessage)),
+      await showAppMessageDialog(
+        context,
+        message: successMessage,
+        type: AppMessageType.success,
       );
+      if (!mounted) return;
       Navigator.pop(context);
     } catch (error) {
       if (mounted) {
-        _showError(
+        await _showError(
           localSoundSaved
               ? 'Đã đặt âm báo trên thiết bị nhưng không thể tải lên Firebase'
               : 'Không thể lưu bản ghi',
@@ -185,11 +191,11 @@ class _VoiceRecorderPageState extends ConsumerState<VoiceRecorderPage> {
     }
   }
 
-  void _showError(String message, Object error) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('$message: $error')));
-  }
+  Future<void> _showError(String message, Object error) => showAppErrorDialog(
+    context,
+    title: message,
+    message: error,
+  );
 
   @override
   void dispose() {

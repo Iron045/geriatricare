@@ -1,0 +1,39 @@
+@startuml Activity_UC03_DangXuat
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC03: Đăng xuất
+
+|Người dùng|
+start
+:Chọn đăng xuất;
+
+|Hệ thống|
+label form_UC03
+:Hiển thị hộp thoại xác nhận đăng xuất;
+
+|Người dùng|
+:Xác nhận thao tác đăng xuất;
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo lỗi kết nối máy chủ;
+    goto form_UC03
+  else (true)
+    :Hủy listeners, xóa token FCM & signOut;
+    :Thông báo đăng xuất thành công, về màn hình đăng nhập;
+    stop
+  endif
+endif
+@enduml

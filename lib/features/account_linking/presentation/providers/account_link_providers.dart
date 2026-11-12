@@ -15,6 +15,13 @@ final elderAccountLinksProvider =
           ref.watch(accountLinkRepositoryProvider).watchElderLinks(elderId),
     );
 
+final acceptedFamilyLinksProvider =
+    StreamProvider.family<List<AccountLinkRequest>, String>(
+      (ref, elderId) => ref
+          .watch(accountLinkRepositoryProvider)
+          .watchAcceptedFamilyLinks(elderId),
+    );
+
 final childAccountLinksProvider =
     StreamProvider.family<List<AccountLinkRequest>, String>(
       (ref, childPhone) =>

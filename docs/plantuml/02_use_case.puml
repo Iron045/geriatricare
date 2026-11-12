@@ -1,0 +1,128 @@
+﻿@startuml Use_Case_Diagram
+!theme plain
+skinparam backgroundColor #FAFAFA
+skinparam actorBorderColor #2C5F8A
+skinparam actorBackgroundColor #E8F4FD
+skinparam usecaseBorderColor #4A90D9
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam arrowColor #555555
+skinparam packageBorderColor #4A90D9
+skinparam packageBackgroundColor #F0F8FF
+skinparam titleFontSize 18
+skinparam titleFontStyle bold
+
+title Sơ đồ Use Case - Ứng dụng Geriatriccare
+
+left to right direction
+
+actor "👴 Người\ncao tuổi\n(Elder)" as Elder
+actor "👨‍👧 Con cái /\nNgười thân\n(Child)" as Child
+actor "👩‍⚕️ Người\nchăm sóc\n(Caregiver)" as Caregiver
+actor "☁️ Firebase\n(FCM)" as Firebase
+
+rectangle "Hệ thống Geriatriccare" {
+    package "Tài khoản" {
+        usecase "UC01\nĐăng ký tài khoản" as UC01
+        usecase "UC02\nĐăng nhập" as UC02
+        usecase "UC03\nXác minh email" as UC03
+        usecase "UC04\nĐăng xuất" as UC04
+    }
+
+    package "Liên kết Tài khoản" {
+        usecase "UC05\nGửi yêu cầu liên kết" as UC05
+        usecase "UC06\nChấp nhận / Từ chối\nyêu cầu liên kết" as UC06
+    }
+
+    package "Theo dõi Sức khỏe" {
+        usecase "UC07\nGhi nhận huyết áp" as UC07
+        usecase "UC08\nXem lịch sử sức khỏe" as UC08
+        usecase "UC09\nĐánh dấu đã liên hệ" as UC09
+    }
+
+    package "Quản lý Thuốc" {
+        usecase "UC10\nTạo lịch uống thuốc" as UC10
+        usecase "UC11\nXem lịch thuốc hôm nay" as UC11
+        usecase "UC12\nXác nhận đã uống thuốc" as UC12
+        usecase "UC13\nXem lịch sử thuốc" as UC13
+    }
+
+    package "Lịch hẹn Khám bệnh" {
+        usecase "UC14\nTạo lịch hẹn khám" as UC14
+        usecase "UC15\nXem danh sách lịch hẹn" as UC15
+        usecase "UC16\nChấp nhận / Thả lịch hẹn" as UC16
+    }
+
+    package "Hồ sơ Bệnh án" {
+        usecase "UC17\nGhi nhận lần khám" as UC17
+        usecase "UC18\nĐính kèm tài liệu y tế" as UC18
+        usecase "UC19\nXem hồ sơ bệnh án" as UC19
+    }
+
+    package "SOS Khẩn cấp" {
+        usecase "UC20\nKích hoạt SOS" as UC20
+        usecase "UC21\nXác nhận cảnh báo SOS" as UC21
+        usecase "UC22\nGiải quyết / Hủy SOS" as UC22
+        usecase "UC23\nPhát hiện ngã tự động" as UC23
+    }
+
+    package "Vị trí & Giọng nói" {
+        usecase "UC24\nChia sẻ vị trí GPS" as UC24
+        usecase "UC25\nXem vị trí người cao tuổi" as UC25
+        usecase "UC26\nGhi âm nhắc nhở\ngiọng nói" as UC26
+    }
+
+}
+
+Elder --> UC01
+Elder --> UC02
+Elder --> UC03
+Elder --> UC04
+Elder --> UC05
+Elder --> UC07
+Elder --> UC11
+Elder --> UC12
+Elder --> UC20
+Elder --> UC23
+Elder --> UC24
+Elder --> UC26
+
+Child --> UC01
+Child --> UC02
+Child --> UC03
+Child --> UC06
+Child --> UC08
+Child --> UC09
+Child --> UC10
+Child --> UC13
+Child --> UC14
+Child --> UC15
+Child --> UC16
+Child --> UC17
+Child --> UC18
+Child --> UC19
+Child --> UC21
+Child --> UC22
+Child --> UC25
+
+Caregiver --> UC02
+Caregiver --> UC08
+Caregiver --> UC10
+Caregiver --> UC14
+Caregiver --> UC15
+Caregiver --> UC16
+Caregiver --> UC17
+Caregiver --> UC19
+Caregiver --> UC21
+Caregiver --> UC22
+Caregiver --> UC25
+
+
+Firebase ..> UC21 : <<push notification>>
+Firebase ..> UC12 : <<push notification>>
+Firebase ..> UC06 : <<push notification>>
+
+UC20 ..> UC24 : <<include>>
+UC23 ..> UC20 : <<extend>>
+
+@enduml
+

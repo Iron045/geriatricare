@@ -1,0 +1,59 @@
+@startuml Sequence_UC20_QuanLyTaiLieuDinhKem
+!theme plain
+autonumber
+skinparam backgroundColor #FAFAFA
+skinparam sequenceParticipantBorderColor #4A90D9
+skinparam sequenceParticipantBackgroundColor #E8F4FD
+skinparam sequenceLifeLineBorderColor #4A90D9
+skinparam sequenceArrowColor #2C5F8A
+skinparam sequenceGroupBorderColor #F59E0B
+skinparam sequenceGroupBackgroundColor #FFFDE7
+skinparam titleFontSize 15
+skinparam titleFontStyle bold
+
+title Biểu đồ Tuần tự – UC20: Quản lý tài liệu đính kèm
+
+actor "Người dùng" as User
+participant "MedicalRecordDetailPage\n(Chi tiết bệnh án)" as UI
+participant "Image/File Picker & Compressor" as Picker
+participant "MedicalRecordRepository" as Repo
+storage "Firebase Storage" as Storage
+database "Cloud Firestore" as DB
+
+User -> UI: Chọn "Đính kèm tài liệu / Ảnh xét nghiệm"
+activate UI
+UI -> Picker: openImagePicker()
+activate Picker
+Picker --> User: Mở giao diện chọn ảnh từ Camera hoặc Thư viện máy
+User -> Picker: Chọn tệp ảnh hoặc PDF
+Picker --> UI: Trả về File đối tượng
+deactivate Picker
+
+UI -> UI: Kiểm tra định dạng (JPG, PNG, PDF) & dung lượng (<= 10MB)
+alt Định dạng sai hoặc dung lượng > 10MB (false)
+    UI --> User: Báo lỗi định dạng không hỗ trợ hoặc tệp quá 10MB
+else Tệp hợp lệ (true)
+    User -> UI: Nhập mô tả tài liệu (tối đa 100 ký tự) & Bấm "Tải lên"
+    UI -> Picker: compressImage(file)
+    activate Picker
+    Picker --> UI: File ảnh đã nén tối ưu
+    deactivate Picker
+
+    UI -> Repo: uploadAttachment(recordId, compressedFile, caption)
+    activate Repo
+    Repo -> Storage: putFile(/medical_records/{recordId}/attachments/{fileId})
+    activate Storage
+    Storage --> Repo: UploadTaskSnapshot & downloadUrl
+    deactivate Storage
+
+    Repo -> DB: updateDoc(/medical_records/{recordId}, {attachments: arrayUnion({fileId, downloadUrl, caption, uploadedAt: now})})
+    activate DB
+    DB --> Repo: Cập nhật thành công
+    deactivate DB
+
+    Repo --> UI: Tải lên tài liệu thành công
+    deactivate Repo
+    UI --> User: Thông báo tải lên thành công & hiển thị ảnh thu nhỏ thumbnail trên hồ sơ bệnh án
+end
+deactivate UI
+@enduml

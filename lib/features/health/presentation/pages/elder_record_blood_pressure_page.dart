@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/app_brand.dart';
+import '../../../../core/widgets/app_error_dialog.dart';
 import '../../../authentication/presentation/providers/auth_providers.dart';
 import '../../domain/entities/blood_pressure_status.dart';
 import '../../domain/entities/health_record.dart';
@@ -58,15 +60,22 @@ class _ElderRecordBloodPressurePageState
       );
       return;
     }
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(status.message)));
+    _resetMeasurements();
+  }
+
+  void _resetMeasurements() {
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() {
+      systolic = 120;
+      diastolic = 80;
+    });
   }
 
   Future<void> save() async {
     if (systolic <= diastolic) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Tâm thu phải lớn hơn tâm trương.')),
+      await showAppErrorDialog(
+        context,
+        message: 'Tâm thu phải lớn hơn tâm trương.',
       );
       return;
     }
@@ -84,15 +93,20 @@ class _ElderRecordBloodPressurePageState
         ),
       );
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Đã lưu kết quả huyết áp lên Firebase.')),
+      await showAppMessageDialog(
+        context,
+        message: 'Đã lưu kết quả huyết áp lên Firebase.',
+        type: AppMessageType.success,
       );
+      if (!mounted) return;
       Navigator.pop(context);
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(
+        await showAppErrorDialog(
           context,
-        ).showSnackBar(SnackBar(content: Text('Không thể lưu: $error')));
+          title: 'Không thể lưu huyết áp',
+          message: error,
+        );
       }
     } finally {
       if (mounted) setState(() => loading = false);
@@ -127,15 +141,17 @@ class _ElderRecordBloodPressurePageState
           _Counter(
             label: 'Tâm thu (Số trên)',
             value: systolic,
-            onMinus: systolic > 70 ? () => setState(() => systolic--) : null,
-            onPlus: systolic < 250 ? () => setState(() => systolic++) : null,
+            minimum: 70,
+            maximum: 250,
+            onChanged: (value) => setState(() => systolic = value),
           ),
           const SizedBox(height: 28),
           _Counter(
             label: 'Tâm trương (Số dưới)',
             value: diastolic,
-            onMinus: diastolic > 40 ? () => setState(() => diastolic--) : null,
-            onPlus: diastolic < 150 ? () => setState(() => diastolic++) : null,
+            minimum: 40,
+            maximum: 150,
+            onChanged: (value) => setState(() => diastolic = value),
           ),
           const SizedBox(height: 28),
           AnimatedContainer(
@@ -212,24 +228,85 @@ class _ElderRecordBloodPressurePageState
   );
 }
 
-class _Counter extends StatelessWidget {
+class _Counter extends StatefulWidget {
   const _Counter({
     required this.label,
     required this.value,
-    required this.onMinus,
-    required this.onPlus,
+    required this.minimum,
+    required this.maximum,
+    required this.onChanged,
   });
   final String label;
   final int value;
-  final VoidCallback? onMinus;
-  final VoidCallback? onPlus;
+  final int minimum;
+  final int maximum;
+  final ValueChanged<int> onChanged;
+
+  @override
+  State<_Counter> createState() => _CounterState();
+}
+
+class _CounterState extends State<_Counter> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.value.toString());
+  }
+
+  @override
+  void didUpdateWidget(covariant _Counter oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value &&
+        _controller.text != widget.value.toString()) {
+      _controller.value = TextEditingValue(
+        text: widget.value.toString(),
+        selection: TextSelection.collapsed(
+          offset: widget.value.toString().length,
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _changeBy(int amount) {
+    final next = (widget.value + amount).clamp(widget.minimum, widget.maximum);
+    widget.onChanged(next);
+  }
+
+  void _handleInput(String text) {
+    final value = int.tryParse(text);
+    if (value != null && value >= widget.minimum && value <= widget.maximum) {
+      widget.onChanged(value);
+    }
+  }
+
+  void _restoreValidValue() {
+    final enteredValue = int.tryParse(_controller.text);
+    final validValue = enteredValue == null
+        ? widget.value
+        : enteredValue.clamp(widget.minimum, widget.maximum) as int;
+    if (validValue != widget.value) widget.onChanged(validValue);
+    if (_controller.text != validValue.toString()) {
+      _controller.text = validValue.toString();
+      _controller.selection = TextSelection.collapsed(
+        offset: _controller.text.length,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
-        label,
+        widget.label,
         style: const TextStyle(fontSize: 23, fontWeight: FontWeight.w700),
       ),
       const SizedBox(height: 12),
@@ -244,24 +321,51 @@ class _Counter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton.filledTonal(
-              onPressed: onMinus,
+              onPressed: widget.value > widget.minimum
+                  ? () => _changeBy(-1)
+                  : null,
               icon: const Icon(Icons.remove, size: 36),
             ),
-            Column(
-              children: [
-                Text(
-                  '$value',
-                  style: const TextStyle(
-                    fontSize: 48,
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w800,
+            SizedBox(
+              width: 126,
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _controller,
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(3),
+                    ],
+                    style: const TextStyle(
+                      fontSize: 48,
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    decoration: const InputDecoration(
+                      isDense: true,
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    onChanged: _handleInput,
+                    onEditingComplete: () {
+                      _restoreValidValue();
+                      FocusScope.of(context).unfocus();
+                    },
+                    onTapOutside: (_) {
+                      _restoreValidValue();
+                      FocusScope.of(context).unfocus();
+                    },
                   ),
-                ),
-                const Text('mmHg', style: TextStyle(fontSize: 21)),
-              ],
+                  const Text('mmHg', style: TextStyle(fontSize: 21)),
+                ],
+              ),
             ),
             IconButton.filledTonal(
-              onPressed: onPlus,
+              onPressed: widget.value < widget.maximum
+                  ? () => _changeBy(1)
+                  : null,
               icon: const Icon(Icons.add, size: 36),
             ),
           ],

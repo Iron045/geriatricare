@@ -27,9 +27,9 @@ lib/
 medication, profile, and account linking remain separate business features and
 are composed by the Elder shell.
 
-Authentication owns phone OTP, Firebase session state, and the `users/{uid}`
-profile. `AuthGate` is the application entry point and selects the UI from the
-stored user role.
+Authentication owns email/password credentials, email verification, phone-to-email
+login lookup, Firebase session state, and the `users/{uid}` profile. `AuthGate`
+blocks unverified email accounts and selects the UI from the stored user role.
 
 Dependency direction:
 

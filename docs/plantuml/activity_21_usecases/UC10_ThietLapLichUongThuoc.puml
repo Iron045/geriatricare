@@ -1,0 +1,39 @@
+@startuml Activity_UC10_ThietLapLichUongThuoc
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC10: Thiết lập lịch uống thuốc
+
+|Người dùng|
+start
+:Chọn Thêm lịch uống thuốc;
+
+|Hệ thống|
+label form_UC10
+:Hiển thị form thiết lập lịch thuốc;
+
+|Người dùng|
+:Điền tên thuốc, liều lượng, giờ nhắc, ngày uống;
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo thiếu thông tin hoặc ngày kết thúc sai;
+    goto form_UC10
+  else (true)
+    :Lưu Firestore medication_schedules & đặt báo thức Local Alarm;
+    :Thông báo thiết lập lịch uống thuốc thành công;
+    stop
+  endif
+endif
+@enduml

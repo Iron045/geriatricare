@@ -12,6 +12,10 @@ import '../../../location/presentation/providers/elder_location_providers.dart';
 import '../../../profile/presentation/pages/settings_page.dart';
 import '../../../care/presentation/pages/elder_care_page.dart';
 import '../../../home/presentation/pages/elder_home_page.dart';
+import '../../../sos/data/services/fall_detection_service.dart';
+import '../../../sos/domain/entities/sos_alert.dart';
+import '../../../sos/presentation/pages/elder_sos_countdown_page.dart';
+import '../../../sos/presentation/widgets/fall_confirmation_dialog.dart';
 
 class ElderNavigationPage extends ConsumerStatefulWidget {
   const ElderNavigationPage({super.key, this.userId});
@@ -29,6 +33,8 @@ class _ElderNavigationPageState extends ConsumerState<ElderNavigationPage>
   CareTab _careTab = CareTab.medication;
   StreamSubscription<String>? _reminderOpenedSubscription;
   Timer? _locationTimer;
+  final FallDetectionService _fallDetectionService = FallDetectionService();
+  bool _fallDialogOpen = false;
 
   @override
   void initState() {
@@ -47,6 +53,30 @@ class _ElderNavigationPageState extends ConsumerState<ElderNavigationPage>
     _locationTimer = Timer.periodic(
       const Duration(minutes: 5),
       (_) => _publishLocation(),
+    );
+    _fallDetectionService.start(onFallDetected: _handlePossibleFall);
+  }
+
+  Future<void> _handlePossibleFall() async {
+    final elderId = widget.userId;
+    if (!mounted || _fallDialogOpen || elderId == null || elderId.isEmpty) {
+      return;
+    }
+    _fallDialogOpen = true;
+    final shouldSend = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const FallConfirmationDialog(),
+    );
+    _fallDialogOpen = false;
+    if (!mounted || shouldSend != true) return;
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => ElderSosCountdownPage(
+          elderId: elderId,
+          triggerMethod: SosTriggerMethod.shake,
+        ),
+      ),
     );
   }
 
@@ -79,6 +109,7 @@ class _ElderNavigationPageState extends ConsumerState<ElderNavigationPage>
     WidgetsBinding.instance.removeObserver(this);
     _locationTimer?.cancel();
     _reminderOpenedSubscription?.cancel();
+    _fallDetectionService.dispose();
     super.dispose();
   }
 

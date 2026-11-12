@@ -11,7 +11,7 @@ service cloud.firestore {
     }
 
     function myPhone() {
-      return request.auth.token.phone_number;
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.phoneNumber;
     }
 
     function isLinkedChild(elderId) {
@@ -24,16 +24,24 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/users/$(userId)).data.role == role;
     }
 
+    function isCareProvider(userId) {
+      return signedIn()
+        && get(/databases/$(database)/documents/users/$(userId)).data.role
+          in ['child', 'caregiver'];
+    }
+
     match /users/{userId} {
       allow create: if ownsUser(userId)
-        && request.resource.data.role in ['elder', 'child']
+        && request.resource.data.role in ['elder', 'child', 'caregiver']
         && request.resource.data.gender in ['male', 'female', 'other']
-        && request.resource.data.phoneNumber == request.auth.token.phone_number;
+        && request.resource.data.phoneNumber is string
+        && request.resource.data.email == request.auth.token.email;
       allow read: if ownsUser(userId) || isLinkedChild(userId);
       allow update: if ownsUser(userId)
         && request.resource.data.role == resource.data.role
         && request.resource.data.phoneNumber == resource.data.phoneNumber
-        && request.resource.data.phoneNumber == request.auth.token.phone_number;
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.email == request.auth.token.email;
       allow delete: if false;
     }
 
@@ -43,8 +51,8 @@ service cloud.firestore {
       allow create, update: if signedIn()
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.phoneNumber == phoneNumber
-        && request.resource.data.phoneNumber == request.auth.token.phone_number
-        && request.resource.data.role in ['elder', 'child']
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.role in ['elder', 'child', 'caregiver']
         && request.resource.data.role
           == getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
       allow delete: if false;
@@ -52,7 +60,7 @@ service cloud.firestore {
 
     match /fcm_tokens/{tokenId} {
       allow create, update: if signedIn()
-        && hasRole(request.auth.uid, 'child')
+        && isCareProvider(request.auth.uid)
         && request.resource.data.userId == request.auth.uid
         && request.resource.data.token is string
         && request.resource.data.platform in ['android', 'ios', 'web'];
@@ -85,6 +93,117 @@ service cloud.firestore {
         && request.resource.data.diff(resource.data).affectedKeys()
           .hasOnly(['contactedAt', 'contactedById']);
       allow delete: if false;
+    }
+
+    match /medical_appointments/{appointmentId} {
+      allow create: if signedIn()
+        && request.resource.data.createdById == request.auth.uid
+        && request.resource.data.status == 'accepted'
+        && request.resource.data.scheduledAt is timestamp
+        && request.resource.data.assigneeId is string
+        && request.resource.data.assigneeName is string
+        && exists(/databases/$(database)/documents/care_relationships/$(request.resource.data.elderUserId + '_' + request.resource.data.assigneeId))
+        && (
+          request.resource.data.elderUserId == request.auth.uid
+          || isLinkedChild(request.resource.data.elderUserId)
+        );
+      allow read: if signedIn() && (
+        resource.data.elderUserId == request.auth.uid
+        || isLinkedChild(resource.data.elderUserId)
+      );
+      allow update: if signedIn()
+        && isLinkedChild(resource.data.elderUserId)
+        && request.resource.data.elderUserId == resource.data.elderUserId
+        && (
+          (
+            resource.data.status == 'unassigned'
+            && request.resource.data.status == 'accepted'
+            && request.resource.data.assigneeId == request.auth.uid
+            && request.resource.data.diff(resource.data).affectedKeys()
+              .hasOnly(['status', 'assigneeId', 'assigneeName', 'acceptedAt', 'updatedAt'])
+          )
+          || (
+            resource.data.status == 'accepted'
+            && resource.data.assigneeId == request.auth.uid
+            && request.resource.data.status in ['unassigned', 'completed']
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+              'status', 'assigneeId', 'assigneeName', 'releasedById',
+              'completedById', 'completedAt', 'updatedAt'
+            ])
+          )
+        );
+      allow delete: if false;
+    }
+
+    match /login_directory/{phoneNumber} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.phoneNumber == phoneNumber
+        && request.resource.data.email == request.auth.token.email
+        && !exists(/databases/$(database)/documents/login_directory/$(phoneNumber))
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.phoneNumber
+          == phoneNumber
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.email
+          == request.auth.token.email;
+      allow update: if signedIn()
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.phoneNumber == phoneNumber
+        && request.resource.data.email == request.auth.token.email;
+      allow delete: if false;
+    }
+
+    match /email_directory/{emailKey} {
+      allow get: if signedIn();
+      allow list: if false;
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.email == request.auth.token.email
+        && !exists(/databases/$(database)/documents/email_directory/$(emailKey))
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.email
+          == request.auth.token.email;
+      allow update: if signedIn()
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.email == request.auth.token.email;
+      allow delete: if false;
+    }
+
+    match /medical_visits/{visitId} {
+      allow create: if signedIn()
+        && request.resource.data.createdById == request.auth.uid
+        && request.resource.data.visitDate is timestamp
+        && (
+          request.resource.data.elderUserId == request.auth.uid
+          || isLinkedChild(request.resource.data.elderUserId)
+        );
+      allow read: if signedIn() && (
+        resource.data.elderUserId == request.auth.uid
+        || isLinkedChild(resource.data.elderUserId)
+      );
+      allow update, delete: if false;
+
+      match /documents/{documentId} {
+        allow create: if signedIn()
+          && request.resource.data.uploadedById == request.auth.uid
+          && request.resource.data.elderUserId
+            == get(/databases/$(database)/documents/medical_visits/$(visitId)).data.elderUserId
+          && (
+            request.resource.data.elderUserId == request.auth.uid
+            || isLinkedChild(request.resource.data.elderUserId)
+          );
+        allow read: if signedIn()
+          && (
+            get(/databases/$(database)/documents/medical_visits/$(visitId)).data.elderUserId
+              == request.auth.uid
+            || isLinkedChild(
+              get(/databases/$(database)/documents/medical_visits/$(visitId)).data.elderUserId
+            )
+          );
+        allow update, delete: if false;
+      }
     }
 
     match /medication_schedules/{scheduleId} {
@@ -121,7 +240,7 @@ service cloud.firestore {
 
     match /account_links/{linkId} {
       allow create: if signedIn()
-        && hasRole(request.auth.uid, 'child')
+        && isCareProvider(request.auth.uid)
         && request.resource.data.childId == request.auth.uid
         && request.resource.data.childPhone == myPhone()
         && request.resource.data.elderPhone is string
@@ -136,6 +255,10 @@ service cloud.firestore {
         resource.data.elderId == request.auth.uid
         || resource.data.childId == request.auth.uid
         || resource.data.childPhone == myPhone()
+        || (
+          resource.data.status == 'accepted'
+          && isLinkedChild(resource.data.elderId)
+        )
       );
 
       allow update: if signedIn() && (
@@ -150,11 +273,27 @@ service cloud.firestore {
         ||
         (
           resource.data.childId == request.auth.uid
-          && hasRole(request.auth.uid, 'child')
+          && isCareProvider(request.auth.uid)
           && resource.data.status == 'pending'
           && request.resource.data.status == 'cancelled'
           && request.resource.data.diff(resource.data).affectedKeys()
             .hasOnly(['status', 'updatedAt'])
+        )
+        ||
+        (
+          resource.data.elderId == request.auth.uid
+          && request.resource.data.elderName
+            == getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.fullName
+          && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['elderName', 'updatedAt'])
+        )
+        ||
+        (
+          resource.data.childId == request.auth.uid
+          && request.resource.data.childName
+            == getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.fullName
+          && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['childName', 'updatedAt'])
         )
       );
       allow delete: if false;
@@ -196,6 +335,18 @@ service cloud.firestore {
 
       allow update: if signedIn() && (
         (
+          resource.data.elderUserId == request.auth.uid
+          && resource.data.status in ['active', 'acknowledged', 'enRoute', 'arrived']
+          && request.resource.data.status == resource.data.status
+          && request.resource.data.latitude is number
+          && request.resource.data.longitude is number
+          && request.resource.data.locationAccuracy is number
+          && request.resource.data.locationCapturedAt is timestamp
+          && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['latitude', 'longitude', 'locationAccuracy', 'locationCapturedAt'])
+        )
+        ||
+        (
           isLinkedChild(resource.data.elderUserId)
           && resource.data.status == 'active'
           && request.resource.data.status == 'acknowledged'
@@ -206,15 +357,87 @@ service cloud.firestore {
         )
         ||
         (
+          isLinkedChild(resource.data.elderUserId)
+          && resource.data.acknowledgedById == request.auth.uid
+          && (
+            (
+              resource.data.status == 'acknowledged'
+              && request.resource.data.status == 'enRoute'
+              && request.resource.data.enRouteAt is timestamp
+              && request.resource.data.diff(resource.data).affectedKeys()
+                .hasOnly(['status', 'enRouteAt'])
+            )
+            ||
+            (
+              resource.data.status == 'enRoute'
+              && request.resource.data.status == 'arrived'
+              && request.resource.data.arrivedAt is timestamp
+              && request.resource.data.diff(resource.data).affectedKeys()
+                .hasOnly(['status', 'arrivedAt'])
+            )
+            ||
+            (
+              resource.data.status == 'arrived'
+              && request.resource.data.status == 'resolved'
+              && request.resource.data.resolvedAt is timestamp
+              && request.resource.data.resolvedById == request.auth.uid
+              && request.resource.data.resolutionType in ['safe', 'hospitalized', 'false_alarm']
+              && request.resource.data.diff(resource.data).affectedKeys()
+                .hasOnly(['status', 'resolvedAt', 'resolvedById', 'resolutionType', 'resolutionNote'])
+            )
+          )
+        )
+        ||
+        (
           resource.data.elderUserId == request.auth.uid
-          && resource.data.status in ['active', 'acknowledged']
-          && request.resource.data.status in ['cancelled', 'resolved']
+          && resource.data.status in ['active', 'acknowledged', 'enRoute', 'arrived']
           && request.resource.data.resolvedAt is timestamp
-          && request.resource.data.diff(resource.data).affectedKeys()
-            .hasOnly(['status', 'resolvedAt'])
+          && (
+            (
+              resource.data.status == 'active'
+              && request.resource.data.status == 'cancelled'
+              && request.resource.data.cancelledById == request.auth.uid
+              && request.resource.data.cancellationReason is string
+              && request.resource.data.cancellationReason.size() > 0
+              && request.resource.data.diff(resource.data).affectedKeys()
+                .hasOnly(['status', 'resolvedAt', 'cancelledById', 'cancellationReason'])
+            )
+            ||
+            (
+              resource.data.status != 'active'
+              && request.resource.data.status == 'resolved'
+              && (
+                request.resource.data.diff(resource.data).affectedKeys()
+                  .hasOnly(['status', 'resolvedAt'])
+                || (
+                  request.resource.data.resolvedById == request.auth.uid
+                  && request.resource.data.resolutionType == 'safe'
+                  && request.resource.data.diff(resource.data).affectedKeys()
+                    .hasOnly(['status', 'resolvedAt', 'resolvedById', 'resolutionType', 'resolutionNote'])
+                )
+              )
+            )
+          )
         )
       );
       allow delete: if false;
+
+      match /events/{eventId} {
+        allow read: if signedIn() && (
+          get(/databases/$(database)/documents/sos_alerts/$(alertId)).data.elderUserId == request.auth.uid
+          || isLinkedChild(get(/databases/$(database)/documents/sos_alerts/$(alertId)).data.elderUserId)
+        );
+        allow create: if signedIn()
+          && (
+            get(/databases/$(database)/documents/sos_alerts/$(alertId)).data.elderUserId == request.auth.uid
+            || isLinkedChild(get(/databases/$(database)/documents/sos_alerts/$(alertId)).data.elderUserId)
+          )
+          && request.resource.data.actorId == request.auth.uid
+          && request.resource.data.fromStatus is string
+          && request.resource.data.toStatus is string
+          && request.resource.data.createdAt is timestamp;
+        allow update, delete: if false;
+      }
     }
 
     match /elder_locations/{elderId} {

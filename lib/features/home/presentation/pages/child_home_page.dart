@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/app_error_dialog.dart';
 import '../../../../core/widgets/live_greeting.dart';
 import '../../../authentication/presentation/providers/auth_providers.dart';
 import '../../../health/domain/entities/health_record.dart';
@@ -27,6 +27,7 @@ class ChildHomePage extends ConsumerWidget {
     required this.onOpenMedication,
     required this.onOpenHealth,
     required this.onOpenLinks,
+    required this.onOpenSos,
   });
 
   final String childName;
@@ -36,6 +37,7 @@ class ChildHomePage extends ConsumerWidget {
   final VoidCallback onOpenMedication;
   final VoidCallback onOpenHealth;
   final VoidCallback onOpenLinks;
+  final ValueChanged<SosAlert> onOpenSos;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,6 +50,9 @@ class ChildHomePage extends ConsumerWidget {
     final intakes = ref.watch(todayMedicationIntakesForElderProvider(id));
     final sosAlerts = ref.watch(activeSosAlertsProvider(id));
     final location = ref.watch(elderLocationProvider(id));
+    final horizontalPadding = MediaQuery.sizeOf(context).width < 360
+        ? 16.0
+        : 24.0;
     return SafeArea(
       child: RefreshIndicator(
         onRefresh: () async {
@@ -57,7 +62,12 @@ class ChildHomePage extends ConsumerWidget {
           ref.invalidate(elderLocationProvider(id));
         },
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+          padding: EdgeInsets.fromLTRB(
+            horizontalPadding,
+            24,
+            horizontalPadding,
+            32,
+          ),
           children: [
             LiveGreeting(
               displayName: childName,
@@ -69,6 +79,7 @@ class ChildHomePage extends ConsumerWidget {
                 alert: sosAlerts.asData!.value.first,
                 elderDisplayName: elderDisplayName,
                 phone: elderPhone,
+                onOpen: () => onOpenSos(sosAlerts.asData!.value.first),
               ),
               const SizedBox(height: 18),
             ],
@@ -135,8 +146,9 @@ class _ElderLocationCard extends StatelessWidget {
     });
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication) &&
         context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Không thể mở ứng dụng bản đồ.')),
+      await showAppErrorDialog(
+        context,
+        message: 'Không thể mở ứng dụng bản đồ.',
       );
     }
   }
@@ -219,11 +231,13 @@ class _SosAlertBanner extends ConsumerStatefulWidget {
     required this.alert,
     required this.elderDisplayName,
     required this.phone,
+    required this.onOpen,
   });
 
   final SosAlert alert;
   final String elderDisplayName;
   final String? phone;
+  final VoidCallback onOpen;
 
   @override
   ConsumerState<_SosAlertBanner> createState() => _SosAlertBannerState();
@@ -231,6 +245,8 @@ class _SosAlertBanner extends ConsumerStatefulWidget {
 
 class _SosAlertBannerState extends ConsumerState<_SosAlertBanner> {
   bool loading = false;
+
+  String? get _childId => ref.read(authRepositoryProvider).currentUserId;
 
   Future<void> acknowledge() async {
     final childId = ref.read(authRepositoryProvider).currentUserId;
@@ -241,14 +257,18 @@ class _SosAlertBannerState extends ConsumerState<_SosAlertBanner> {
           .read(sosRepositoryProvider)
           .acknowledgeAlert(alertId: widget.alert.id, childId: childId);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Đã xác nhận tiếp nhận cảnh báo SOS.')),
+        await showAppMessageDialog(
+          context,
+          message: 'Đã xác nhận tiếp nhận cảnh báo SOS.',
+          type: AppMessageType.success,
         );
       }
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Không thể tiếp nhận SOS: $error')),
+        await showAppErrorDialog(
+          context,
+          title: 'Không thể tiếp nhận SOS',
+          message: error,
         );
       }
     } finally {
@@ -256,101 +276,226 @@ class _SosAlertBannerState extends ConsumerState<_SosAlertBanner> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final acknowledged = widget.alert.status == SosStatus.acknowledged;
-    final color = acknowledged ? AppColors.success : AppColors.danger;
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(22),
-        boxShadow: [
-          BoxShadow(
-            color: color.withValues(alpha: .28),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
+  Future<void> _runAction(Future<void> Function(String childId) action) async {
+    final childId = _childId;
+    if (childId == null || loading) return;
+    setState(() => loading = true);
+    try {
+      await action(childId);
+    } catch (error) {
+      if (mounted) {
+        await showAppErrorDialog(
+          context,
+          title: 'Không thể cập nhật SOS',
+          message: error,
+        );
+      }
+    } finally {
+      if (mounted) setState(() => loading = false);
+    }
+  }
+
+  Future<void> _markEnRoute() => _runAction(
+    (childId) => ref
+        .read(sosRepositoryProvider)
+        .markEnRoute(alertId: widget.alert.id, childId: childId),
+  );
+
+  Future<void> _markArrived() => _runAction(
+    (childId) => ref
+        .read(sosRepositoryProvider)
+        .markArrived(alertId: widget.alert.id, childId: childId),
+  );
+
+  Future<void> _resolve() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Kết thúc cảnh báo SOS?'),
+        content: const Text(
+          'Chỉ kết thúc khi bạn đã đến nơi và người cao tuổi đã an toàn.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Đóng'),
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Icon(
-                acknowledged
-                    ? Icons.verified_user_rounded
-                    : Icons.emergency_rounded,
-                color: Colors.white,
-                size: 48,
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      acknowledged ? 'ĐÃ TIẾP NHẬN SOS' : 'CẢNH BÁO SOS',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 23,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    Text(
-                      '${widget.elderDisplayName} • ${_formatDateTime(widget.alert.triggeredAt)}',
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: FilledButton.icon(
-                  onPressed: () =>
-                      _showPhoneAction(context, widget.phone, false),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: color,
-                  ),
-                  icon: const Icon(Icons.phone_rounded),
-                  label: const Text('Liên hệ ngay'),
-                ),
-              ),
-              if (!acknowledged) ...[
-                const SizedBox(width: 10),
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: loading ? null : acknowledge,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      side: const BorderSide(color: Colors.white, width: 2),
-                    ),
-                    icon: loading
-                        ? const SizedBox.square(
-                            dimension: 18,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
-                          )
-                        : const Icon(Icons.done_all_rounded),
-                    label: const Text('Đã tiếp nhận'),
-                  ),
-                ),
-              ],
-            ],
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: const Text('Kết thúc'),
           ),
         ],
       ),
     );
+    if (confirmed != true) return;
+    await _runAction(
+      (childId) => ref
+          .read(sosRepositoryProvider)
+          .resolveAlert(
+            alertId: widget.alert.id,
+            userId: childId,
+            resolutionType: 'safe',
+          ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final acknowledged = widget.alert.status != SosStatus.active;
+    final isResponder = widget.alert.acknowledgedById == _childId;
+    final color = acknowledged ? AppColors.success : AppColors.danger;
+    final statusText = switch (widget.alert.status) {
+      SosStatus.active => 'CẢNH BÁO SOS',
+      SosStatus.acknowledged => 'ĐÃ TIẾP NHẬN SOS',
+      SosStatus.enRoute => 'NGƯỜI THÂN ĐANG ĐẾN',
+      SosStatus.arrived => 'NGƯỜI THÂN ĐÃ ĐẾN',
+      SosStatus.resolved => 'ĐÃ KẾT THÚC SOS',
+      SosStatus.cancelled => 'ĐÃ HỦY SOS',
+    };
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final compact = constraints.maxWidth < 340;
+        final contactButton = FilledButton.icon(
+          onPressed: () => _showPhoneAction(context, widget.phone, false),
+          style: FilledButton.styleFrom(
+            minimumSize: const Size.fromHeight(48),
+            backgroundColor: Colors.white,
+            foregroundColor: color,
+          ),
+          icon: const Icon(Icons.phone_rounded),
+          label: const Text('Liên hệ ngay'),
+        );
+        final acknowledgeButton = OutlinedButton.icon(
+          onPressed: loading ? null : acknowledge,
+          style: OutlinedButton.styleFrom(
+            minimumSize: const Size.fromHeight(48),
+            foregroundColor: Colors.white,
+            side: const BorderSide(color: Colors.white, width: 2),
+          ),
+          icon: loading
+              ? const SizedBox.square(
+                  dimension: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+              : const Icon(Icons.done_all_rounded),
+          label: const Text('Đã tiếp nhận'),
+        );
+        final progressButton = switch (widget.alert.status) {
+          SosStatus.acknowledged when isResponder => OutlinedButton.icon(
+            onPressed: loading ? null : _markEnRoute,
+            style: _sosCardActionStyle(),
+            icon: const Icon(Icons.directions_car_rounded),
+            label: const Text('Tôi đang đến'),
+          ),
+          SosStatus.enRoute when isResponder => OutlinedButton.icon(
+            onPressed: loading ? null : _markArrived,
+            style: _sosCardActionStyle(),
+            icon: const Icon(Icons.location_on_rounded),
+            label: const Text('Tôi đã đến'),
+          ),
+          SosStatus.arrived when isResponder => OutlinedButton.icon(
+            onPressed: loading ? null : _resolve,
+            style: _sosCardActionStyle(),
+            icon: const Icon(Icons.task_alt_rounded),
+            label: const Text('Kết thúc cảnh báo'),
+          ),
+          _ => null,
+        };
+        return Container(
+          padding: EdgeInsets.all(compact ? 15 : 20),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(compact ? 18 : 22),
+            boxShadow: [
+              BoxShadow(
+                color: color.withValues(alpha: .28),
+                blurRadius: 18,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    acknowledged
+                        ? Icons.verified_user_rounded
+                        : Icons.emergency_rounded,
+                    color: Colors.white,
+                    size: compact ? 38 : 48,
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          statusText,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: compact ? 19 : 23,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        Text(
+                          '${widget.elderDisplayName} • ${_formatDateTime(widget.alert.triggeredAt)}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              if (compact && (!acknowledged || progressButton != null)) ...[
+                contactButton,
+                const SizedBox(height: 10),
+                if (!acknowledged) acknowledgeButton else progressButton!,
+              ] else
+                Row(
+                  children: [
+                    Expanded(child: contactButton),
+                    if (!acknowledged) ...[
+                      const SizedBox(width: 10),
+                      Expanded(child: acknowledgeButton),
+                    ] else if (progressButton != null) ...[
+                      const SizedBox(width: 10),
+                      Expanded(child: progressButton),
+                    ],
+                  ],
+                ),
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                onPressed: widget.onOpen,
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.white, width: 2),
+                ),
+                icon: const Icon(Icons.open_in_new_rounded),
+                label: const Text('Xem trạng thái cảnh báo'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
+
+ButtonStyle _sosCardActionStyle() => OutlinedButton.styleFrom(
+  minimumSize: const Size.fromHeight(48),
+  foregroundColor: Colors.white,
+  side: const BorderSide(color: Colors.white, width: 2),
+);
 
 class _UnlinkedHome extends StatelessWidget {
   const _UnlinkedHome({required this.childName, required this.onOpenLinks});
@@ -363,9 +508,7 @@ class _UnlinkedHome extends StatelessWidget {
     child: ListView(
       padding: const EdgeInsets.all(24),
       children: [
-        LiveGreeting(
-          displayName: childName,
-        ),
+        LiveGreeting(displayName: childName),
         const SizedBox(height: 48),
         const Icon(
           Icons.link_off_rounded,
@@ -851,14 +994,18 @@ Future<void> _markBloodPressureAsContacted(
         .read(healthRepositoryProvider)
         .markAsContacted(recordId: record.id, childId: childId);
     if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Đã xác nhận liên hệ với người thân.')),
+      await showAppMessageDialog(
+        context,
+        message: 'Đã xác nhận liên hệ với người thân.',
+        type: AppMessageType.success,
       );
     }
   } catch (error) {
     if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Không thể cập nhật trạng thái: $error')),
+      await showAppErrorDialog(
+        context,
+        title: 'Không thể cập nhật trạng thái',
+        message: error,
       );
     }
   }
@@ -881,49 +1028,24 @@ Future<void> _showPhoneAction(
   String? phone,
   bool message,
 ) async {
-  if (phone == null || phone.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Người thân chưa có số điện thoại.')),
+  final normalizedPhone = phone?.trim();
+  if (normalizedPhone == null || normalizedPhone.isEmpty) {
+    await showAppMessageDialog(
+      context,
+      message: 'Người thân chưa có số điện thoại.',
+      type: AppMessageType.warning,
     );
     return;
   }
-  await showModalBottomSheet<void>(
-    context: context,
-    builder: (sheetContext) => SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              message ? Icons.message_rounded : Icons.phone_rounded,
-              size: 52,
-              color: message ? AppColors.success : AppColors.primary,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              message ? 'Nhắn tin cho người thân' : 'Gọi cho người thân',
-              style: Theme.of(sheetContext).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 8),
-            SelectableText(phone, style: const TextStyle(fontSize: 24)),
-            const SizedBox(height: 20),
-            FilledButton.icon(
-              onPressed: () async {
-                await Clipboard.setData(ClipboardData(text: phone));
-                if (sheetContext.mounted) Navigator.pop(sheetContext);
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Đã sao chép số điện thoại.')),
-                  );
-                }
-              },
-              icon: const Icon(Icons.copy_rounded),
-              label: const Text('Sao chép số điện thoại'),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
+  final uri = Uri(scheme: message ? 'sms' : 'tel', path: normalizedPhone);
+  final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
+  if (!opened && context.mounted) {
+    await showAppErrorDialog(
+      context,
+      title: message ? 'Không thể mở tin nhắn' : 'Không thể mở trình quay số',
+      message: message
+          ? 'Thiết bị không có ứng dụng nhắn tin phù hợp.'
+          : 'Thiết bị không có ứng dụng gọi điện phù hợp.',
+    );
+  }
 }

@@ -22,7 +22,9 @@ class AuthGate extends ConsumerWidget {
         final profile = ref.watch(currentProfileProvider(userId));
         return profile.when(
           loading: () => const _LoadingPage(),
-          error: (error, _) => _ErrorPage(message: error.toString()),
+          error: (error, _) => error is FormatException
+              ? const _UnsupportedRolePage()
+              : _ErrorPage(message: error.toString()),
           data: (user) {
             if (user == null) return const PhoneAuthPage();
             if (user.role == UserRole.elder) {
@@ -39,6 +41,29 @@ class AuthGate extends ConsumerWidget {
   }
 }
 
+class _UnsupportedRolePage extends ConsumerWidget {
+  const _UnsupportedRolePage();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
+    body: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Vai trò tài khoản không được hỗ trợ.'),
+            const SizedBox(height: 16),
+            FilledButton(
+              onPressed: () => performSignOut(ref),
+              child: const Text('Đăng xuất'),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
 class _LoadingPage extends StatelessWidget {
   const _LoadingPage();
   @override

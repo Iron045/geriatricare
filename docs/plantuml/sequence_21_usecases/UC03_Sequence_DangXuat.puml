@@ -1,0 +1,52 @@
+@startuml Sequence_UC03_DangXuat
+!theme plain
+autonumber
+skinparam backgroundColor #FAFAFA
+skinparam sequenceParticipantBorderColor #4A90D9
+skinparam sequenceParticipantBackgroundColor #E8F4FD
+skinparam sequenceLifeLineBorderColor #4A90D9
+skinparam sequenceArrowColor #2C5F8A
+skinparam sequenceGroupBorderColor #F59E0B
+skinparam sequenceGroupBackgroundColor #FFFDE7
+skinparam titleFontSize 15
+skinparam titleFontStyle bold
+
+title Biểu đồ Tuần tự – UC03: Đăng xuất
+
+actor "Người dùng" as User
+participant "ProfileScreen\n(Giao diện Cài đặt)" as UI
+participant "AuthRepository" as Repo
+participant "Firebase Auth" as Auth
+database "Cloud Firestore" as DB
+
+User -> UI: Chọn chức năng "Đăng xuất"
+activate UI
+UI --> User: Hiển thị hộp thoại xác nhận: "Bạn có chắc chắn muốn đăng xuất?"
+deactivate UI
+
+alt Người dùng chọn "Huỷ"
+    User -> UI: Bấm nút "Huỷ"
+    activate UI
+    UI --> User: Đóng hộp thoại, giữ nguyên phiên làm việc
+    deactivate UI
+else Người dùng chọn "Xác nhận"
+    User -> UI: Bấm nút "Đồng ý Đăng xuất"
+    activate UI
+    UI -> Repo: signOut()
+    activate Repo
+    Repo -> Repo: Hủy tất cả Realtime Streams / Listeners
+    Repo -> DB: updateDoc(/users/{uid}, {fcmToken: null})
+    activate DB
+    DB --> Repo: Xóa token thành công
+    deactivate DB
+    Repo -> Auth: signOut()
+    activate Auth
+    Auth --> Repo: Đã hủy phiên xác thực
+    deactivate Auth
+    Repo -> Repo: Xóa cache phiên làm việc cục bộ
+    Repo --> UI: Hoàn tất đăng xuất
+    deactivate Repo
+    UI --> User: Thông báo đăng xuất thành công, chuyển về LoginScreen
+    deactivate UI
+end
+@enduml

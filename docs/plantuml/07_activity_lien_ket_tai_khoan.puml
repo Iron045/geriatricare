@@ -1,0 +1,87 @@
+@startuml Activity_05_QuanLyLienKet
+!theme plain
+skinparam backgroundColor #FAFAFA
+skinparam activityBorderColor #8E44AD
+skinparam activityBackgroundColor #F4ECF7
+skinparam activityDiamondBackgroundColor #FFF9C4
+skinparam activityDiamondBorderColor #F59E0B
+skinparam arrowColor #6C3483
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+
+title Biểu đồ Hoạt động - Phân hệ 5: Quản lý Liên kết Tài khoản (UC13, UC14, UC15)
+
+|Con cái / Người thân|
+start
+if (Chọn chức năng?) then (Gửi lời mời liên kết - UC13)
+    label sp_invite
+    :Vào mục 'Thêm người thân chăm sóc';
+    :Nhập SĐT Người cao tuổi (10 số, bắt đầu bằng 0)
+    và chọn Mối quan hệ (Cha/Mẹ, Ông/Bà...);
+    :Nhấn 'Gửi yêu cầu liên kết';
+    |Ứng dụng Flutter|
+    if (Định dạng SĐT hợp lệ?) then (Sai)
+        :Báo lỗi: 'SĐT phải có 10 chữ số và bắt đầu bằng 0';
+        goto sp_invite
+    else (Đúng)
+        |Hệ thống Backend (Firebase)|
+        :Kiểm tra SĐT tồn tại trong login_directory;
+        :Kiểm tra vai trò đích là 'elder';
+        :Kiểm tra chưa có liên kết pending hoặc accepted;
+        if (Điều kiện thỏa mãn?) then (Không thỏa)
+            |Ứng dụng Flutter|
+            :Báo lỗi (Không tìm thấy / Tự liên kết / Đã liên kết);
+            goto sp_invite
+        else (Thỏa mãn)
+            |Hệ thống Backend (Firebase)|
+            :Tạo tài liệu trong 'family_links/{id}' (status = 'pending');
+            :Gửi thông báo Push đến thiết bị Người cao tuổi;
+            |Thiết bị Người cao tuổi|
+            :Nhận thông báo mời liên kết;
+            :Hiển thị hộp thoại: '[Tên con] muốn liên kết chăm sóc?';
+            if (Người cao tuổi phản hồi?) then (Đồng ý)
+                |Hệ thống Backend (Firebase)|
+                :Cập nhật family_links (status = 'accepted');
+                :Thêm ID con vào caregiverIds của cha mẹ;
+                :Thêm ID cha mẹ vào elderIds của con;
+                |Con cái / Người thân|
+                :Nhận thông báo liên kết thành công;
+                stop
+            else (Từ chối)
+                |Hệ thống Backend (Firebase)|
+                :Cập nhật family_links (status = 'rejected');
+                |Con cái / Người thân|
+                :Nhận thông báo yêu cầu bị từ chối;
+                stop
+            endif
+        endif
+    endif
+elseif (Quản lý danh sách người thân - UC14)
+    |Con cái / Người thân|
+    :Mở danh sách người thân đã liên kết;
+    if (Thao tác?) then (Đổi biệt danh gợi nhớ)
+        :Nhập biệt danh mới (tối đa 50 ký tự);
+        :Lưu vào hồ sơ liên kết;
+        stop
+    else (Hủy liên kết thành viên)
+        :Nhấn 'Hủy liên kết';
+        :Hiển thị cảnh báo bảo mật mất quyền giám sát;
+        if (Xác nhận hủy?) then (Đồng ý)
+            |Hệ thống Backend (Firebase)|
+            :Cập nhật status = 'cancelled';
+            :Gỡ bỏ quyền truy cập dữ liệu chéo;
+            stop
+        else (Không)
+            stop
+        endif
+    endif
+else (Liên hệ khẩn cấp - UC15)
+    |Thiết bị Người cao tuổi|
+    :Vào mục 'Danh bạ khẩn cấp' trên màn hình chính;
+    :Bấm vào nút gọi nhanh người thân (hoặc 115);
+    |Ứng dụng Flutter|
+    :Gọi thư viện url_launcher mở trình quay số hệ thống (tel:);
+    :Thiết bị tự động gọi điện trực tiếp;
+    stop
+endif
+@enduml

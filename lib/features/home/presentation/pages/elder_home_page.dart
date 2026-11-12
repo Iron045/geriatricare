@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/app_error_dialog.dart';
 import '../../../../core/widgets/live_greeting.dart';
 import '../../../authentication/domain/entities/app_user.dart';
 import '../../../authentication/presentation/providers/auth_providers.dart';
@@ -72,10 +73,9 @@ class _ElderHomePageState extends ConsumerState<ElderHomePage>
 
   Future<void> _confirmAndSendSos() async {
     if (widget.userId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Không tìm thấy tài khoản người cao tuổi.'),
-        ),
+      await showAppErrorDialog(
+        context,
+        message: 'Không tìm thấy tài khoản người cao tuổi.',
       );
       return;
     }
@@ -364,9 +364,11 @@ class _FirebaseMedicationSummary extends ConsumerWidget {
       );
     }
     final dose = pending.first;
-    final remaining = dose.scheduledAt.difference(DateTime.now());
+    final now = DateTime.now();
+    final remaining = dose.scheduledAt.difference(now);
     final isUpcoming = !remaining.isNegative && remaining.inMinutes <= 30;
     final isOverdue = remaining.isNegative;
+    final isExpired = now.difference(dose.scheduledAt) > const Duration(hours: 5);
     final time =
         '${dose.scheduledAt.hour.toString().padLeft(2, '0')}:'
         '${dose.scheduledAt.minute.toString().padLeft(2, '0')}';
@@ -412,8 +414,10 @@ class _FirebaseMedicationSummary extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             FilledButton(
-              onPressed: onView,
-              child: const Center(child: Text('Xem thuốc')),
+              onPressed: isExpired ? null : onView,
+              child: Center(
+                child: Text(isExpired ? 'Đã quá hạn 5 giờ' : 'Xem thuốc'),
+              ),
             ),
           ],
         ),

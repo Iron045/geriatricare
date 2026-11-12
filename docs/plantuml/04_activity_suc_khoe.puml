@@ -1,0 +1,61 @@
+@startuml Activity_Suc_Khoe
+!theme plain
+skinparam backgroundColor #FAFAFA
+skinparam activityBorderColor #4A90D9
+skinparam activityBackgroundColor #E8F4FD
+skinparam activityDiamondBackgroundColor #FFF9C4
+skinparam activityDiamondBorderColor #F59E0B
+skinparam arrowColor #2C5F8A
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+
+title Biểu đồ Activity – Ghi nhận & Theo dõi Sức khỏe
+
+start
+:Mở tính năng "Theo dõi sức khỏe";
+:Tải lịch sử chỉ số huyết áp từ Firestore;
+:Hiển thị danh sách và biểu đồ biến thiên;
+
+repeat
+  if (Người dùng chọn thao tác nào?) then (Ghi nhận chỉ số mới)
+    :Nhập huyết áp tâm thu (systolic) và tâm trương (diastolic);
+    :Kiểm tra tính hợp lệ:
+    - Tâm thu: 70 - 250 mmHg
+    - Tâm trương: 40 - 150 mmHg
+    - Tâm thu > Tâm trương;
+    
+    if (Chỉ số hợp lệ?) then (Hợp lệ)
+      :Phân loại mức độ huyết áp:
+      - Rất cao / Khủng hoảng (Crisis: >180/>120)
+      - Cao (High: >=140/>=90)
+      - Xu hướng tăng (Rising: >=130/>=85)
+      - Bình thường (Normal: >=120/>=80)
+      - Mức tối ưu (Optimal)
+      - Thấp (Low: <90/<60);
+      
+      :Lưu HealthRecord vào Firestore;
+      :Hiển thị kết quả đánh giá và khuyến nghị y tế;
+      
+      if (Chỉ số bất thường / Cần chú ý?) then (Có)
+        :Kích hoạt thông báo cảnh báo đến người thân/con cái qua FCM;
+      else (Không)
+      endif
+    else (Không hợp lệ)
+      :Hiển thị thông báo lỗi yêu cầu nhập lại;
+    endif
+
+  else if (Đánh dấu đã liên hệ) then (Đánh dấu)
+    :Người thân chọn bản ghi bất thường;
+    :Xác nhận đã liên hệ / hỏi thăm người cao tuổi;
+    :Cập nhật contactedAt và contactedById lên Firestore;
+    :Cập nhật giao diện bản ghi (Đã liên hệ);
+
+  else (Xem chi tiết bản ghi)
+    :Xem thông tin chi tiết: thời gian đo, tình trạng, khuyến nghị;
+  endif
+
+repeat while (Tiếp tục theo dõi sức khỏe?) is (Có) not (Không)
+
+:Thoát màn hình sức khỏe;
+stop
+@enduml

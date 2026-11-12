@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMotionUsageDescription</key>
+	<string>GeriatricCare sử dụng cảm biến chuyển động để phát hiện nguy cơ người cao tuổi bị ngã và hỗ trợ gửi SOS.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>GeriatricCare sử dụng camera để chụp và lưu hồ sơ khám bệnh.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>GeriatricCare truy cập thư viện ảnh để nhập hồ sơ khám bệnh.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Geriatric Care cần vị trí để gửi nơi cần hỗ trợ khi phát cảnh báo SOS.</string>
 	<key>NSMicrophoneUsageDescription</key>

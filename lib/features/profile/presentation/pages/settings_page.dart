@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/app_error_dialog.dart';
 import '../../../authentication/domain/entities/app_user.dart';
 import '../../../authentication/presentation/providers/auth_providers.dart';
 import '../../../voice_reminder/presentation/pages/voice_recorder_page.dart';
@@ -27,7 +28,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         icon: const Icon(Icons.logout, color: AppColors.danger, size: 42),
         title: const Text('Đăng xuất?'),
         content: const Text(
-          'Bạn sẽ cần xác thực lại số điện thoại bằng OTP trong lần đăng nhập tiếp theo.',
+          'Bạn sẽ cần đăng nhập lại bằng số điện thoại và mật khẩu trong lần tiếp theo.',
           textAlign: TextAlign.center,
         ),
         actions: [
@@ -49,9 +50,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       await performSignOut(ref);
     } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(error.toString())));
+      await showAppErrorDialog(context, message: error);
       setState(() => signingOut = false);
     }
   }
@@ -127,6 +126,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             .saveProfile(
               AppUser(
                 id: user.id,
+                email: user.email,
                 phoneNumber: user.phoneNumber,
                 fullName: name.text.trim(),
                 role: user.role,
@@ -137,9 +137,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         ref.invalidate(currentProfileProvider(user.id));
       } catch (error) {
         if (mounted) {
-          ScaffoldMessenger.of(
+          await showAppErrorDialog(
             context,
-          ).showSnackBar(SnackBar(content: Text('Không thể cập nhật: $error')));
+            title: 'Không thể cập nhật',
+            message: error,
+          );
         }
       }
     }
@@ -312,8 +314,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             iconBackground: Colors.white,
             title: 'Trung tâm trợ giúp',
             trailing: const Icon(Icons.chevron_right_rounded, size: 32),
-            onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Trung tâm trợ giúp GeriatricCare')),
+            onTap: () => showAppMessageDialog(
+              context,
+              message: 'Trung tâm trợ giúp GeriatricCare',
             ),
           ),
         ),

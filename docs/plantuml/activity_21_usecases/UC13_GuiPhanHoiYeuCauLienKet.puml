@@ -1,0 +1,39 @@
+@startuml Activity_UC13_GuiPhanHoiYeuCauLienKet
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC13: Gửi và phản hồi yêu cầu liên kết
+
+|Con cái / Người thân|
+start
+:Chọn Thêm liên kết người thân;
+
+|Hệ thống|
+label form_UC13
+:Hiển thị form nhập thông tin liên kết;
+
+|Con cái / Người thân|
+:Điền SĐT người cao tuổi và chọn mối quan hệ;
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo SĐT không tồn tại hoặc đã liên kết;
+    goto form_UC13
+  else (true)
+    :Tạo yêu cầu family_links & gửi Push tới cha mẹ;
+    :Thông báo gửi lời mời liên kết thành công;
+    stop
+  endif
+endif
+@enduml

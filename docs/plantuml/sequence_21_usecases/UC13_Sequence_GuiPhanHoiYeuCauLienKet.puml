@@ -1,0 +1,81 @@
+@startuml Sequence_UC13_GuiPhanHoiYeuCauLienKet
+!theme plain
+autonumber
+skinparam backgroundColor #FAFAFA
+skinparam sequenceParticipantBorderColor #4A90D9
+skinparam sequenceParticipantBackgroundColor #E8F4FD
+skinparam sequenceLifeLineBorderColor #4A90D9
+skinparam sequenceArrowColor #2C5F8A
+skinparam sequenceGroupBorderColor #F59E0B
+skinparam sequenceGroupBackgroundColor #FFFDE7
+skinparam titleFontSize 15
+skinparam titleFontStyle bold
+
+title Biểu đồ Tuần tự – UC13: Gửi và phản hồi yêu cầu liên kết
+
+actor "Con cái / Người thân" as Caregiver
+participant "AddFamilyLinkPage" as UI
+participant "FamilyLinkRepository" as Repo
+database "Cloud Firestore" as DB
+participant "Cloud Functions & FCM" as Cloud
+actor "Người cao tuổi" as Elder
+
+Caregiver -> UI: Chọn "Thêm liên kết người thân"
+activate UI
+UI --> Caregiver: Hiển thị form nhập SĐT cha mẹ & chọn mối quan hệ
+deactivate UI
+
+Caregiver -> UI: Điền SĐT người cao tuổi & chọn quan hệ gia đình
+activate UI
+
+alt Con cái chọn "Huỷ"
+    Caregiver -> UI: Bấm nút "Huỷ"
+    UI --> Caregiver: Đóng form, quay lại Danh sách gia đình
+else Con cái chọn "Xác nhận gửi"
+    Caregiver -> UI: Bấm "Gửi yêu cầu liên kết"
+    UI -> Repo: sendFamilyLinkRequest(caregiverId, elderPhone, relationship)
+    activate Repo
+    Repo -> Repo: Kiểm tra SĐT 10 số, không tự liên kết chính mình
+    alt SĐT không hợp lệ (false)
+        Repo --> UI: Báo lỗi định dạng SĐT
+        UI --> Caregiver: Hiển thị lỗi SĐT không hợp lệ
+    else SĐT hợp lệ (true)
+        Repo -> DB: getDoc(/login_directory/{elderPhone})
+        activate DB
+        DB --> Repo: Trả về elderUid & vai trò
+        deactivate DB
+        alt Không tìm thấy tài khoản người cao tuổi
+            Repo --> UI: Báo lỗi "Không tìm thấy tài khoản người cao tuổi này"
+            UI --> Caregiver: Hiển thị thông báo không tìm thấy
+        else Tài khoản hợp lệ
+            Repo -> DB: addDoc(/family_links, {caregiverId, elderId: elderUid, relationship, status: "pending"})
+            activate DB
+            DB --> Repo: DocumentReference (linkId)
+            deactivate DB
+
+            Repo -> Cloud: sendPushNotificationToElder(elderUid)
+            activate Cloud
+            Cloud -> Elder: Gửi thông báo: "[Tên con] muốn liên kết chăm sóc với bạn"
+            deactivate Cloud
+
+            Repo --> UI: Gửi yêu cầu thành công
+            deactivate Repo
+            UI --> Caregiver: Thông báo gửi lời mời thành công, đang chờ cha mẹ duyệt
+
+            Elder -> DB: Mở popup xác nhận liên kết
+            activate DB
+            alt Cha mẹ chọn "Từ chối"
+                Elder -> DB: updateDoc(/family_links/{linkId}, {status: "rejected"})
+                DB -> Caregiver: Gửi thông báo: Yêu cầu liên kết bị từ chối
+            else Cha mẹ chọn "Đồng ý"
+                Elder -> DB: updateDoc(/family_links/{linkId}, {status: "accepted"})
+                Elder -> DB: updateDoc(/users/{elderUid}, {caregiverIds: arrayUnion(caregiverId)})
+                Elder -> DB: updateDoc(/users/{caregiverId}, {elderIds: arrayUnion(elderUid)})
+                DB -> Caregiver: Gửi thông báo: Liên kết gia đình thành công!
+            end
+            deactivate DB
+        end
+    end
+end
+deactivate UI
+@enduml

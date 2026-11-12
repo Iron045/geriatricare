@@ -26,7 +26,14 @@ abstract final class SosAlertModel {
       locationCapturedAt: (data['locationCapturedAt'] as Timestamp?)?.toDate(),
       acknowledgedAt: (data['acknowledgedAt'] as Timestamp?)?.toDate(),
       acknowledgedById: data['acknowledgedById'] as String?,
+      enRouteAt: (data['enRouteAt'] as Timestamp?)?.toDate(),
+      arrivedAt: (data['arrivedAt'] as Timestamp?)?.toDate(),
       resolvedAt: (data['resolvedAt'] as Timestamp?)?.toDate(),
+      resolvedById: data['resolvedById'] as String?,
+      resolutionType: data['resolutionType'] as String?,
+      resolutionNote: data['resolutionNote'] as String?,
+      cancelledById: data['cancelledById'] as String?,
+      cancellationReason: data['cancellationReason'] as String?,
     );
   }
 
@@ -45,8 +52,19 @@ abstract final class SosAlertModel {
         ? null
         : Timestamp.fromDate(alert.acknowledgedAt!),
     'acknowledgedById': alert.acknowledgedById,
+    'enRouteAt': alert.enRouteAt == null
+        ? null
+        : Timestamp.fromDate(alert.enRouteAt!),
+    'arrivedAt': alert.arrivedAt == null
+        ? null
+        : Timestamp.fromDate(alert.arrivedAt!),
     'resolvedAt': alert.resolvedAt == null
         ? null
         : Timestamp.fromDate(alert.resolvedAt!),
+    'resolvedById': alert.resolvedById,
+    'resolutionType': alert.resolutionType,
+    'resolutionNote': alert.resolutionNote,
+    'cancelledById': alert.cancelledById,
+    'cancellationReason': alert.cancellationReason,
   };
 }

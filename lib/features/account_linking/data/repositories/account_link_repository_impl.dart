@@ -17,6 +17,14 @@ final class AccountLinkRepositoryImpl implements AccountLinkRepository {
       _links.where('elderId', isEqualTo: elderId).snapshots().map(_mapAndSort);
 
   @override
+  Stream<List<AccountLinkRequest>> watchAcceptedFamilyLinks(String elderId) =>
+      _links
+          .where('elderId', isEqualTo: elderId)
+          .where('status', isEqualTo: LinkRequestStatus.accepted.name)
+          .snapshots()
+          .map(_mapAndSort);
+
+  @override
   Stream<List<AccountLinkRequest>> watchChildLinks(String childPhone) => _links
       .where('childPhone', isEqualTo: childPhone)
       .snapshots()

@@ -1,0 +1,39 @@
+@startuml Activity_UC20_QuanLyTaiLieuDinhKem
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC20: Quản lý tài liệu đính kèm
+
+|Người dùng|
+start
+:Chọn Đính kèm tài liệu / Ảnh xét nghiệm;
+
+|Hệ thống|
+label form_UC20
+:Hiển thị bộ chọn tệp máy ảnh / thư viện;
+
+|Người dùng|
+:Chọn tệp ảnh/PDF và điền mô tả tài liệu;
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo tệp không hợp lệ hoặc dung lượng quá lớn;
+    goto form_UC20
+  else (true)
+    :Nén ảnh, tải Firebase Storage & cập nhật Firestore;
+    :Thông báo tải lên tài liệu đính kèm thành công;
+    stop
+  endif
+endif
+@enduml

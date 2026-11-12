@@ -1,0 +1,39 @@
+@startuml Activity_UC14_QuanLyDanhSachNguoiThan
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC14: Quản lý danh sách người thân
+
+|Người dùng|
+start
+:Chọn Danh sách người thân đã liên kết;
+
+|Hệ thống|
+label form_UC14
+:Hiển thị danh sách thành viên gia đình;
+
+|Người dùng|
+:Chọn thành viên để đổi biệt danh hoặc hủy liên kết;
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo lỗi không thể cập nhật liên kết;
+    goto form_UC14
+  else (true)
+    :Cập nhật biệt danh hoặc hủy liên kết 2 chiều;
+    :Thông báo cập nhật danh sách người thân thành công;
+    stop
+  endif
+endif
+@enduml

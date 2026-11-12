@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/app_error_dialog.dart';
 import '../../../../core/widgets/app_brand.dart';
 import '../../domain/entities/medication_intake.dart';
 import '../../domain/entities/pill_schedule.dart';
@@ -52,13 +53,18 @@ class ElderMedicationReminderPage extends ConsumerWidget {
             intake.scheduledAt.hour == dose.scheduledAt.hour &&
             intake.scheduledAt.minute == dose.scheduledAt.minute,
       ),
-    );
+    ).toList();
     if (pending.isEmpty) return null;
     final now = DateTime.now();
-    return pending.cast<ScheduledMedicationDose?>().firstWhere(
-      (dose) => !dose!.scheduledAt.isBefore(now),
-      orElse: () => pending.first,
-    );
+    final overdue = pending
+        .where((dose) => !dose.scheduledAt.isAfter(now))
+        .toList();
+    if (overdue.isNotEmpty) {
+      // Show the most recently overdue dose instead of skipping directly to
+      // the next dose later today.
+      return overdue.last;
+    }
+    return pending.first;
   }
 }
 
@@ -90,9 +96,11 @@ class _ReminderBodyState extends ConsumerState<_ReminderBody> {
       if (mounted) Navigator.pop(context);
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(
+        await showAppErrorDialog(
           context,
-        ).showSnackBar(SnackBar(content: Text('Không thể xác nhận: $error')));
+          title: 'Không thể xác nhận',
+          message: error,
+        );
       }
     } finally {
       if (mounted) setState(() => loading = false);
@@ -109,13 +117,11 @@ class _ReminderBodyState extends ConsumerState<_ReminderBody> {
           Align(
             alignment: Alignment.centerRight,
             child: IconButton.filledTonal(
-              onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
+              onPressed: () => showAppMessageDialog(
+                context,
+                message:
                     'Đã đến giờ uống ${schedule.dosage} '
                     '${schedule.medicationName}. ${schedule.instruction}.',
-                  ),
-                ),
               ),
               iconSize: 38,
               padding: const EdgeInsets.all(18),

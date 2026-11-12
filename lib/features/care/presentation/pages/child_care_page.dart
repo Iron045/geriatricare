@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/app_error_dialog.dart';
 import '../../../account_linking/domain/entities/account_link_request.dart';
 import '../../../account_linking/presentation/providers/account_link_providers.dart';
 import '../../../authentication/domain/entities/app_user.dart';
@@ -16,10 +17,16 @@ import '../../../medication/presentation/widgets/stop_medication_button.dart';
 import '../../../medication/presentation/widgets/medication_history_section.dart';
 
 class ChildCarePage extends ConsumerWidget {
-  const ChildCarePage({super.key, required this.user, this.initialTab = 0});
+  const ChildCarePage({
+    super.key,
+    required this.user,
+    this.initialTab = 0,
+    this.elderId,
+  });
 
   final AppUser user;
   final int initialTab;
+  final String? elderId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -45,7 +52,12 @@ class ChildCarePage extends ConsumerWidget {
                 'Hãy chấp nhận yêu cầu liên kết từ tài khoản người cao tuổi để xem thuốc và nhật ký sức khỏe.',
           );
         }
-        return _ChildCareTabs(link: accepted.first, initialTab: initialTab);
+        final acceptedItems = accepted.toList();
+        final selected = acceptedItems.cast<AccountLinkRequest?>().firstWhere(
+          (link) => link?.elderId == elderId,
+          orElse: () => acceptedItems.first,
+        )!;
+        return _ChildCareTabs(link: selected, initialTab: initialTab);
       },
     );
   }
@@ -392,14 +404,18 @@ class _ChildMedicationTab extends ConsumerWidget {
             );
         ref.invalidate(medicationSchedulesForElderProvider(elderId));
         if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Đã thêm thuốc cho người thân.')),
+          await showAppMessageDialog(
+            context,
+            message: 'Đã thêm thuốc cho người thân.',
+            type: AppMessageType.success,
           );
         }
       } catch (error) {
         if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Không thể thêm thuốc: $error')),
+          await showAppErrorDialog(
+            context,
+            title: 'Không thể thêm thuốc',
+            message: error,
           );
         }
       }
@@ -437,8 +453,7 @@ class _MedicationCard extends StatelessWidget {
     final now = DateTime.now();
     final taken = intake != null;
     final missed =
-        !taken &&
-        now.isAfter(dose.scheduledAt.add(const Duration(hours: 5)));
+        !taken && now.isAfter(dose.scheduledAt.add(const Duration(hours: 5)));
     final upcoming =
         !taken &&
         !missed &&

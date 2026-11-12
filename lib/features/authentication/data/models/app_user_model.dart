@@ -9,6 +9,7 @@ class AppUserModel {
     required this.fullName,
     required this.role,
     required this.createdAt,
+    this.email = '',
     this.gender,
   });
 
@@ -20,11 +21,13 @@ class AppUserModel {
       id: document.id,
       phoneNumber: data['phoneNumber'] as String? ?? '',
       fullName: data['fullName'] as String? ?? '',
-      // `caregiver` is accepted temporarily so existing accounts keep working
-      // after the role was renamed to `child`.
-      role: data['role'] == 'child' || data['role'] == 'caregiver'
-          ? UserRole.child
-          : UserRole.elder,
+      email: data['email'] as String? ?? '',
+      role: switch (data['role']) {
+        'child' => UserRole.child,
+        'caregiver' => UserRole.caregiver,
+        'elder' => UserRole.elder,
+        _ => throw FormatException('Vai trò tài khoản không được hỗ trợ.'),
+      },
       createdAt:
           (data['createdAt'] as Timestamp?)?.toDate() ??
           DateTime.fromMillisecondsSinceEpoch(0),
@@ -38,6 +41,7 @@ class AppUserModel {
     fullName: user.fullName,
     role: user.role,
     createdAt: user.createdAt,
+    email: user.email,
     gender: user.gender,
   );
 
@@ -46,6 +50,7 @@ class AppUserModel {
   final String fullName;
   final UserRole role;
   final DateTime createdAt;
+  final String email;
   final UserGender? gender;
 
   AppUser toEntity() => AppUser(
@@ -54,11 +59,13 @@ class AppUserModel {
     fullName: fullName,
     role: role,
     createdAt: createdAt,
+    email: email,
     gender: gender,
   );
 
   Map<String, Object?> toFirestore() => {
     'phoneNumber': phoneNumber,
+    'email': email,
     'fullName': fullName,
     'role': role.name,
     'createdAt': Timestamp.fromDate(createdAt),

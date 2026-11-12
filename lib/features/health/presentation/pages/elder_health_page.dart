@@ -43,8 +43,10 @@ class _HealthContent extends ConsumerWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Nhật ký Sức khỏe',
-                  style: Theme.of(context).textTheme.headlineMedium,
+                  'Nhật ký sức khỏe',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineLarge?.copyWith(color: AppColors.primary),
                 ),
               ),
               FilledButton.icon(

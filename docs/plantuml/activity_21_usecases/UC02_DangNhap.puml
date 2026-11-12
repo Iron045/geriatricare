@@ -1,0 +1,39 @@
+@startuml Activity_UC02_DangNhap
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC02: Đăng nhập
+
+|Người dùng|
+start
+:Chọn đăng nhập;
+
+|Hệ thống|
+label form_UC02
+:Hiển thị form đăng nhập;
+
+|Người dùng|
+:Điền số điện thoại và mật khẩu PIN;
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo tài khoản hoặc mật khẩu không đúng;
+    goto form_UC02
+  else (true)
+    :Xác thực Firebase Auth & lưu phiên làm việc;
+    :Thông báo đăng nhập thành công, mở màn hình chính;
+    stop
+  endif
+endif
+@enduml

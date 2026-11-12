@@ -1,6 +1,17 @@
 enum SosTriggerMethod { button, shake }
 
-enum SosStatus { active, acknowledged, resolved, cancelled }
+enum SosStatus { active, acknowledged, enRoute, arrived, resolved, cancelled }
+
+extension SosStatusX on SosStatus {
+  bool get isOngoing =>
+      this == SosStatus.active ||
+      this == SosStatus.acknowledged ||
+      this == SosStatus.enRoute ||
+      this == SosStatus.arrived;
+
+  bool get isClosed =>
+      this == SosStatus.resolved || this == SosStatus.cancelled;
+}
 
 class SosAlert {
   const SosAlert({
@@ -15,7 +26,14 @@ class SosAlert {
     this.locationCapturedAt,
     this.acknowledgedAt,
     this.acknowledgedById,
+    this.enRouteAt,
+    this.arrivedAt,
     this.resolvedAt,
+    this.resolvedById,
+    this.resolutionType,
+    this.resolutionNote,
+    this.cancelledById,
+    this.cancellationReason,
   });
 
   final String id;
@@ -29,5 +47,12 @@ class SosAlert {
   final DateTime triggeredAt;
   final DateTime? acknowledgedAt;
   final String? acknowledgedById;
+  final DateTime? enRouteAt;
+  final DateTime? arrivedAt;
   final DateTime? resolvedAt;
+  final String? resolvedById;
+  final String? resolutionType;
+  final String? resolutionNote;
+  final String? cancelledById;
+  final String? cancellationReason;
 }

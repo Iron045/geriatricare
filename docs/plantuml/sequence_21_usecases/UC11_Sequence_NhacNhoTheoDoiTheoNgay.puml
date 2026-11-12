@@ -1,0 +1,46 @@
+@startuml Sequence_UC11_NhacNhoTheoDoiTheoNgay
+!theme plain
+autonumber
+skinparam backgroundColor #FAFAFA
+skinparam sequenceParticipantBorderColor #4A90D9
+skinparam sequenceParticipantBackgroundColor #E8F4FD
+skinparam sequenceLifeLineBorderColor #4A90D9
+skinparam sequenceArrowColor #2C5F8A
+skinparam sequenceGroupBorderColor #F59E0B
+skinparam sequenceGroupBackgroundColor #FFFDE7
+skinparam titleFontSize 15
+skinparam titleFontStyle bold
+
+title Biểu đồ Tuần tự – UC11: Nhắc nhở và theo dõi theo ngày
+
+actor "Người cao tuổi" as Elder
+participant "LocalNotificationService" as Alarm
+participant "TodayMedicationPage\n(Giao diện Hôm nay)" as UI
+participant "MedicationRepository" as Repo
+database "Cloud Firestore" as DB
+actor "Con cái / Người thân" as Caregiver
+
+Alarm -> Alarm: Đến mốc giờ uống thuốc đã cài đặt
+activate Alarm
+Alarm -> Elder: Phát chuông báo thức, rung máy & hiển thị thông báo nhắc thuốc
+deactivate Alarm
+
+Elder -> UI: Mở ứng dụng xem thẻ thuốc hôm nay
+activate UI
+UI -> Repo: getTodayDoses(elderId)
+activate Repo
+Repo -> DB: query(/medication_schedules where active and today between start and end)
+activate DB
+DB --> Repo: Danh sách các cữ thuốc trong ngày
+deactivate DB
+Repo --> UI: Trả về danh sách cữ thuốc (Sáng, Trưa, Chiều, Tối)
+deactivate Repo
+
+UI --> Elder: Hiển thị thẻ cữ thuốc: Tên thuốc, liều lượng, trước/sau ăn, trạng thái pending
+
+Repo -> DB: Realtime stream status update
+activate DB
+DB -> Caregiver: Đồng bộ tiến độ uống thuốc của cha mẹ lên màn hình giám sát
+deactivate DB
+deactivate UI
+@enduml

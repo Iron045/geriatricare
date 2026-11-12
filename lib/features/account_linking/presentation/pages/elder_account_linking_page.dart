@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/app_error_dialog.dart';
 import '../../domain/entities/account_link_request.dart';
 import '../providers/account_link_providers.dart';
 import '../widgets/emergency_phone_card.dart';
@@ -121,7 +123,7 @@ class _PrimaryContact extends StatelessWidget {
               Expanded(
                 child: FilledButton.icon(
                   onPressed: () =>
-                      _showContactMessage(context, link.childPhone),
+                      _openContactApp(context, link.childPhone, false),
                   icon: const Icon(Icons.phone),
                   label: const Text('Gọi'),
                 ),
@@ -130,7 +132,7 @@ class _PrimaryContact extends StatelessWidget {
               Expanded(
                 child: FilledButton.tonalIcon(
                   onPressed: () =>
-                      _showContactMessage(context, link.childPhone),
+                      _openContactApp(context, link.childPhone, true),
                   icon: const Icon(Icons.message),
                   label: const Text('Nhắn tin'),
                 ),
@@ -180,15 +182,19 @@ class _PendingLinkCardState extends ConsumerState<_PendingLinkCard> {
   Future<void> respond(bool accept) async {
     setState(() => loading = true);
     try {
-      await ref.read(accountLinkRepositoryProvider).respondToRequest(
-        requestId: widget.link.id,
-        accept: accept,
-        elderId: widget.elderId,
-      );
+      await ref
+          .read(accountLinkRepositoryProvider)
+          .respondToRequest(
+            requestId: widget.link.id,
+            accept: accept,
+            elderId: widget.elderId,
+          );
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Không thể phản hồi yêu cầu: $error')),
+        await showAppErrorDialog(
+          context,
+          title: 'Không thể phản hồi yêu cầu',
+          message: error,
         );
       }
     } finally {
@@ -206,7 +212,9 @@ class _PendingLinkCardState extends ConsumerState<_PendingLinkCard> {
             contentPadding: EdgeInsets.zero,
             leading: const CircleAvatar(child: Icon(Icons.person_rounded)),
             title: Text(widget.link.childName ?? widget.link.childPhone),
-            subtitle: Text('${widget.link.relationship} • ${widget.link.childPhone}'),
+            subtitle: Text(
+              '${widget.link.relationship} • ${widget.link.childPhone}',
+            ),
           ),
           const SizedBox(height: 10),
           Row(
@@ -275,8 +283,29 @@ class _EmptyLinks extends StatelessWidget {
   );
 }
 
-void _showContactMessage(BuildContext context, String phone) {
-  ScaffoldMessenger.of(
-    context,
-  ).showSnackBar(SnackBar(content: Text('Số điện thoại: $phone')));
+Future<void> _openContactApp(
+  BuildContext context,
+  String phone,
+  bool message,
+) async {
+  final normalizedPhone = phone.trim();
+  if (normalizedPhone.isEmpty) {
+    await showAppMessageDialog(
+      context,
+      message: 'Người thân chưa có số điện thoại.',
+      type: AppMessageType.warning,
+    );
+    return;
+  }
+  final opened = await launchUrl(
+    Uri(scheme: message ? 'sms' : 'tel', path: normalizedPhone),
+    mode: LaunchMode.externalApplication,
+  );
+  if (!opened && context.mounted) {
+    await showAppErrorDialog(
+      context,
+      title: message ? 'Không thể mở tin nhắn' : 'Không thể mở trình quay số',
+      message: 'Không tìm thấy ứng dụng phù hợp trên thiết bị.',
+    );
+  }
 }

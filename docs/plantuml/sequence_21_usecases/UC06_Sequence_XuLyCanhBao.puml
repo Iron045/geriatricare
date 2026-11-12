@@ -1,0 +1,58 @@
+@startuml Sequence_UC06_XuLyCanhBao
+!theme plain
+autonumber
+skinparam backgroundColor #FAFAFA
+skinparam sequenceParticipantBorderColor #4A90D9
+skinparam sequenceParticipantBackgroundColor #E8F4FD
+skinparam sequenceLifeLineBorderColor #4A90D9
+skinparam sequenceArrowColor #2C5F8A
+skinparam sequenceGroupBorderColor #F59E0B
+skinparam sequenceGroupBackgroundColor #FFFDE7
+skinparam titleFontSize 15
+skinparam titleFontStyle bold
+
+title Biểu đồ Tuần tự – UC06: Xử lý cảnh báo
+
+actor "Con cái / Người thân" as Caregiver
+participant "EmergencyAlertPage" as UI
+participant "SosRepository" as Repo
+database "Cloud Firestore" as DB
+actor "Người cao tuổi" as Elder
+
+Caregiver -> UI: Chọn "Cập nhật xử lý tình huống"
+activate UI
+UI --> Caregiver: Hiển thị form kết luận (Hình thức xử lý, Ghi chú)
+deactivate UI
+
+Caregiver -> UI: Điền hình thức (safe/hospitalized/false_alarm) & ghi chú
+activate UI
+
+alt Con cái chọn "Huỷ"
+    Caregiver -> UI: Bấm nút "Huỷ"
+    UI --> Caregiver: Đóng form, giữ nguyên màn hình cảnh báo
+else Con cái chọn "Xác nhận hoàn tất"
+    Caregiver -> UI: Bấm "Xác nhận xử lý"
+    UI -> Repo: resolveEmergencyAlert(alertId, resolutionType, resolutionNote)
+    activate Repo
+    Repo -> Repo: Kiểm tra ràng buộc (resolutionType != null, note <= 300 ký tự)
+    alt Dữ liệu không hợp lệ (false)
+        Repo --> UI: Báo lỗi chưa chọn hình thức hoặc ghi chú quá dài
+        UI --> Caregiver: Hiển thị thông báo lỗi yêu cầu chọn kết quả
+    else Dữ liệu hợp lệ (true)
+        Repo -> DB: updateDoc(/emergency_alerts/{alertId}, {status: "resolved", resolvedBy: childId, resolvedAt: now, resolutionType, resolutionNote})
+        activate DB
+        DB --> Repo: Cập nhật thành công
+        deactivate DB
+
+        Repo -> DB: Realtime update đồng bộ máy cha mẹ
+        activate DB
+        DB -> Elder: Gửi tín hiệu Realtime tắt còi hú & báo an toàn
+        deactivate DB
+
+        Repo --> UI: Xử lý tình huống thành công
+        deactivate Repo
+        UI --> Caregiver: Thông báo hoàn tất xử lý tình huống an toàn, chuyển thẻ đã xử lý
+    end
+end
+deactivate UI
+@enduml

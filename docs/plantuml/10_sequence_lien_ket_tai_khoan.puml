@@ -1,0 +1,66 @@
+@startuml Sequence_Lien_Ket_Tai_Khoan
+!theme plain
+autonumber
+skinparam backgroundColor #FAFAFA
+skinparam sequenceParticipantBorderColor #4A90D9
+skinparam sequenceParticipantBackgroundColor #E8F4FD
+skinparam sequenceLifeLineBorderColor #4A90D9
+skinparam sequenceArrowColor #2C5F8A
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+
+title Biểu đồ Tuần tự – Quy trình Liên kết Tài khoản (Elder - Child)
+
+actor "Người cao tuổi" as Elder
+participant "Giao diện Elder\n(LinkAccountScreen)" as ElderUI
+participant "AccountLinkRepository" as Repo
+database "Cloud Firestore" as DB
+participant "Cloud Functions\n& FCM" as Cloud
+actor "Người thân / Con cái" as Child
+participant "Giao diện Child\n(InvitationScreen)" as ChildUI
+
+== Bước 1: Gửi lời mời liên kết ==
+Elder -> ElderUI: Nhập Số điện thoại người thân và Quan hệ (VD: 'Con trai')
+Elder -> ElderUI: Bấm "Gửi lời mời liên kết"
+ElderUI -> Repo: createRequest(AccountLinkRequest)
+activate Repo
+Repo -> DB: addDoc(/account_links, { elderId, elderPhone, childPhone, relationship, status: 'pending' })
+DB --> Repo: requestId
+Repo --> ElderUI: Gửi yêu cầu thành công
+deactivate Repo
+
+DB -> Cloud: Trigger onCreate(/account_links/{requestId})
+activate Cloud
+Cloud -> DB: Truy vấn tìm kiếm UID theo childPhone (/user_directory/{phone})
+Cloud -> DB: Lấy FCM Token của người thân (/fcm_tokens)
+Cloud -> Child: Push Notification "Bác/Ông [Tên] đã gửi lời mời liên kết với bạn!"
+deactivate Cloud
+
+== Bước 2: Con cái phản hồi lời mời ==
+Child -> ChildUI: Mở danh sách lời mời liên kết
+ChildUI -> Repo: watchChildLinks(childPhone)
+Repo -> DB: query(/account_links where childPhone == phone and status == 'pending')
+DB --> ChildUI: Hiển thị lời mời từ người cao tuổi
+
+alt Con cái chấp nhận liên kết
+    Child -> ChildUI: Bấm "Chấp nhận"
+    ChildUI -> Repo: respondToRequest(requestId, accept: true, elderId)
+    activate Repo
+    Repo -> DB: updateDoc(/account_links/{requestId}, { status: 'accepted', childId, childName })
+    Repo -> DB: setDoc(/care_relationships/{elderId}_{childId}, { elderId, childId, invitationId: requestId, status: 'accepted' })
+    DB --> Repo: Cập nhật thành công
+    Repo --> ChildUI: Liên kết gia đình thành công
+    deactivate Repo
+    
+    DB -> ElderUI: onSnapshot lắng nghe thay đổi trạng thái
+    ElderUI --> Elder: Hiển thị thông báo "Đã kết nối thành công với người thân!"
+else Con cái từ chối liên kết
+    Child -> ChildUI: Bấm "Từ chối"
+    ChildUI -> Repo: respondToRequest(requestId, accept: false, elderId)
+    activate Repo
+    Repo -> DB: updateDoc(/account_links/{requestId}, { status: 'rejected' })
+    DB --> Repo: Cập nhật thành công
+    deactivate Repo
+    ChildUI --> Child: Đã từ chối lời mời
+end
+@enduml

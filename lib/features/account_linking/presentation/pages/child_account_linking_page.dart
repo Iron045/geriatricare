@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/app_error_dialog.dart';
 import '../../../authentication/domain/entities/app_user.dart';
 import '../../../authentication/presentation/providers/auth_providers.dart';
 import '../../domain/entities/account_link_request.dart';
@@ -111,49 +112,12 @@ class _ChildLinksContent extends ConsumerWidget {
   }
 
   Future<void> _showLinkDialog(BuildContext context, WidgetRef ref) async {
-    final phone = TextEditingController();
-    final formKey = GlobalKey<FormState>();
-    final submit = await showDialog<bool>(
+    final enteredPhone = await showDialog<String>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('Liên kết với cha mẹ'),
-        content: Form(
-          key: formKey,
-          child: TextFormField(
-            controller: phone,
-            keyboardType: TextInputType.phone,
-            decoration: const InputDecoration(
-              labelText: 'Số điện thoại của cha/mẹ',
-              prefixIcon: Icon(Icons.phone_rounded),
-              border: OutlineInputBorder(),
-            ),
-            validator: (value) =>
-                value == null || value.replaceAll(RegExp(r'\D'), '').length < 9
-                ? 'Số điện thoại chưa hợp lệ'
-                : null,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Hủy'),
-          ),
-          FilledButton(
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                Navigator.pop(dialogContext, true);
-              }
-            },
-            child: const Text('Gửi yêu cầu'),
-          ),
-        ],
-      ),
+      builder: (_) => const _LinkRequestDialog(),
     );
-    if (submit != true) {
-      phone.dispose();
-      return;
-    }
-    final elderPhone = _normalizePhone(phone.text);
+    if (enteredPhone == null || !context.mounted) return;
+    final elderPhone = _normalizePhone(enteredPhone);
     final duplicate = links.any(
       (link) =>
           link.elderPhone == elderPhone &&
@@ -161,14 +125,14 @@ class _ChildLinksContent extends ConsumerWidget {
               link.status == LinkRequestStatus.accepted),
     );
     if (duplicate) {
+      await WidgetsBinding.instance.endOfFrame;
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Tài khoản này đã liên kết hoặc đang chờ xác nhận.'),
-          ),
+        await showAppErrorDialog(
+          context,
+          title: 'Không thể gửi yêu cầu',
+          message: 'Tài khoản này đã liên kết hoặc đang chờ xác nhận.',
         );
       }
-      phone.dispose();
       return;
     }
     try {
@@ -187,21 +151,81 @@ class _ChildLinksContent extends ConsumerWidget {
         ),
       );
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Đã gửi yêu cầu. Vui lòng chờ cha/mẹ xác nhận.'),
-          ),
+        await showAppMessageDialog(
+          context,
+          message: 'Đã gửi yêu cầu. Vui lòng chờ cha/mẹ xác nhận.',
+          type: AppMessageType.success,
         );
       }
     } catch (error) {
+      await WidgetsBinding.instance.endOfFrame;
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Không thể gửi yêu cầu: $error')),
+        await showAppErrorDialog(
+          context,
+          title: 'Không thể gửi yêu cầu',
+          message: error,
         );
       }
-    } finally {
-      phone.dispose();
     }
+  }
+}
+
+class _LinkRequestDialog extends StatefulWidget {
+  const _LinkRequestDialog();
+
+  @override
+  State<_LinkRequestDialog> createState() => _LinkRequestDialogState();
+}
+
+class _LinkRequestDialogState extends State<_LinkRequestDialog> {
+  final _phoneController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => AlertDialog(
+    title: const Text('Liên kết với cha mẹ'),
+    content: Form(
+      key: _formKey,
+      child: TextFormField(
+        controller: _phoneController,
+        autofocus: true,
+        keyboardType: TextInputType.phone,
+        decoration: const InputDecoration(
+          labelText: 'Số điện thoại của cha/mẹ',
+          hintText: 'Ví dụ: 0912345678',
+          prefixIcon: Icon(Icons.phone_rounded),
+          border: OutlineInputBorder(),
+        ),
+        validator: (value) {
+          final compact = value?.replaceAll(RegExp(r'\s'), '') ?? '';
+          return RegExp(r'^0\d{9}$').hasMatch(compact)
+              ? null
+              : 'Số điện thoại phải đủ 10 số và bắt đầu bằng 0';
+        },
+        onFieldSubmitted: (_) => _submit(),
+      ),
+    ),
+    actions: [
+      TextButton(
+        onPressed: () => Navigator.of(context).pop(),
+        child: const Text('Hủy'),
+      ),
+      FilledButton(
+        onPressed: _submit,
+        child: const Text('Gửi yêu cầu'),
+      ),
+    ],
+  );
+
+  void _submit() {
+    if (!_formKey.currentState!.validate()) return;
+    Navigator.of(context).pop(_phoneController.text.trim());
   }
 }
 

@@ -1,0 +1,39 @@
+@startuml Activity_UC17_DieuPhoiNguoiDuaDiKham
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC17: Điều phối người đưa đi khám
+
+|Con cái / Người thân|
+start
+:Mở chi tiết lịch khám bệnh của cha mẹ;
+
+|Hệ thống|
+label form_UC17
+:Hiển thị form phân công người đưa đi khám;
+
+|Con cái / Người thân|
+:Chọn thành viên phụ trách và điền ghi chú di chuyển;
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo chưa chọn người đưa đi khám;
+    goto form_UC17
+  else (true)
+    :Cập nhật assignedCaregiverId & gửi thông báo cho con;
+    :Thông báo điều phối người đưa đi khám thành công;
+    stop
+  endif
+endif
+@enduml

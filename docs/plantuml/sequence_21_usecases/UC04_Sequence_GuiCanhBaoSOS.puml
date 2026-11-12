@@ -1,0 +1,66 @@
+@startuml Sequence_UC04_GuiCanhBaoSOS
+!theme plain
+autonumber
+skinparam backgroundColor #FAFAFA
+skinparam sequenceParticipantBorderColor #4A90D9
+skinparam sequenceParticipantBackgroundColor #E8F4FD
+skinparam sequenceLifeLineBorderColor #4A90D9
+skinparam sequenceArrowColor #2C5F8A
+skinparam sequenceGroupBorderColor #F59E0B
+skinparam sequenceGroupBackgroundColor #FFFDE7
+skinparam titleFontSize 15
+skinparam titleFontStyle bold
+
+title Biểu đồ Tuần tự – UC04: Gửi cảnh báo SOS
+
+actor "Người cao tuổi" as Elder
+participant "SosScreen / Service\n(Ứng dụng)" as UI
+participant "Sensor / GPS Service" as Sensor
+participant "SosRepository" as Repo
+database "Cloud Firestore" as DB
+participant "Cloud Functions & FCM" as Cloud
+actor "Con cái / Người thân" as Caregiver
+
+alt Kích hoạt thủ công
+    Elder -> UI: Nhấn giữ nút "SOS Khẩn Cấp" trong 1 giây
+else Kích hoạt tự động
+    Sensor -> UI: Cảm biến gia tốc phát hiện ngã (> 2.5G)
+end
+
+activate UI
+UI -> UI: Phát còi hú báo động âm lượng tối đa & đếm ngược 15s
+UI --> Elder: Hiển thị màn hình đếm ngược khẩn cấp
+
+alt Người cao tuổi chọn "Huỷ" (Bấm nhầm)
+    Elder -> UI: Bấm nút "Tôi ổn / Huỷ báo động"
+    UI -> UI: Tắt còi hú & dừng đếm ngược
+    UI --> Elder: Đã hủy cảnh báo khẩn cấp
+else Hết 15 giây hoặc chọn "Xác nhận gửi ngay"
+    Elder -> UI: Bấm "Gửi ngay" (hoặc hết thời gian đếm ngược)
+    UI -> Sensor: getCurrentLocation()
+    activate Sensor
+    Sensor --> UI: Tọa độ GPS (latitude, longitude)
+    deactivate Sensor
+
+    UI -> Repo: sendEmergencyAlert(elderId, alertType, location)
+    activate Repo
+    Repo -> DB: addDoc(/emergency_alerts, {elderId, alertType, location, status: "active", createdAt: now})
+    activate DB
+    DB --> Repo: DocumentReference (alertId)
+    deactivate DB
+
+    Repo -> Cloud: Trigger sendCriticalNotification(alertId)
+    activate Cloud
+    Cloud -> DB: Truy vấn danh sách con cái liên kết (/family_links)
+    activate DB
+    DB --> Cloud: Danh sách caregiverIds & FCM Tokens
+    deactivate DB
+    Cloud -> Caregiver: Gửi Push Notification âm lượng tối đa (Critical Alert)
+    deactivate Cloud
+
+    Repo --> UI: Gửi cảnh báo thành công
+    deactivate Repo
+    UI --> Elder: Thông báo đã gửi cảnh báo SOS tới toàn bộ người thân
+end
+deactivate UI
+@enduml

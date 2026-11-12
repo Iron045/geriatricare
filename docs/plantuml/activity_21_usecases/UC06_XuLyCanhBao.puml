@@ -1,0 +1,39 @@
+@startuml Activity_UC06_XuLyCanhBao
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC06: Xử lý cảnh báo
+
+|Con cái / Người thân|
+start
+:Chọn Cập nhật xử lý tình huống;
+
+|Hệ thống|
+label form_UC06
+:Hiển thị form kết luận xử lý tình huống;
+
+|Con cái / Người thân|
+:Điền kết luận xử lý (safe/hospitalized/false_alarm) và ghi chú;
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo chưa chọn kết luận hoặc ghi chú quá dài;
+    goto form_UC06
+  else (true)
+    :Cập nhật status: resolved và tắt còi hú máy cha mẹ;
+    :Thông báo hoàn tất xử lý tình huống an toàn;
+    stop
+  endif
+endif
+@enduml

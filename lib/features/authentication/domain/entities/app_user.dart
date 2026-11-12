@@ -1,4 +1,4 @@
-enum UserRole { elder, child }
+enum UserRole { elder, child, caregiver }
 
 enum UserGender { male, female, other }
 
@@ -30,6 +30,7 @@ class AppUser {
     required this.fullName,
     required this.role,
     required this.createdAt,
+    this.email = '',
     this.gender,
   });
 
@@ -38,5 +39,6 @@ class AppUser {
   final String fullName;
   final UserRole role;
   final DateTime createdAt;
+  final String email;
   final UserGender? gender;
 }

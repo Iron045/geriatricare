@@ -1,0 +1,54 @@
+@startuml Sequence_Ghi_Nhan_Huyet_Ap
+!theme plain
+autonumber
+skinparam backgroundColor #FAFAFA
+skinparam sequenceParticipantBorderColor #4A90D9
+skinparam sequenceParticipantBackgroundColor #E8F4FD
+skinparam sequenceLifeLineBorderColor #4A90D9
+skinparam sequenceArrowColor #2C5F8A
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+
+title Biểu đồ Tuần tự – Ghi nhận Chỉ số Huyết áp
+
+actor "Người cao tuổi / Người thân" as User
+participant "HealthScreen\n(UI)" as UI
+participant "SaveHealthRecord\n(UseCase)" as UC
+participant "HealthRepository" as Repo
+database "Cloud Firestore" as DB
+participant "Cloud Functions\n& FCM" as Cloud
+actor "Người thân / Con cái" as Caregiver
+
+User -> UI: Nhập chỉ số tâm thu (systolic), tâm trương (diastolic)
+User -> UI: Bấm "Lưu kết quả đo"
+UI -> UC: call(HealthRecord)
+
+activate UC
+UC -> UC: Kiểm tra ràng buộc y tế:\n- 70 <= systolic <= 250\n- 40 <= diastolic <= 150\n- systolic > diastolic
+
+alt Dữ liệu không hợp lệ
+    UC --> UI: Throw ArgumentError (Thông báo sai dải đo)
+    UI --> User: Hiển thị hộp thoại cảnh báo lỗi nhập
+else Dữ liệu hợp lệ
+    UC -> Repo: saveRecord(record)
+    activate Repo
+    Repo -> DB: addDoc(/health_records, recordData)
+    DB --> Repo: DocumentReference (recordId)
+    Repo --> UC: Hoàn tất lưu
+    deactivate Repo
+    UC --> UI: Ghi nhận thành công
+    deactivate UC
+
+    UI -> UI: classifyBloodPressure(systolic, diastolic)
+    UI --> User: Hiển thị thẻ kết quả (Màu sắc mức độ + Khuyến nghị)
+
+    opt Chỉ số thuộc diện bất thường (High / Crisis / Low)
+        DB -> Cloud: Trigger onCreate(health_records/{recordId})
+        activate Cloud
+        Cloud -> DB: Truy vấn danh sách người thân liên kết (/care_relationships)
+        Cloud -> DB: Lấy danh sách FCM Token (/fcm_tokens)
+        Cloud -> Caregiver: Gửi Push Notification "Cảnh báo huyết áp bất thường của Người thân!"
+        deactivate Cloud
+    end
+end
+@enduml

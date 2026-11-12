@@ -1,0 +1,129 @@
+@startuml Activity_01_QuanLyTaiKhoan
+!theme plain
+skinparam backgroundColor #FAFAFA
+skinparam activityBorderColor #2B579A
+skinparam activityBackgroundColor #EBF2FA
+skinparam activityDiamondBackgroundColor #FFF9C4
+skinparam activityDiamondBorderColor #F59E0B
+skinparam arrowColor #1E3A8A
+skinparam titleFontSize 16
+skinparam titleFontStyle bold
+
+title Biểu đồ Hoạt động (Activity Diagram) - Phân hệ 1: Quản lý Tài khoản (UC01, UC02, UC03)
+
+|Người dùng (Cao tuổi / Con cái)|
+start
+:Mở ứng dụng Geriatriccare;
+if (Đã đăng nhập từ trước?) then (Có - Đã có phiên làm việc)
+    |Ứng dụng Flutter|
+    :Tự động kiểm tra Token & Tải vai trò;
+    :Điều hướng vào Màn hình chính;
+    |Người dùng (Cao tuổi / Con cái)|
+    :Sử dụng các chức năng hệ thống;
+    if (Người dùng chọn 'Đăng xuất' (UC03)?) then (Có)
+        :Bấm nút 'Đăng xuất';
+        |Ứng dụng Flutter|
+        :Hiển thị hộp thoại xác nhận đăng xuất;
+        |Người dùng (Cao tuổi / Con cái)|
+        :Xác nhận 'Đồng ý đăng xuất';
+        |Hệ thống Backend (Firebase)|
+        :Hủy Realtime Streams / Listeners;
+        :Gỡ bỏ FCM Device Token;
+        :Gọi FirebaseAuth.signOut() & Xóa cache;
+        |Ứng dụng Flutter|
+        :Điều hướng về Màn hình Đăng nhập;
+        stop
+    else (Không)
+        stop
+    endif
+else (Không - Chưa đăng nhập)
+    |Ứng dụng Flutter|
+    :Hiển thị Màn hình Đăng nhập (UC02);
+endif
+
+|Người dùng (Cao tuổi / Con cái)|
+if (Đã có tài khoản?) then (Đã có tài khoản)
+    label sp_login
+    :Nhập Số điện thoại (10 số, bắt đầu bằng 0)
+    và Mật khẩu PIN (6 số);
+    :Nhấn nút 'Đăng nhập';
+    |Ứng dụng Flutter|
+    :Kiểm tra định dạng (Validation);
+    if (Định dạng hợp lệ?) then (Không)
+        :Báo lỗi: 'SĐT hoặc PIN không đúng định dạng';
+        -> Quay lại;
+        goto sp_login
+    else (Hợp lệ)
+        |Hệ thống Backend (Firebase)|
+        :Tra cứu SĐT trong 'login_directory/{phone}' -> Lấy Email;
+        :Xác thực Email & Mật khẩu PIN qua Firebase Auth;
+        if (Tài khoản & Mật khẩu khớp?) then (Không)
+            |Ứng dụng Flutter|
+            :Hiển thị lỗi: 'Số điện thoại hoặc mật khẩu không chính xác';
+            goto sp_login
+        else (Thành công)
+            |Hệ thống Backend (Firebase)|
+            :Kiểm tra isActive == true và emailVerified == true;
+            if (isActive == false?) then (Bị khóa)
+                |Ứng dụng Flutter|
+                :Báo lỗi: 'Tài khoản đã bị khóa bởi quản trị viên';
+                stop
+            elseif (emailVerified == false?) then (Chưa xác thực email)
+                |Ứng dụng Flutter|
+                :Chuyển sang màn hình nhắc kích hoạt Email;
+                :Gửi lại link kích hoạt email nếu có yêu cầu;
+                stop
+            else (Đủ điều kiện)
+                :Tải vai trò (UserRole.elder hoặc UserRole.child);
+                :Lưu phiên làm việc và Token thiết bị;
+                :Mở giao diện Trang chủ tương ứng;
+                stop
+            endif
+        endif
+    endif
+else (Chưa có tài khoản - Chọn 'Đăng ký' (UC01))
+    label sp_register
+    |Người dùng (Cao tuổi / Con cái)|
+    :Chọn chức năng 'Đăng ký tài khoản';
+    :Nhập Họ tên, Số điện thoại (10 số), Email, Mật khẩu PIN (6 số),
+    Chọn Giới tính và Chọn Vai trò (Cao tuổi / Con cái);
+    :Nhấn 'Gửi mã xác thực';
+    |Ứng dụng Flutter|
+    :Kiểm tra ràng buộc dữ liệu Form;
+    if (Thông tin hợp lệ?) then (Không hợp lệ)
+        :Báo lỗi vi phạm ràng buộc cụ thể;
+        goto sp_register
+    else (Hợp lệ)
+        |Hệ thống Backend (Firebase)|
+        :Kiểm tra SĐT và Email đã tồn tại chưa;
+        if (Đã tồn tại?) then (Có)
+            |Ứng dụng Flutter|
+            :Báo lỗi: 'Số điện thoại hoặc email đã được sử dụng';
+            goto sp_register
+        else (Chưa tồn tại)
+            |Hệ thống Backend (Firebase)|
+            :Sinh mã OTP 6 số (hiệu lực 5 phút);
+            :Gửi OTP đến địa chỉ Email đăng ký;
+            |Người dùng (Cao tuổi / Con cái)|
+            :Kiểm tra email, nhập Mã OTP 6 số;
+            :Nhấn 'Hoàn tất đăng ký';
+            |Hệ thống Backend (Firebase)|
+            if (Mã OTP hợp lệ và chưa hết hạn?) then (Sai / Hết hạn)
+                |Ứng dụng Flutter|
+                :Báo lỗi: 'Mã OTP không đúng hoặc đã hết hạn';
+                goto sp_register
+            else (Hợp lệ)
+                |Hệ thống Backend (Firebase)|
+                :Tạo tài khoản người dùng trên Firebase Auth;
+                :Ghi hồ sơ AppUser vào Firestore 'users/{uid}';
+                :Tạo bản ghi tra cứu SĐT trong 'login_directory/{phone}';
+                :Gửi link kích hoạt email (sendEmailVerification);
+                |Ứng dụng Flutter|
+                :Hiển thị thông báo đăng ký thành công;
+                :Chuyển sang màn hình nhắc kiểm tra email để kích hoạt;
+                stop
+            endif
+        endif
+    endif
+endif
+@enduml

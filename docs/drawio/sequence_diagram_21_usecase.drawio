@@ -1,0 +1,2173 @@
+<mxfile host="app.diagrams.net" agent="Antigravity" pages="21">
+  <diagram id="diag_seq_uc01" name="UC01 - Đăng ký tài khoản">
+    <mxGraphModel dx="1537" dy="845" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="940" math="0" shadow="0">
+      <root>
+        <mxCell id="UC01_0" />
+        <mxCell id="UC01_1" parent="UC01_0" />
+        <mxCell id="UC01_title" parent="UC01_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC01: Đăng ký tài khoản" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC01_user" parent="UC01_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người dùng" vertex="1">
+          <mxGeometry height="755" width="30" x="80" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC01_ui" parent="UC01_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="RegisterScreen&#xa;(Giao diện Đăng ký)" vertex="1">
+          <mxGeometry height="755" width="110" x="215" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC01_repo" parent="UC01_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="AuthRepository&#xa;(Quản lý xác thực)" vertex="1">
+          <mxGeometry height="755" width="110" x="395" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC01_otp" parent="UC01_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="OTP Server&#xa;(Dịch vụ OTP)" vertex="1">
+          <mxGeometry height="755" width="110" x="565" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC01_backend" parent="UC01_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Firebase Auth &amp;&#xa;Cloud Firestore" vertex="1">
+          <mxGeometry height="755" width="110" x="735" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC01_msg_1" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Chọn Đăng ký tài khoản">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="160" as="sourcePoint" />
+            <mxPoint x="270" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_2" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị form đăng ký (SĐT, Email, PIN, Họ tên)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="189" as="sourcePoint" />
+            <mxPoint x="100" y="189" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_3" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Nhập SĐT &amp; Email, bấm &#39;Gửi mã xác thực&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="218" as="sourcePoint" />
+            <mxPoint x="270" y="218" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_4" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: requestRegistrationOTP(email, phone)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="247" as="sourcePoint" />
+            <mxPoint x="450" y="247" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_5" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: getDoc(/login_directory/{phone})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="276" as="sourcePoint" />
+            <mxPoint x="790" y="276" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_6" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="6: Trả về: SĐT chưa tồn tại">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="790" y="305" as="sourcePoint" />
+            <mxPoint x="450" y="305" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_7" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="7: POST /api/send-otp { email, phone }">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="334" as="sourcePoint" />
+            <mxPoint x="620" y="334" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_8" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="8: Sinh mã OTP 6 số (hiệu lực 5 phút)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="655" y="363" />
+              <mxPoint x="655" y="381" />
+            </Array>
+            <mxPoint x="620" y="363" as="sourcePoint" />
+            <mxPoint x="620" y="381" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_9" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="9: Gửi mã OTP vào Email người dùng">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="392" as="sourcePoint" />
+            <mxPoint x="100" y="392" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_10" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="10: 200 OK (Đã gửi mã)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="421" as="sourcePoint" />
+            <mxPoint x="450" y="421" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_11" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="11: Yêu cầu nhập mã OTP">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="450" as="sourcePoint" />
+            <mxPoint x="270" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_12" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="12: Hiển thị ô nhập OTP &amp; thông tin cá nhân">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="479" as="sourcePoint" />
+            <mxPoint x="100" y="479" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_13" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="13: Nhập OTP, PIN 6 số, Họ tên, bấm &#39;Hoàn tất&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="508" as="sourcePoint" />
+            <mxPoint x="270" y="508" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_14" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="14: completeRegistration(email, phone, pin, otp)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="537" as="sourcePoint" />
+            <mxPoint x="450" y="537" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_15" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="15: POST /api/verify-otp { email, otp }">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="566" as="sourcePoint" />
+            <mxPoint x="620" y="566" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_16" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="16: 200 OK (Mã OTP hợp lệ)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="595" as="sourcePoint" />
+            <mxPoint x="450" y="595" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_17" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="17: createUserWithEmailAndPassword(email, pin)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="624" as="sourcePoint" />
+            <mxPoint x="790" y="624" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_18" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="18: UserCredential (uid)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="790" y="653" as="sourcePoint" />
+            <mxPoint x="450" y="653" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_19" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="19: setDoc(/users/{uid}) &amp; setDoc(/login_directory)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="682" as="sourcePoint" />
+            <mxPoint x="790" y="682" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_20" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="20: currentUser.sendEmailVerification()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="711" as="sourcePoint" />
+            <mxPoint x="790" y="711" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_21" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="21: Đăng ký thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="740" as="sourcePoint" />
+            <mxPoint x="270" y="740" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC01_msg_22" edge="1" parent="UC01_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="22: Thông báo thành công, yêu cầu kích hoạt email">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="769" as="sourcePoint" />
+            <mxPoint x="100" y="769" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc02" name="UC02 - Đăng nhập">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="950" pageHeight="880" math="0" shadow="0">
+      <root>
+        <mxCell id="UC02_0" />
+        <mxCell id="UC02_1" parent="UC02_0" />
+        <mxCell id="UC02_title" parent="UC02_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC02: Đăng nhập" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC02_user" parent="UC02_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người dùng" vertex="1">
+          <mxGeometry height="695" width="35" x="100" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC02_ui" parent="UC02_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="LoginScreen&#xa;(Giao diện Đăng nhập)" vertex="1">
+          <mxGeometry height="695" width="130" x="255" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC02_repo" parent="UC02_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="AuthRepository&#xa;(Quản lý phiên)" vertex="1">
+          <mxGeometry height="695" width="130" x="465" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC02_backend" parent="UC02_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Firebase Auth &amp;&#xa;Cloud Firestore" vertex="1">
+          <mxGeometry height="695" width="130" x="675" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC02_msg_1" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Mở ứng dụng, chọn Đăng nhập">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="160" as="sourcePoint" />
+            <mxPoint x="320" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_2" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị form đăng nhập (SĐT &amp; mã PIN)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="196" as="sourcePoint" />
+            <mxPoint x="120" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_3" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Điền SĐT &amp; PIN, bấm &#39;Đăng nhập&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="232" as="sourcePoint" />
+            <mxPoint x="320" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_4" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: signInWithPhone(phone, pin)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="268" as="sourcePoint" />
+            <mxPoint x="530" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_5" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: Kiểm tra định dạng SĐT (10 số) &amp; PIN (6 số)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="565" y="304" />
+              <mxPoint x="565" y="322" />
+            </Array>
+            <mxPoint x="530" y="304" as="sourcePoint" />
+            <mxPoint x="530" y="322" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_6" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: getDoc(/login_directory/{phone})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="530" y="340" as="sourcePoint" />
+            <mxPoint x="740" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_7" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="7: Trả về: email liên kết">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="740" y="376" as="sourcePoint" />
+            <mxPoint x="530" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_8" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="8: signInWithEmailAndPassword(email, pin)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="530" y="412" as="sourcePoint" />
+            <mxPoint x="740" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_9" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="9: UserCredential (uid)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="740" y="448" as="sourcePoint" />
+            <mxPoint x="530" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_10" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="10: getDoc(/users/{uid})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="530" y="484" as="sourcePoint" />
+            <mxPoint x="740" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_11" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="11: AppUser (isActive, emailVerified, role)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="740" y="520" as="sourcePoint" />
+            <mxPoint x="530" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_12" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="12: Kiểm tra isActive==true &amp; emailVerified==true">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="565" y="556" />
+              <mxPoint x="565" y="574" />
+            </Array>
+            <mxPoint x="530" y="556" as="sourcePoint" />
+            <mxPoint x="530" y="574" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_13" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="13: Lưu phiên đăng nhập &amp; Token thiết bị">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="565" y="592" />
+              <mxPoint x="565" y="610" />
+            </Array>
+            <mxPoint x="530" y="592" as="sourcePoint" />
+            <mxPoint x="530" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_14" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="14: Đăng nhập thành công, trả về vai trò">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="530" y="628" as="sourcePoint" />
+            <mxPoint x="320" y="628" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC02_msg_15" edge="1" parent="UC02_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="15: Điều hướng vào Màn hình chính phù hợp vai trò">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="664" as="sourcePoint" />
+            <mxPoint x="120" y="664" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc03" name="UC03 - Đăng xuất">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="950" pageHeight="780" math="0" shadow="0">
+      <root>
+        <mxCell id="UC03_0" />
+        <mxCell id="UC03_1" parent="UC03_0" />
+        <mxCell id="UC03_title" parent="UC03_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC03: Đăng xuất" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC03_user" parent="UC03_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người dùng" vertex="1">
+          <mxGeometry height="595" width="35" x="100" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC03_ui" parent="UC03_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="ProfileScreen&#xa;(Cài đặt / Hồ sơ)" vertex="1">
+          <mxGeometry height="595" width="130" x="265" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC03_repo" parent="UC03_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="AuthRepository&#xa;(Xử lý phiên)" vertex="1">
+          <mxGeometry height="595" width="130" x="475" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC03_backend" parent="UC03_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Firebase Auth &amp;&#xa;Cloud Firestore" vertex="1">
+          <mxGeometry height="595" width="130" x="685" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC03_msg_1" edge="1" parent="UC03_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Chọn chức năng &#39;Đăng xuất&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="160" as="sourcePoint" />
+            <mxPoint x="330" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC03_msg_2" edge="1" parent="UC03_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị hộp thoại: &#39;Bạn có chắc chắn muốn đăng xuất?&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="196" as="sourcePoint" />
+            <mxPoint x="120" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC03_msg_3" edge="1" parent="UC03_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Bấm &#39;Đồng ý Đăng xuất&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="232" as="sourcePoint" />
+            <mxPoint x="330" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC03_msg_4" edge="1" parent="UC03_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: signOut()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="268" as="sourcePoint" />
+            <mxPoint x="540" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC03_msg_5" edge="1" parent="UC03_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: Hủy tất cả Realtime Streams / Listeners">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="575" y="304" />
+              <mxPoint x="575" y="322" />
+            </Array>
+            <mxPoint x="540" y="304" as="sourcePoint" />
+            <mxPoint x="540" y="322" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC03_msg_6" edge="1" parent="UC03_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: updateDoc(/users/{uid}, {fcmToken: null})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="340" as="sourcePoint" />
+            <mxPoint x="750" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC03_msg_7" edge="1" parent="UC03_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="7: Xóa FCM token thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="376" as="sourcePoint" />
+            <mxPoint x="540" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC03_msg_8" edge="1" parent="UC03_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="8: FirebaseAuth.signOut()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="412" as="sourcePoint" />
+            <mxPoint x="750" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC03_msg_9" edge="1" parent="UC03_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="9: Đã hủy phiên xác thực Firebase">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="448" as="sourcePoint" />
+            <mxPoint x="540" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC03_msg_10" edge="1" parent="UC03_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="10: Xóa cache phiên làm việc cục bộ">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="575" y="484" />
+              <mxPoint x="575" y="502" />
+            </Array>
+            <mxPoint x="540" y="484" as="sourcePoint" />
+            <mxPoint x="540" y="502" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC03_msg_11" edge="1" parent="UC03_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="11: Hoàn tất đăng xuất">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="520" as="sourcePoint" />
+            <mxPoint x="330" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC03_msg_12" edge="1" parent="UC03_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="12: Thông báo thành công, chuyển về LoginScreen">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="556" as="sourcePoint" />
+            <mxPoint x="120" y="556" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc04" name="UC04 - Gửi cảnh báo SOS">
+    <mxGraphModel dx="1428" dy="785" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="880" math="0" shadow="0">
+      <root>
+        <mxCell id="UC04_0" />
+        <mxCell id="UC04_1" parent="UC04_0" />
+        <mxCell id="UC04_title" parent="UC04_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC04: Gửi cảnh báo SOS" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC04_elder" parent="UC04_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người cao tuổi" vertex="1">
+          <mxGeometry height="695" width="35" x="70" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC04_ui" parent="UC04_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="SosScreen / Service&#xa;(Ứng dụng SOS)" vertex="1">
+          <mxGeometry height="695" width="110" x="185" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC04_sensor" parent="UC04_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Sensor &amp; GPS&#xa;(Gia tốc &amp; Vị trí)" vertex="1">
+          <mxGeometry height="695" width="110" x="345" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC04_repo" parent="UC04_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="SosRepository&#xa;(Xử lý cảnh báo)" vertex="1">
+          <mxGeometry height="695" width="110" x="505" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC04_backend" parent="UC04_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore &amp;&#xa;FCM Service" vertex="1">
+          <mxGeometry height="695" width="110" x="655" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC04_caregiver" parent="UC04_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Con cái / Người thân" vertex="1">
+          <mxGeometry height="695" width="35" x="830" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC04_msg_1" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Nhấn giữ nút SOS 1s (hoặc cảm biến phát hiện ngã)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="160" as="sourcePoint" />
+            <mxPoint x="240" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC04_msg_2" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="2: Bật còi hú âm lượng tối đa &amp; đếm ngược 15s">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="275" y="196" />
+              <mxPoint x="275" y="214" />
+            </Array>
+            <mxPoint x="240" y="196" as="sourcePoint" />
+            <mxPoint x="240" y="214" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC04_msg_3" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="3: Hiển thị màn hình đếm ngược 15s khẩn cấp">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="232" as="sourcePoint" />
+            <mxPoint x="90" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC04_msg_4" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: Bấm &#39;Gửi ngay&#39; (hoặc hết thời gian đếm ngược)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="268" as="sourcePoint" />
+            <mxPoint x="240" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC04_msg_5" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: getCurrentLocation()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="304" as="sourcePoint" />
+            <mxPoint x="400" y="304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC04_msg_6" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="6: Tọa độ GPS (latitude, longitude)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="340" as="sourcePoint" />
+            <mxPoint x="240" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC04_msg_7" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="7: sendEmergencyAlert(elderId, type, location)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="376" as="sourcePoint" />
+            <mxPoint x="560" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC04_msg_8" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="8: addDoc(/emergency_alerts, {status: &#39;active&#39;, ...})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="412" as="sourcePoint" />
+            <mxPoint x="710" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC04_msg_9" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="9: DocumentReference (alertId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="448" as="sourcePoint" />
+            <mxPoint x="560" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC04_msg_10" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="10: Trigger sendCriticalNotification(alertId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="484" as="sourcePoint" />
+            <mxPoint x="710" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC04_msg_11" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="11: Gửi Push Notification phá vỡ im lặng (Critical Alert)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="520" as="sourcePoint" />
+            <mxPoint x="850" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC04_msg_12" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="12: Gửi cảnh báo thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="556" as="sourcePoint" />
+            <mxPoint x="240" y="556" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC04_msg_13" edge="1" parent="UC04_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="13: Thông báo đã phát tín hiệu SOS tới toàn bộ người thân">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="592" as="sourcePoint" />
+            <mxPoint x="90" y="592" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc05" name="UC05 - Tiếp nhận cảnh báo">
+    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="UC05_0" />
+        <mxCell id="UC05_1" parent="UC05_0" />
+        <mxCell id="UC05_title" parent="UC05_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC05: Tiếp nhận cảnh báo" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC05_caregiver" parent="UC05_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Con cái / Người thân" vertex="1">
+          <mxGeometry height="635" width="35" x="80" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC05_ui" parent="UC05_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="EmergencyAlertPage&#xa;(Chi tiết cảnh báo)" vertex="1">
+          <mxGeometry height="635" width="110" x="225" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC05_repo" parent="UC05_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="SosRepository&#xa;(Quản lý SOS)" vertex="1">
+          <mxGeometry height="635" width="110" x="415" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC05_backend" parent="UC05_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="635" width="110" x="595" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC05_external" parent="UC05_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Google Maps &amp;&#xa;Phone Dialer" vertex="1">
+          <mxGeometry height="635" width="110" x="765" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC05_msg_1" edge="1" parent="UC05_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Chạm vào thông báo đẩy khẩn cấp FCM">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="160" as="sourcePoint" />
+            <mxPoint x="280" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC05_msg_2" edge="1" parent="UC05_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="2: getEmergencyAlertDetail(alertId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="196" as="sourcePoint" />
+            <mxPoint x="470" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC05_msg_3" edge="1" parent="UC05_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: getDoc(/emergency_alerts/{alertId})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="232" as="sourcePoint" />
+            <mxPoint x="650" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC05_msg_4" edge="1" parent="UC05_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="4: Dữ liệu cảnh báo (status, location, time)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="268" as="sourcePoint" />
+            <mxPoint x="470" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC05_msg_5" edge="1" parent="UC05_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="5: Trả về thông tin chi tiết cảnh báo">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="304" as="sourcePoint" />
+            <mxPoint x="280" y="304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC05_msg_6" edge="1" parent="UC05_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="6: Hiển thị bản đồ Google Maps ghim vị trí cha mẹ &amp; loại cảnh báo">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="340" as="sourcePoint" />
+            <mxPoint x="100" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC05_msg_7" edge="1" parent="UC05_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="7: Bấm &#39;Gọi điện thoại ngay&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="376" as="sourcePoint" />
+            <mxPoint x="280" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC05_msg_8" edge="1" parent="UC05_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="8: url_launcher(&#39;tel:09xxxxxxxx&#39;)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="412" as="sourcePoint" />
+            <mxPoint x="820" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC05_msg_9" edge="1" parent="UC05_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="9: Mở trình quay số, kết nối cuộc gọi trực tiếp">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="448" as="sourcePoint" />
+            <mxPoint x="100" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC05_msg_10" edge="1" parent="UC05_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="10: Bấm &#39;Chỉ đường qua Google Maps&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="484" as="sourcePoint" />
+            <mxPoint x="280" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC05_msg_11" edge="1" parent="UC05_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="11: url_launcher(&#39;https://maps.google.com/?q=lat,lng&#39;)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="520" as="sourcePoint" />
+            <mxPoint x="820" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC05_msg_12" edge="1" parent="UC05_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="12: Mở ứng dụng Google Maps dẫn đường tới vị trí">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="556" as="sourcePoint" />
+            <mxPoint x="100" y="556" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc06" name="UC06 - Xử lý cảnh báo">
+    <mxGraphModel dx="1178" dy="648" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="UC06_0" />
+        <mxCell id="UC06_1" parent="UC06_0" />
+        <mxCell id="UC06_title" parent="UC06_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC06: Xử lý cảnh báo" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC06_caregiver" parent="UC06_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Con cái / Người thân" vertex="1">
+          <mxGeometry height="615" width="35" x="90" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC06_ui" parent="UC06_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="EmergencyAlertPage&#xa;(Giao diện xử lý)" vertex="1">
+          <mxGeometry height="615" width="110" x="235" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC06_repo" parent="UC06_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="SosRepository&#xa;(Xử lý nghiệp vụ)" vertex="1">
+          <mxGeometry height="615" width="110" x="425" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC06_backend" parent="UC06_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="615" width="110" x="615" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC06_elder" parent="UC06_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người cao tuổi&#xa;(Thiết bị)" vertex="1">
+          <mxGeometry height="615" width="45" x="810" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC06_msg_1" edge="1" parent="UC06_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Bấm nút &#39;Cập nhật xử lý tình huống&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="160" as="sourcePoint" />
+            <mxPoint x="290" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC06_msg_2" edge="1" parent="UC06_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị form kết luận (safe/hospitalized/false_alarm, note)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="196" as="sourcePoint" />
+            <mxPoint x="110" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC06_msg_3" edge="1" parent="UC06_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Chọn hình thức xử lý &amp; điền ghi chú, bấm &#39;Xác nhận&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="232" as="sourcePoint" />
+            <mxPoint x="290" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC06_msg_4" edge="1" parent="UC06_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: resolveEmergencyAlert(alertId, type, note)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="268" as="sourcePoint" />
+            <mxPoint x="480" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC06_msg_5" edge="1" parent="UC06_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: Kiểm tra dữ liệu (type != null, note &lt;= 300 ký tự)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="515" y="304" />
+              <mxPoint x="515" y="322" />
+            </Array>
+            <mxPoint x="480" y="304" as="sourcePoint" />
+            <mxPoint x="480" y="322" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC06_msg_6" edge="1" parent="UC06_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: updateDoc(/emergency_alerts/{alertId}, {status: &#39;resolved&#39;, ...})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="340" as="sourcePoint" />
+            <mxPoint x="670" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC06_msg_7" edge="1" parent="UC06_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="7: Cập nhật Firestore thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="670" y="376" as="sourcePoint" />
+            <mxPoint x="480" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC06_msg_8" edge="1" parent="UC06_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="8: Realtime sync đồng bộ sang máy cha mẹ">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="412" as="sourcePoint" />
+            <mxPoint x="670" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC06_msg_9" edge="1" parent="UC06_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="9: Gửi tín hiệu tự động tắt còi hú báo động &amp; báo an toàn">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="670" y="448" as="sourcePoint" />
+            <mxPoint x="830" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC06_msg_10" edge="1" parent="UC06_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="10: Xử lý tình huống thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="484" as="sourcePoint" />
+            <mxPoint x="290" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC06_msg_11" edge="1" parent="UC06_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="11: Thông báo hoàn tất xử lý an toàn, chuyển thẻ đã xử lý">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="520" as="sourcePoint" />
+            <mxPoint x="110" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc07" name="UC07 - Ghi chỉ số huyết áp">
+    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="840" math="0" shadow="0">
+      <root>
+        <mxCell id="UC07_0" />
+        <mxCell id="UC07_1" parent="UC07_0" />
+        <mxCell id="UC07_title" parent="UC07_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC07: Ghi chỉ số huyết áp" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC07_user" parent="UC07_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người dùng" vertex="1">
+          <mxGeometry height="655" width="35" x="90" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC07_ui" parent="UC07_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="AddBloodPressurePage&#xa;(Giao diện Ghi đo)" vertex="1">
+          <mxGeometry height="655" width="110" x="235" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC07_repo" parent="UC07_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="HealthRepository&#xa;(Quản lý sức khỏe)" vertex="1">
+          <mxGeometry height="655" width="110" x="425" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC07_backend" parent="UC07_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="655" width="110" x="605" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC07_cloud" parent="UC07_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Functions &amp;&#xa;FCM Push" vertex="1">
+          <mxGeometry height="655" width="110" x="765" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC07_msg_1" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Chọn chức năng &#39;Ghi nhận huyết áp&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="160" as="sourcePoint" />
+            <mxPoint x="290" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC07_msg_2" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị form đo huyết áp (Tâm thu, Tâm trương, Nhịp tim)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="196" as="sourcePoint" />
+            <mxPoint x="110" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC07_msg_3" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Điền Tâm thu, Tâm trương, Nhịp tim, bấm &#39;Lưu kết quả&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="232" as="sourcePoint" />
+            <mxPoint x="290" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC07_msg_4" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: saveBloodPressureRecord(elderId, sys, dia, pulse)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="268" as="sourcePoint" />
+            <mxPoint x="480" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC07_msg_5" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: Kiểm tra ràng buộc (70&lt;=sys&lt;=250, 40&lt;=dia&lt;=150, sys&gt;dia)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="515" y="304" />
+              <mxPoint x="515" y="322" />
+            </Array>
+            <mxPoint x="480" y="304" as="sourcePoint" />
+            <mxPoint x="480" y="322" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC07_msg_6" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: Phân loại theo tiêu chuẩn WHO/AHA (Bình thường / THA Độ 1 / ...)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="515" y="340" />
+              <mxPoint x="515" y="358" />
+            </Array>
+            <mxPoint x="480" y="340" as="sourcePoint" />
+            <mxPoint x="480" y="358" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC07_msg_7" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="7: addDoc(/blood_pressure_records, recordData)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="376" as="sourcePoint" />
+            <mxPoint x="660" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC07_msg_8" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="8: DocumentReference (recordId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="660" y="412" as="sourcePoint" />
+            <mxPoint x="480" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC07_msg_9" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="9: updateDoc(/users/{elderId}, {latestBP: recordData})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="448" as="sourcePoint" />
+            <mxPoint x="660" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC07_msg_10" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="10: Trigger kiểm tra chỉ số nguy hiểm (sys&gt;=160 hoặc dia&gt;=100)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="484" as="sourcePoint" />
+            <mxPoint x="820" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC07_msg_11" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="11: Gửi Push Notification tới người thân nếu bất thường">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="520" as="sourcePoint" />
+            <mxPoint x="110" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC07_msg_12" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="12: Ghi nhận huyết áp thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="556" as="sourcePoint" />
+            <mxPoint x="290" y="556" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC07_msg_13" edge="1" parent="UC07_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="13: Thông báo lưu thành công &amp; hiển thị thẻ kết quả phân loại">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="592" as="sourcePoint" />
+            <mxPoint x="110" y="592" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc08" name="UC08 - Theo dõi lịch sử huyết áp">
+    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="UC08_0" />
+        <mxCell id="UC08_1" parent="UC08_0" />
+        <mxCell id="UC08_title" parent="UC08_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC08: Theo dõi lịch sử huyết áp" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC08_user" parent="UC08_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người dùng" vertex="1">
+          <mxGeometry height="615" width="35" x="100" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC08_ui" parent="UC08_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="BloodPressureHistoryPage&#xa;(Lịch sử huyết áp)" vertex="1">
+          <mxGeometry height="615" width="130" x="265" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC08_repo" parent="UC08_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="HealthRepository&#xa;(Quản lý sức khỏe)" vertex="1">
+          <mxGeometry height="615" width="130" x="475" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC08_backend" parent="UC08_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="615" width="130" x="685" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC08_msg_1" edge="1" parent="UC08_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Chọn xem &#39;Lịch sử đo huyết áp&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="160" as="sourcePoint" />
+            <mxPoint x="330" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC08_msg_2" edge="1" parent="UC08_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị giao diện bộ lọc (7 ngày, 30 ngày, Tùy chọn)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="196" as="sourcePoint" />
+            <mxPoint x="120" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC08_msg_3" edge="1" parent="UC08_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Chọn khoảng thời gian thống kê &amp; bấm &#39;Xem&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="232" as="sourcePoint" />
+            <mxPoint x="330" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC08_msg_4" edge="1" parent="UC08_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: getBloodPressureHistory(elderId, startDate, endDate)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="268" as="sourcePoint" />
+            <mxPoint x="540" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC08_msg_5" edge="1" parent="UC08_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: query(/blood_pressure_records where elderId, dateRange)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="304" as="sourcePoint" />
+            <mxPoint x="750" y="304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC08_msg_6" edge="1" parent="UC08_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="6: Danh sách bản ghi List&lt;BloodPressureRecord&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="340" as="sourcePoint" />
+            <mxPoint x="540" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC08_msg_7" edge="1" parent="UC08_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="7: Tính chỉ số trung bình (SysAvg, DiaAvg, PulseAvg) &amp; tỷ lệ bất thường">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="575" y="376" />
+              <mxPoint x="575" y="394" />
+            </Array>
+            <mxPoint x="540" y="376" as="sourcePoint" />
+            <mxPoint x="540" y="394" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC08_msg_8" edge="1" parent="UC08_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="8: Trả về danh sách bản ghi &amp; số liệu thống kê">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="412" as="sourcePoint" />
+            <mxPoint x="330" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC08_msg_9" edge="1" parent="UC08_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="9: Dựng biểu đồ đường biến thiên huyết áp (LineChart)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="365" y="448" />
+              <mxPoint x="365" y="466" />
+            </Array>
+            <mxPoint x="330" y="448" as="sourcePoint" />
+            <mxPoint x="330" y="466" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC08_msg_10" edge="1" parent="UC08_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="10: Hiển thị biểu đồ xu hướng &amp; danh sách chi tiết các lần đo có màu cảnh báo">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="484" as="sourcePoint" />
+            <mxPoint x="120" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc09" name="UC09 - Cảnh báo chỉ số bất thường">
+    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="780" math="0" shadow="0">
+      <root>
+        <mxCell id="UC09_0" />
+        <mxCell id="UC09_1" parent="UC09_0" />
+        <mxCell id="UC09_title" parent="UC09_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC09: Cảnh báo chỉ số bất thường" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC09_elder" parent="UC09_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người cao tuổi" vertex="1">
+          <mxGeometry height="595" width="35" x="80" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC09_repo" parent="UC09_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="HealthRepository&#xa;(Phân tích chỉ số)" vertex="1">
+          <mxGeometry height="595" width="110" x="225" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC09_backend" parent="UC09_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="595" width="110" x="415" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC09_cloud" parent="UC09_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Functions &amp;&#xa;FCM Service" vertex="1">
+          <mxGeometry height="595" width="110" x="615" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC09_caregiver" parent="UC09_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Con cái / Người thân" vertex="1">
+          <mxGeometry height="595" width="35" x="830" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC09_msg_1" edge="1" parent="UC09_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Bản ghi đo huyết áp mới vừa được lưu thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="160" as="sourcePoint" />
+            <mxPoint x="280" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC09_msg_2" edge="1" parent="UC09_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="2: Phân tích chỉ số: sys&gt;=160 hoặc dia&gt;=100 (Bất thường nguy hiểm)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="315" y="196" />
+              <mxPoint x="315" y="214" />
+            </Array>
+            <mxPoint x="280" y="196" as="sourcePoint" />
+            <mxPoint x="280" y="214" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC09_msg_3" edge="1" parent="UC09_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: addDoc(/notifications, {type: &#39;health_alert&#39;, severity: &#39;critical&#39;})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="232" as="sourcePoint" />
+            <mxPoint x="470" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC09_msg_4" edge="1" parent="UC09_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="4: Notification ID">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="268" as="sourcePoint" />
+            <mxPoint x="280" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC09_msg_5" edge="1" parent="UC09_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: Trigger gửi thông báo y tế khẩn cấp">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="304" as="sourcePoint" />
+            <mxPoint x="670" y="304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC09_msg_6" edge="1" parent="UC09_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: query(/family_links where elderId and status == &#39;accepted&#39;)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="670" y="340" as="sourcePoint" />
+            <mxPoint x="470" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC09_msg_7" edge="1" parent="UC09_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="7: Danh sách caregiverIds &amp; FCM tokens">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="376" as="sourcePoint" />
+            <mxPoint x="670" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC09_msg_8" edge="1" parent="UC09_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="8: Gửi Push Notification &#39;Chỉ số huyết áp của Cha/Mẹ đang ở mức báo động!&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="670" y="412" as="sourcePoint" />
+            <mxPoint x="840" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC09_msg_9" edge="1" parent="UC09_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="9: Hiển thị cảnh báo đỏ &amp; hướng dẫn y tế khẩn cấp tại chỗ (Nghỉ ngơi, uống nước)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="448" as="sourcePoint" />
+            <mxPoint x="100" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc10" name="UC10 - Thiết lập lịch uống thuốc">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="950" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="UC10_0" />
+        <mxCell id="UC10_1" parent="UC10_0" />
+        <mxCell id="UC10_title" parent="UC10_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC10: Thiết lập lịch uống thuốc" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC10_user" parent="UC10_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người dùng" vertex="1">
+          <mxGeometry height="635" width="35" x="80" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC10_ui" parent="UC10_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="AddMedicationPage&#xa;(Thêm lịch thuốc)" vertex="1">
+          <mxGeometry height="635" width="110" x="215" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC10_repo" parent="UC10_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="MedicationRepository&#xa;(Quản lý thuốc)" vertex="1">
+          <mxGeometry height="635" width="110" x="405" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC10_alarm" parent="UC10_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="LocalNotificationService&#xa;(Báo thức máy)" vertex="1">
+          <mxGeometry height="635" width="110" x="585" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC10_backend" parent="UC10_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="635" width="110" x="755" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC10_msg_1" edge="1" parent="UC10_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Chọn &#39;Thêm lịch uống thuốc&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="160" as="sourcePoint" />
+            <mxPoint x="270" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC10_msg_2" edge="1" parent="UC10_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị form thiết lập lịch thuốc (Tên thuốc, Liều, Giờ, Ngày)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="196" as="sourcePoint" />
+            <mxPoint x="100" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC10_msg_3" edge="1" parent="UC10_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Điền tên thuốc, liều lượng, giờ nhắc (HH:mm), ngày điều trị, bấm &#39;Lưu&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="232" as="sourcePoint" />
+            <mxPoint x="270" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC10_msg_4" edge="1" parent="UC10_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: createMedicationSchedule(elderId, scheduleData)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="268" as="sourcePoint" />
+            <mxPoint x="460" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC10_msg_5" edge="1" parent="UC10_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: Kiểm tra ràng buộc (Tên thuốc != rỗng, giờ nhắc &gt;= 1 mốc, endDate &gt;= startDate)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="495" y="304" />
+              <mxPoint x="495" y="322" />
+            </Array>
+            <mxPoint x="460" y="304" as="sourcePoint" />
+            <mxPoint x="460" y="322" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC10_msg_6" edge="1" parent="UC10_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: addDoc(/medication_schedules, scheduleData)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="460" y="340" as="sourcePoint" />
+            <mxPoint x="810" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC10_msg_7" edge="1" parent="UC10_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="7: DocumentReference (scheduleId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="810" y="376" as="sourcePoint" />
+            <mxPoint x="460" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC10_msg_8" edge="1" parent="UC10_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="8: scheduleLocalAlarms(scheduleId, reminderTimes)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="460" y="412" as="sourcePoint" />
+            <mxPoint x="640" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC10_msg_9" edge="1" parent="UC10_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="9: Đăng ký kênh báo thức Local Notifications theo giờ">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="675" y="448" />
+              <mxPoint x="675" y="466" />
+            </Array>
+            <mxPoint x="640" y="448" as="sourcePoint" />
+            <mxPoint x="640" y="466" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC10_msg_10" edge="1" parent="UC10_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="10: Đăng ký báo thức thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="640" y="484" as="sourcePoint" />
+            <mxPoint x="460" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC10_msg_11" edge="1" parent="UC10_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="11: Thiết lập lịch thuốc thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="460" y="520" as="sourcePoint" />
+            <mxPoint x="270" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC10_msg_12" edge="1" parent="UC10_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="12: Thông báo lưu thành công &amp; cập nhật danh sách điều trị">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="556" as="sourcePoint" />
+            <mxPoint x="100" y="556" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc11" name="UC11 - Nhắc nhở và theo dõi theo ngày">
+    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="UC11_0" />
+        <mxCell id="UC11_1" parent="UC11_0" />
+        <mxCell id="UC11_title" parent="UC11_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC11: Nhắc nhở và theo dõi lịch uống thuốc" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC11_elder" parent="UC11_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người cao tuổi" vertex="1">
+          <mxGeometry height="615" width="40" x="70" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC11_alarm" parent="UC11_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="LocalNotificationService&#xa;(Báo thức máy)" vertex="1">
+          <mxGeometry height="615" width="110" x="185" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC11_ui" parent="UC11_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="TodayMedicationPage&#xa;(Cữ thuốc hôm nay)" vertex="1">
+          <mxGeometry height="615" width="110" x="345" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC11_repo" parent="UC11_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="MedicationRepository&#xa;(Quản lý thuốc)" vertex="1">
+          <mxGeometry height="615" width="110" x="515" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC11_backend" parent="UC11_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="615" width="110" x="665" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC11_caregiver" parent="UC11_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Con cái / Người thân" vertex="1">
+          <mxGeometry height="615" width="40" x="840" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC11_msg_1" edge="1" parent="UC11_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Đến mốc giờ uống thuốc đã cài đặt">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="275" y="160" />
+              <mxPoint x="275" y="178" />
+            </Array>
+            <mxPoint x="240" y="160" as="sourcePoint" />
+            <mxPoint x="240" y="178" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC11_msg_2" edge="1" parent="UC11_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="2: Kích hoạt chuông báo thức, rung máy &amp; hiển thị thông báo nhắc thuốc">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="196" as="sourcePoint" />
+            <mxPoint x="90" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC11_msg_3" edge="1" parent="UC11_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Mở ứng dụng xem thẻ thuốc hôm nay">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="232" as="sourcePoint" />
+            <mxPoint x="400" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC11_msg_4" edge="1" parent="UC11_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: getTodayDoses(elderId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="268" as="sourcePoint" />
+            <mxPoint x="570" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC11_msg_5" edge="1" parent="UC11_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: query(/medication_schedules where active and today in range)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="304" as="sourcePoint" />
+            <mxPoint x="720" y="304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC11_msg_6" edge="1" parent="UC11_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="6: Danh sách các cữ thuốc trong ngày">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="720" y="340" as="sourcePoint" />
+            <mxPoint x="570" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC11_msg_7" edge="1" parent="UC11_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="7: Trả về danh sách cữ thuốc (Sáng, Trưa, Chiều, Tối)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="376" as="sourcePoint" />
+            <mxPoint x="400" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC11_msg_8" edge="1" parent="UC11_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="8: Hiển thị thẻ cữ thuốc: Tên thuốc, liều lượng, trước/sau ăn, trạng thái pending">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="412" as="sourcePoint" />
+            <mxPoint x="90" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC11_msg_9" edge="1" parent="UC11_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="9: Realtime stream status update">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="448" as="sourcePoint" />
+            <mxPoint x="720" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC11_msg_10" edge="1" parent="UC11_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="10: Đồng bộ tiến độ uống thuốc của cha mẹ lên màn hình giám sát con cái">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="720" y="484" as="sourcePoint" />
+            <mxPoint x="860" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc12" name="UC12 - Ghi nhận nhật ký uống thuốc">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="950" pageHeight="840" math="0" shadow="0">
+      <root>
+        <mxCell id="UC12_0" />
+        <mxCell id="UC12_1" parent="UC12_0" />
+        <mxCell id="UC12_title" parent="UC12_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC12: Ghi nhận nhật ký uống thuốc" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC12_elder" parent="UC12_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người cao tuổi" vertex="1">
+          <mxGeometry height="655" width="35" x="80" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC12_ui" parent="UC12_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="TodayMedicationPage&#xa;(Cữ thuốc hôm nay)" vertex="1">
+          <mxGeometry height="655" width="110" x="225" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC12_repo" parent="UC12_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="MedicationRepository&#xa;(Ghi nhận nhật ký)" vertex="1">
+          <mxGeometry height="655" width="110" x="425" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC12_backend" parent="UC12_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="655" width="110" x="615" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC12_caregiver" parent="UC12_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Con cái / Người thân" vertex="1">
+          <mxGeometry height="655" width="35" x="830" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC12_msg_1" edge="1" parent="UC12_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Xem thẻ cữ thuốc đang chờ (pending)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="160" as="sourcePoint" />
+            <mxPoint x="280" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC12_msg_2" edge="1" parent="UC12_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="2: Bấm nút &#39;Đã uống&#39; (hoặc chọn &#39;Bỏ qua&#39;)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="196" as="sourcePoint" />
+            <mxPoint x="280" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC12_msg_3" edge="1" parent="UC12_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: logMedicationIntake(scheduleId, status: &#39;taken&#39; / &#39;skipped&#39;)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="232" as="sourcePoint" />
+            <mxPoint x="480" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC12_msg_4" edge="1" parent="UC12_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: addDoc(/medication_logs, {scheduleId, status, takenAt: now})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="268" as="sourcePoint" />
+            <mxPoint x="670" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC12_msg_5" edge="1" parent="UC12_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="5: Ghi nhật ký thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="670" y="304" as="sourcePoint" />
+            <mxPoint x="480" y="304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC12_msg_6" edge="1" parent="UC12_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: Tính lại tỷ lệ tuân thủ điều trị trong ngày/tuần">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="515" y="340" />
+              <mxPoint x="515" y="358" />
+            </Array>
+            <mxPoint x="480" y="340" as="sourcePoint" />
+            <mxPoint x="480" y="358" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC12_msg_7" edge="1" parent="UC12_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="7: Cập nhật nhật ký thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="376" as="sourcePoint" />
+            <mxPoint x="280" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC12_msg_8" edge="1" parent="UC12_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="8: Chuyển màu thẻ thuốc: Xanh lá (Đã uống) / Xám (Đã bỏ qua)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="412" as="sourcePoint" />
+            <mxPoint x="100" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC12_msg_9" edge="1" parent="UC12_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="9: Realtime sync tiến độ">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="448" as="sourcePoint" />
+            <mxPoint x="670" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC12_msg_10" edge="1" parent="UC12_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="10: Cập nhật thông báo trạng thái uống thuốc về máy con cái">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="670" y="484" as="sourcePoint" />
+            <mxPoint x="840" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc13" name="UC13 - Gửi và phản hồi yêu cầu liên kết">
+    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="860" math="0" shadow="0">
+      <root>
+        <mxCell id="UC13_0" />
+        <mxCell id="UC13_1" parent="UC13_0" />
+        <mxCell id="UC13_title" parent="UC13_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC13: Gửi và phản hồi yêu cầu liên kết" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC13_caregiver" parent="UC13_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Con cái / Người thân" vertex="1">
+          <mxGeometry height="675" width="40" x="70" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC13_ui" parent="UC13_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="AddFamilyLinkPage&#xa;(Thêm liên kết)" vertex="1">
+          <mxGeometry height="675" width="110" x="185" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC13_repo" parent="UC13_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="FamilyLinkRepository&#xa;(Quản lý liên kết)" vertex="1">
+          <mxGeometry height="675" width="110" x="355" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC13_backend" parent="UC13_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore &amp;&#xa;FCM Service" vertex="1">
+          <mxGeometry height="675" width="110" x="535" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC13_elder" parent="UC13_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người cao tuổi" vertex="1">
+          <mxGeometry height="675" width="40" x="730" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC13_msg_1" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Chọn &#39;Thêm liên kết người thân&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="160" as="sourcePoint" />
+            <mxPoint x="240" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_2" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị form nhập SĐT cha mẹ &amp; quan hệ gia đình">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="196" as="sourcePoint" />
+            <mxPoint x="90" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_3" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Điền SĐT cha mẹ, chọn mối quan hệ, bấm &#39;Gửi yêu cầu&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="232" as="sourcePoint" />
+            <mxPoint x="240" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_4" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: sendFamilyLinkRequest(caregiverId, phone, relationship)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="268" as="sourcePoint" />
+            <mxPoint x="410" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_5" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: getDoc(/login_directory/{phone})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="304" as="sourcePoint" />
+            <mxPoint x="590" y="304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_6" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="6: elderUid &amp; role: elder">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="340" as="sourcePoint" />
+            <mxPoint x="410" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_7" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="7: addDoc(/family_links, {caregiverId, elderId: elderUid, status: &#39;pending&#39;})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="376" as="sourcePoint" />
+            <mxPoint x="590" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_8" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="8: DocumentReference (linkId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="412" as="sourcePoint" />
+            <mxPoint x="410" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_9" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="9: Trigger FCM Push Notification tới cha mẹ">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="448" as="sourcePoint" />
+            <mxPoint x="590" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_10" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="10: Gửi thông báo: &#39;[Tên con] muốn liên kết chăm sóc với bạn&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="484" as="sourcePoint" />
+            <mxPoint x="750" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_11" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="11: Gửi yêu cầu thành công, chờ cha mẹ duyệt">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="520" as="sourcePoint" />
+            <mxPoint x="240" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_12" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="12: Hiển thị thông báo đang chờ phê duyệt">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="556" as="sourcePoint" />
+            <mxPoint x="90" y="556" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_13" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="13: Cha mẹ bấm &#39;Đồng ý&#39; -&gt; updateDoc(/family_links/{linkId}, {status: &#39;accepted&#39;})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="592" as="sourcePoint" />
+            <mxPoint x="590" y="592" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC13_msg_14" edge="1" parent="UC13_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="14: Gửi thông báo tới con: Liên kết gia đình thành công!">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="628" as="sourcePoint" />
+            <mxPoint x="90" y="628" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc14" name="UC14 - Quản lý danh sách người thân">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="950" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="UC14_0" />
+        <mxCell id="UC14_1" parent="UC14_0" />
+        <mxCell id="UC14_title" parent="UC14_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC14: Quản lý danh sách người thân" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC14_user" parent="UC14_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người dùng" vertex="1">
+          <mxGeometry height="635" width="40" x="100" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC14_ui" parent="UC14_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="FamilyListPage&#xa;(Danh sách gia đình)" vertex="1">
+          <mxGeometry height="635" width="130" x="265" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC14_repo" parent="UC14_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="FamilyLinkRepository&#xa;(Quản lý liên kết)" vertex="1">
+          <mxGeometry height="635" width="130" x="475" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC14_backend" parent="UC14_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="635" width="130" x="685" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC14_msg_1" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Mở màn hình &#39;Danh sách người thân&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="160" as="sourcePoint" />
+            <mxPoint x="330" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_2" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="2: getFamilyMembers(userId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="194" as="sourcePoint" />
+            <mxPoint x="540" y="194" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_3" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: query(/family_links where userId and status == &#39;accepted&#39;)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="228" as="sourcePoint" />
+            <mxPoint x="750" y="228" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_4" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="4: Danh sách các thành viên liên kết">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="262" as="sourcePoint" />
+            <mxPoint x="540" y="262" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_5" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="5: Trả về danh sách thành viên">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="296" as="sourcePoint" />
+            <mxPoint x="330" y="296" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_6" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="6: Hiển thị danh sách: Tên, SĐT, Biệt danh, Vai trò">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="330" as="sourcePoint" />
+            <mxPoint x="120" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_7" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="7: Nhập biệt danh mới &amp; bấm &#39;Lưu&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="364" as="sourcePoint" />
+            <mxPoint x="330" y="364" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_8" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="8: updateNickname(linkId, newNickname)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="398" as="sourcePoint" />
+            <mxPoint x="540" y="398" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_9" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="9: updateDoc(/family_links/{linkId}, {nickname: newNickname})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="432" as="sourcePoint" />
+            <mxPoint x="750" y="432" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_10" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="10: Cập nhật thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="466" as="sourcePoint" />
+            <mxPoint x="540" y="466" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_11" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="11: Bấm nút &#39;Hủy liên kết thành viên&#39; -&gt; Bấm &#39;Đồng ý Hủy&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="500" as="sourcePoint" />
+            <mxPoint x="330" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_12" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="12: cancelFamilyLink(linkId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="534" as="sourcePoint" />
+            <mxPoint x="540" y="534" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_13" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="13: updateDoc(/family_links/{linkId}, {status: &#39;cancelled&#39;}) &amp; thu hồi quyền">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="568" as="sourcePoint" />
+            <mxPoint x="750" y="568" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_14" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="14: Hủy liên kết thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="602" as="sourcePoint" />
+            <mxPoint x="540" y="602" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC14_msg_15" edge="1" parent="UC14_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="15: Thông báo đã hủy liên kết &amp; cập nhật lại danh sách">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="636" as="sourcePoint" />
+            <mxPoint x="120" y="636" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc15" name="UC15 - Liên hệ khẩn cấp">
+    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="760" math="0" shadow="0">
+      <root>
+        <mxCell id="UC15_0" />
+        <mxCell id="UC15_1" parent="UC15_0" />
+        <mxCell id="UC15_title" parent="UC15_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC15: Liên hệ khẩn cấp" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC15_elder" parent="UC15_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người cao tuổi" vertex="1">
+          <mxGeometry height="575" width="40" x="100" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC15_ui" parent="UC15_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="EmergencyContactsPage&#xa;(Danh bạ khẩn cấp)" vertex="1">
+          <mxGeometry height="575" width="130" x="275" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC15_launcher" parent="UC15_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="UrlLauncherService&#xa;(Khởi chạy gọi)" vertex="1">
+          <mxGeometry height="575" width="130" x="485" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC15_os" parent="UC15_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Device Native Dialer&#xa;(Trình quay số máy)" vertex="1">
+          <mxGeometry height="575" width="130" x="695" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC15_msg_1" edge="1" parent="UC15_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Mở mục &#39;Danh bạ khẩn cấp&#39; trên màn hình chính">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="160" as="sourcePoint" />
+            <mxPoint x="340" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC15_msg_2" edge="1" parent="UC15_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị các nút gọi to rõ kèm ảnh người thân &amp; nút Cấp cứu 115">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="196" as="sourcePoint" />
+            <mxPoint x="120" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC15_msg_3" edge="1" parent="UC15_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Chạm vào nút gọi người thân mong muốn (hoặc 115)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="232" as="sourcePoint" />
+            <mxPoint x="340" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC15_msg_4" edge="1" parent="UC15_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: Kiểm tra số điện thoại đích hợp lệ (3 đến 12 ký tự)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="375" y="268" />
+              <mxPoint x="375" y="286" />
+            </Array>
+            <mxPoint x="340" y="268" as="sourcePoint" />
+            <mxPoint x="340" y="286" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC15_msg_5" edge="1" parent="UC15_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: launchUrl(&#39;tel:09xxxxxxxx&#39;)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="304" as="sourcePoint" />
+            <mxPoint x="550" y="304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC15_msg_6" edge="1" parent="UC15_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: Kích hoạt Intent cuộc gọi hệ thống (ACTION_CALL)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="340" as="sourcePoint" />
+            <mxPoint x="760" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC15_msg_7" edge="1" parent="UC15_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="7: Đã mở trình quay số hệ thống">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="760" y="376" as="sourcePoint" />
+            <mxPoint x="550" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC15_msg_8" edge="1" parent="UC15_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="8: Khởi chạy cuộc gọi thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="412" as="sourcePoint" />
+            <mxPoint x="340" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC15_msg_9" edge="1" parent="UC15_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="9: Đang thực hiện cuộc gọi đàm thoại trực tiếp">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="448" as="sourcePoint" />
+            <mxPoint x="120" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc16" name="UC16 - Tạo lịch khám sức khỏe">
+    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="UC16_0" />
+        <mxCell id="UC16_1" parent="UC16_0" />
+        <mxCell id="UC16_title" parent="UC16_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC16: Tạo lịch khám sức khỏe" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC16_user" parent="UC16_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người dùng" vertex="1">
+          <mxGeometry height="635" width="40" x="90" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC16_ui" parent="UC16_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="CreateAppointmentPage&#xa;(Tạo lịch khám)" vertex="1">
+          <mxGeometry height="635" width="110" x="235" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC16_repo" parent="UC16_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="AppointmentRepository&#xa;(Quản lý lịch khám)" vertex="1">
+          <mxGeometry height="635" width="110" x="425" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC16_backend" parent="UC16_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="635" width="110" x="615" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC16_cloud" parent="UC16_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Functions &amp;&#xa;FCM Push" vertex="1">
+          <mxGeometry height="635" width="110" x="775" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC16_msg_1" edge="1" parent="UC16_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Chọn &#39;Tạo lịch khám bệnh mới&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="160" as="sourcePoint" />
+            <mxPoint x="290" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC16_msg_2" edge="1" parent="UC16_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị form tạo lịch (Tiêu đề, Bệnh viện, Bác sĩ, Ngày giờ, Ghi chú)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="196" as="sourcePoint" />
+            <mxPoint x="110" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC16_msg_3" edge="1" parent="UC16_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Điền thông tin khám bệnh, bấm &#39;Lưu lịch khám&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="232" as="sourcePoint" />
+            <mxPoint x="290" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC16_msg_4" edge="1" parent="UC16_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: createAppointment(elderId, appointmentData)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="268" as="sourcePoint" />
+            <mxPoint x="480" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC16_msg_5" edge="1" parent="UC16_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: Kiểm tra dữ liệu (Tiêu đề != rỗng, appointmentDate &gt; now + 30m)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="515" y="304" />
+              <mxPoint x="515" y="322" />
+            </Array>
+            <mxPoint x="480" y="304" as="sourcePoint" />
+            <mxPoint x="480" y="322" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC16_msg_6" edge="1" parent="UC16_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: addDoc(/medical_appointments, {...data, status: &#39;scheduled&#39;})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="340" as="sourcePoint" />
+            <mxPoint x="670" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC16_msg_7" edge="1" parent="UC16_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="7: DocumentReference (appointmentId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="670" y="376" as="sourcePoint" />
+            <mxPoint x="480" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC16_msg_8" edge="1" parent="UC16_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="8: sendAppointmentReminderToFamily(appointmentId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="412" as="sourcePoint" />
+            <mxPoint x="830" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC16_msg_9" edge="1" parent="UC16_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="9: Gửi Push Notification thông báo lịch khám tới cả gia đình">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="830" y="448" as="sourcePoint" />
+            <mxPoint x="110" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC16_msg_10" edge="1" parent="UC16_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="10: Tạo lịch khám thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="484" as="sourcePoint" />
+            <mxPoint x="290" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC16_msg_11" edge="1" parent="UC16_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="11: Thông báo lưu lịch khám thành công &amp; đồng bộ hiển thị lên lịch gia đình">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="520" as="sourcePoint" />
+            <mxPoint x="110" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc17" name="UC17 - Điều phối người đưa đi khám">
+    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="UC17_0" />
+        <mxCell id="UC17_1" parent="UC17_0" />
+        <mxCell id="UC17_title" parent="UC17_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC17: Điều phối người đưa đi khám" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC17_caregiver" parent="UC17_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Con cái / Người thân" vertex="1">
+          <mxGeometry height="615" width="40" x="90" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC17_ui" parent="UC17_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="AppointmentDetailPage&#xa;(Chi tiết lịch khám)" vertex="1">
+          <mxGeometry height="615" width="110" x="235" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC17_repo" parent="UC17_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="AppointmentRepository&#xa;(Quản lý lịch khám)" vertex="1">
+          <mxGeometry height="615" width="110" x="435" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC17_backend" parent="UC17_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="615" width="110" x="625" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC17_elder" parent="UC17_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người cao tuổi&#xa;(Thiết bị)" vertex="1">
+          <mxGeometry height="615" width="40" x="820" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC17_msg_1" edge="1" parent="UC17_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Mở chi tiết lịch khám bệnh của cha mẹ">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="160" as="sourcePoint" />
+            <mxPoint x="290" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC17_msg_2" edge="1" parent="UC17_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị thông tin lịch khám &amp; các nút phân công đưa đi">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="196" as="sourcePoint" />
+            <mxPoint x="110" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC17_msg_3" edge="1" parent="UC17_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Chọn người thân phụ trách đưa đi &amp; điền ghi chú di chuyển, bấm &#39;Xác nhận&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="232" as="sourcePoint" />
+            <mxPoint x="290" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC17_msg_4" edge="1" parent="UC17_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: assignCaregiverToAppointment(appointmentId, caregiverId, transportNote)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="268" as="sourcePoint" />
+            <mxPoint x="490" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC17_msg_5" edge="1" parent="UC17_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: Kiểm tra đã chọn người phụ trách hợp lệ">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="525" y="304" />
+              <mxPoint x="525" y="322" />
+            </Array>
+            <mxPoint x="490" y="304" as="sourcePoint" />
+            <mxPoint x="490" y="322" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC17_msg_6" edge="1" parent="UC17_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: updateDoc(/medical_appointments/{id}, {assignedCaregiverId, isEscorted: true})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="340" as="sourcePoint" />
+            <mxPoint x="680" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC17_msg_7" edge="1" parent="UC17_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="7: Cập nhật thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="376" as="sourcePoint" />
+            <mxPoint x="490" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC17_msg_8" edge="1" parent="UC17_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="8: Realtime update đồng bộ màn hình cha mẹ">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="412" as="sourcePoint" />
+            <mxPoint x="680" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC17_msg_9" edge="1" parent="UC17_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="9: Hiển thị rõ tên người thân đưa đi trên thẻ lịch khám">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="680" y="448" as="sourcePoint" />
+            <mxPoint x="840" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC17_msg_10" edge="1" parent="UC17_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="10: Điều phối thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="484" as="sourcePoint" />
+            <mxPoint x="290" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC17_msg_11" edge="1" parent="UC17_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="11: Thông báo điều phối người đưa đi khám thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="520" as="sourcePoint" />
+            <mxPoint x="110" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc18" name="UC18 - Xác nhận hoàn tất lịch khám">
+    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="UC18_0" />
+        <mxCell id="UC18_1" parent="UC18_0" />
+        <mxCell id="UC18_title" parent="UC18_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC18: Xác nhận hoàn tất lịch khám" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC18_user" parent="UC18_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người dùng" vertex="1">
+          <mxGeometry height="615" width="40" x="100" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC18_ui" parent="UC18_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="AppointmentDetailPage&#xa;(Chi tiết lịch khám)" vertex="1">
+          <mxGeometry height="615" width="130" x="265" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC18_repo" parent="UC18_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="AppointmentRepository&#xa;(Quản lý lịch khám)" vertex="1">
+          <mxGeometry height="615" width="130" x="475" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC18_backend" parent="UC18_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="615" width="130" x="685" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC18_msg_1" edge="1" parent="UC18_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Mở chi tiết buổi khám bệnh sau khi khám xong">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="160" as="sourcePoint" />
+            <mxPoint x="330" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC18_msg_2" edge="1" parent="UC18_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="2: Kiểm tra thời gian hiện tại &gt;= giờ hẹn khám">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="365" y="196" />
+              <mxPoint x="365" y="214" />
+            </Array>
+            <mxPoint x="330" y="196" as="sourcePoint" />
+            <mxPoint x="330" y="214" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC18_msg_3" edge="1" parent="UC18_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="3: Hiển thị form ghi nhận kết quả (Kết luận bác sĩ, Ngày tái khám)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="232" as="sourcePoint" />
+            <mxPoint x="120" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC18_msg_4" edge="1" parent="UC18_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: Điền Kết luận của bác sĩ &amp; Ngày hẹn tái khám (nếu có), bấm &#39;Hoàn tất&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="268" as="sourcePoint" />
+            <mxPoint x="330" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC18_msg_5" edge="1" parent="UC18_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: completeAppointment(appointmentId, conclusion, followUpDate)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="304" as="sourcePoint" />
+            <mxPoint x="540" y="304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC18_msg_6" edge="1" parent="UC18_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: Kiểm tra logic ngày tái khám &gt; ngày khám hiện tại">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="575" y="340" />
+              <mxPoint x="575" y="358" />
+            </Array>
+            <mxPoint x="540" y="340" as="sourcePoint" />
+            <mxPoint x="540" y="358" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC18_msg_7" edge="1" parent="UC18_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="7: updateDoc(/medical_appointments/{id}, {status: &#39;completed&#39;, conclusion, ...})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="376" as="sourcePoint" />
+            <mxPoint x="750" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC18_msg_8" edge="1" parent="UC18_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="8: Cập nhật thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="412" as="sourcePoint" />
+            <mxPoint x="540" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC18_msg_9" edge="1" parent="UC18_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="9: Gợi ý khởi tạo lịch khám mới cho đợt tái khám nếu có">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="575" y="448" />
+              <mxPoint x="575" y="466" />
+            </Array>
+            <mxPoint x="540" y="448" as="sourcePoint" />
+            <mxPoint x="540" y="466" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC18_msg_10" edge="1" parent="UC18_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="10: Hoàn tất buổi khám thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="484" as="sourcePoint" />
+            <mxPoint x="330" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC18_msg_11" edge="1" parent="UC18_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="11: Thông báo hoàn tất buổi khám bệnh &amp; gợi ý tạo lịch tái khám">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="520" as="sourcePoint" />
+            <mxPoint x="120" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc19" name="UC19 - Lưu hồ sơ y tế">
+    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="UC19_0" />
+        <mxCell id="UC19_1" parent="UC19_0" />
+        <mxCell id="UC19_title" parent="UC19_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC19: Lưu hồ sơ y tế" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC19_user" parent="UC19_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người dùng" vertex="1">
+          <mxGeometry height="615" width="40" x="100" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC19_ui" parent="UC19_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="AddMedicalRecordPage&#xa;(Tạo hồ sơ y tế)" vertex="1">
+          <mxGeometry height="615" width="130" x="265" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC19_repo" parent="UC19_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="MedicalRecordRepository&#xa;(Quản lý hồ sơ)" vertex="1">
+          <mxGeometry height="615" width="130" x="475" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC19_backend" parent="UC19_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="615" width="130" x="685" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC19_msg_1" edge="1" parent="UC19_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Chọn &#39;Tạo hồ sơ bệnh án mới&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="160" as="sourcePoint" />
+            <mxPoint x="330" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC19_msg_2" edge="1" parent="UC19_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị form nhập hồ sơ (Bệnh viện, Chẩn đoán, Ngày khám, Bác sĩ, Đơn thuốc)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="196" as="sourcePoint" />
+            <mxPoint x="120" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC19_msg_3" edge="1" parent="UC19_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Điền Tên bệnh viện, Chẩn đoán, Ngày khám, Bác sĩ, Đơn thuốc, bấm &#39;Lưu&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="232" as="sourcePoint" />
+            <mxPoint x="330" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC19_msg_4" edge="1" parent="UC19_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: createMedicalRecord(elderId, recordData)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="268" as="sourcePoint" />
+            <mxPoint x="540" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC19_msg_5" edge="1" parent="UC19_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: Kiểm tra ràng buộc (Bệnh viện &amp; Chẩn đoán != rỗng, 2000-01-01 &lt;= date &lt;= now)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="575" y="304" />
+              <mxPoint x="575" y="322" />
+            </Array>
+            <mxPoint x="540" y="304" as="sourcePoint" />
+            <mxPoint x="540" y="322" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC19_msg_6" edge="1" parent="UC19_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: addDoc(/medical_records, {elderId, ...recordData, createdAt: now})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="340" as="sourcePoint" />
+            <mxPoint x="750" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC19_msg_7" edge="1" parent="UC19_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="7: DocumentReference (recordId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="376" as="sourcePoint" />
+            <mxPoint x="540" y="376" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC19_msg_8" edge="1" parent="UC19_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="8: Lưu hồ sơ y tế thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="412" as="sourcePoint" />
+            <mxPoint x="330" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC19_msg_9" edge="1" parent="UC19_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="9: Thông báo lưu thành công, chuyển sang màn hình chi tiết &amp; gợi ý đính kèm ảnh">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="448" as="sourcePoint" />
+            <mxPoint x="120" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc20" name="UC20 - Quản lý tài liệu đính kèm">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="950" pageHeight="860" math="0" shadow="0">
+      <root>
+        <mxCell id="UC20_0" />
+        <mxCell id="UC20_1" parent="UC20_0" />
+        <mxCell id="UC20_title" parent="UC20_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC20: Quản lý tài liệu đính kèm" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC20_user" parent="UC20_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người dùng" vertex="1">
+          <mxGeometry height="675" width="40" x="80" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC20_ui" parent="UC20_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="MedicalRecordDetailPage&#xa;(Chi tiết bệnh án)" vertex="1">
+          <mxGeometry height="675" width="110" x="205" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC20_picker" parent="UC20_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="FilePicker &amp;&#xa;Compressor" vertex="1">
+          <mxGeometry height="675" width="110" x="365" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC20_repo" parent="UC20_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="MedicalRecordRepository&#xa;(Quản lý tệp)" vertex="1">
+          <mxGeometry height="675" width="110" x="525" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC20_storage" parent="UC20_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Firebase Storage&#xa;(Lưu trữ tệp)" vertex="1">
+          <mxGeometry height="675" width="110" x="675" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC20_backend" parent="UC20_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="675" width="110" x="815" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC20_msg_1" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Chọn &#39;Đính kèm tài liệu / Ảnh xét nghiệm&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="160" as="sourcePoint" />
+            <mxPoint x="260" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_2" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="2: openImagePicker()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="195" as="sourcePoint" />
+            <mxPoint x="420" y="195" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_3" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="3: Mở giao diện chọn ảnh từ Camera hoặc Thư viện máy">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="230" as="sourcePoint" />
+            <mxPoint x="100" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_4" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: Chọn tệp ảnh hoặc PDF">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="265" as="sourcePoint" />
+            <mxPoint x="420" y="265" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_5" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="5: Trả về File đối tượng">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="300" as="sourcePoint" />
+            <mxPoint x="260" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_6" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="6: Kiểm tra định dạng (JPG, PNG, PDF) &amp; dung lượng (&lt;= 10MB)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="295" y="335" />
+              <mxPoint x="295" y="353" />
+            </Array>
+            <mxPoint x="260" y="335" as="sourcePoint" />
+            <mxPoint x="260" y="353" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_7" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="7: Nhập mô tả tài liệu &amp; bấm &#39;Tải lên&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="370" as="sourcePoint" />
+            <mxPoint x="260" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_8" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="8: compressImage(file)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="405" as="sourcePoint" />
+            <mxPoint x="420" y="405" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_9" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="9: File ảnh đã nén tối ưu dung lượng">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="440" as="sourcePoint" />
+            <mxPoint x="260" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_10" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="10: uploadAttachment(recordId, compressedFile, caption)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="475" as="sourcePoint" />
+            <mxPoint x="580" y="475" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_11" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="11: putFile(/medical_records/{recordId}/attachments/{fileId})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="580" y="510" as="sourcePoint" />
+            <mxPoint x="730" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_12" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="12: UploadTaskSnapshot &amp; downloadUrl">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="730" y="545" as="sourcePoint" />
+            <mxPoint x="580" y="545" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_13" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="13: updateDoc(/medical_records/{id}, {attachments: arrayUnion(...)})">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="580" y="580" as="sourcePoint" />
+            <mxPoint x="870" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_14" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="14: Cập nhật Firestore thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="870" y="615" as="sourcePoint" />
+            <mxPoint x="580" y="615" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_15" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="15: Tải lên tài liệu thành công">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="580" y="650" as="sourcePoint" />
+            <mxPoint x="260" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC20_msg_16" edge="1" parent="UC20_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="16: Thông báo tải lên thành công &amp; hiển thị ảnh thu nhỏ thumbnail trên hồ sơ">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="685" as="sourcePoint" />
+            <mxPoint x="100" y="685" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq_uc21" name="UC21 - Tra cứu lịch sử khám bệnh">
+    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="UC21_0" />
+        <mxCell id="UC21_1" parent="UC21_0" />
+        <mxCell id="UC21_title" parent="UC21_1" style="shape=rect;html=1;whiteSpace=wrap;strokeWidth=1.5;fontStyle=1;fontSize=15;align=center;" value="Biểu đồ Tuần tự – UC21: Tra cứu lịch sử khám bệnh" vertex="1">
+          <mxGeometry height="35" width="820" x="60" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="UC21_user" parent="UC21_1" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=60;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Người dùng" vertex="1">
+          <mxGeometry height="635" width="30" x="100" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC21_ui" parent="UC21_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="MedicalHistoryPage&#xa;(Sổ theo dõi khám)" vertex="1">
+          <mxGeometry height="635" width="130" x="265" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC21_repo" parent="UC21_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="MedicalRecordRepository&#xa;(Tra cứu hồ sơ)" vertex="1">
+          <mxGeometry height="635" width="130" x="475" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC21_backend" parent="UC21_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=42;strokeWidth=1.5;fontStyle=1;fontSize=11;" value="Cloud Firestore&#xa;(Cơ sở dữ liệu)" vertex="1">
+          <mxGeometry height="635" width="130" x="685" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="UC21_msg_1" edge="1" parent="UC21_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="1: Mở chức năng &#39;Sổ theo dõi khám bệnh&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="160" as="sourcePoint" />
+            <mxPoint x="330" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC21_msg_2" edge="1" parent="UC21_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="2: Hiển thị thanh tìm kiếm, bộ lọc theo năm &amp; danh sách gần đây">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="196" as="sourcePoint" />
+            <mxPoint x="120" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC21_msg_3" edge="1" parent="UC21_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="3: Nhập từ khóa (tên viện, bác sĩ, chẩn đoán) &amp; Chọn năm khám, bấm &#39;Tìm kiếm&#39;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="232" as="sourcePoint" />
+            <mxPoint x="330" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC21_msg_4" edge="1" parent="UC21_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="4: searchMedicalRecords(elderId, searchQuery, filterYear)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="268" as="sourcePoint" />
+            <mxPoint x="540" y="268" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC21_msg_5" edge="1" parent="UC21_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="5: query(/medical_records where elderId, filter by year &amp; keyword)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="304" as="sourcePoint" />
+            <mxPoint x="750" y="304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC21_msg_6" edge="1" parent="UC21_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="6: Danh sách kết quả List&lt;MedicalRecord&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="340" as="sourcePoint" />
+            <mxPoint x="540" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC21_msg_7" edge="1" parent="UC21_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="7: Sắp xếp giảm dần theo ngày khám (recordDate desc)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="575" y="376" />
+              <mxPoint x="575" y="394" />
+            </Array>
+            <mxPoint x="540" y="376" as="sourcePoint" />
+            <mxPoint x="540" y="394" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC21_msg_8" edge="1" parent="UC21_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="8: Trả về danh sách hồ sơ kết quả">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="412" as="sourcePoint" />
+            <mxPoint x="330" y="412" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC21_msg_9" edge="1" parent="UC21_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="9: Hiển thị danh sách thẻ tóm tắt (Ngày khám, Bệnh viện, Chẩn đoán, số tệp)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="448" as="sourcePoint" />
+            <mxPoint x="120" y="448" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC21_msg_10" edge="1" parent="UC21_1" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#0F172A;" value="10: Chạm vào một thẻ hồ sơ bất kỳ">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="484" as="sourcePoint" />
+            <mxPoint x="330" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UC21_msg_11" edge="1" parent="UC21_1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;strokeWidth=1.5;fontSize=10;fontColor=#334155;" value="11: Mở toàn bộ chi tiết hồ sơ bệnh án, đơn thuốc &amp; hình ảnh xét nghiệm">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="520" as="sourcePoint" />
+            <mxPoint x="120" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

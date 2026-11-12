@@ -1,0 +1,39 @@
+@startuml Activity_UC09_CanhBaoChiSoBatThuong
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC09: Cảnh báo chỉ số bất thường
+
+|Người dùng|
+start
+:Lưu số đo huyết áp mới vào hệ thống;
+
+|Hệ thống|
+label form_UC09
+:Hiển thị màn hình đánh giá kết quả đo;
+
+|Người dùng|
+:Xác nhận xem phân tích rủi ro y tế;
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo chỉ số đo nằm trong ngưỡng an toàn;
+    goto form_UC09
+  else (true)
+    :Tạo thông báo cảnh báo & gửi Push FCM tới con cái;
+    :Thông báo gửi cảnh báo đỏ và hiển thị chỉ dẫn y tế tại chỗ;
+    stop
+  endif
+endif
+@enduml

@@ -5,8 +5,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-/// Registers notification tokens only for Child accounts.
+/// Registers notification tokens for children and caregivers.
 ///
 /// The SOS itself is still delivered through Firestore in the foreground;
 /// FCM makes it visible when the app is in the background or terminated.
@@ -24,7 +25,7 @@ final class PushNotificationService {
 
   StreamSubscription<User?>? _authSubscription;
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
-      _profileSubscription;
+  _profileSubscription;
   StreamSubscription<String>? _tokenSubscription;
   String? _registeredUserId;
   String? _registeredToken;
@@ -39,6 +40,34 @@ final class PushNotificationService {
   }
 
   Future<void> initialize() async {
+    if (!kIsWeb) {
+      const channel = AndroidNotificationChannel(
+        'sos_emergency',
+        'Cảnh báo SOS khẩn cấp',
+        description: 'Thông báo khẩn cấp khi người cao tuổi bấm SOS',
+        importance: Importance.max,
+        playSound: true,
+        enableVibration: true,
+      );
+      await FlutterLocalNotificationsPlugin()
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >()
+          ?.createNotificationChannel(channel);
+      const appointmentChannel = AndroidNotificationChannel(
+        'appointment_updates',
+        'Lịch khám gia đình',
+        description: 'Thông báo phân công người đưa đi khám',
+        importance: Importance.high,
+        playSound: true,
+        enableVibration: true,
+      );
+      await FlutterLocalNotificationsPlugin()
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >()
+          ?.createNotificationChannel(appointmentChannel);
+    }
     await _authSubscription?.cancel();
     _authSubscription = _auth.authStateChanges().listen(_handleAuthChanged);
     FirebaseMessaging.onMessageOpenedApp.listen(_handleOpenedMessage);
@@ -67,7 +96,8 @@ final class PushNotificationService {
         .doc(user.uid)
         .snapshots()
         .listen((profile) async {
-          if (profile.data()?['role'] == 'child') {
+          final role = profile.data()?['role'];
+          if (role == 'child' || role == 'caregiver') {
             await _activateForChild(user.uid);
           } else {
             await _removePreviousToken(invalidateDeviceToken: true);
@@ -121,7 +151,9 @@ final class PushNotificationService {
     _registeredToken = token;
   }
 
-  Future<void> _removePreviousToken({bool invalidateDeviceToken = false}) async {
+  Future<void> _removePreviousToken({
+    bool invalidateDeviceToken = false,
+  }) async {
     await _tokenSubscription?.cancel();
     _tokenSubscription = null;
     final token = _registeredToken;

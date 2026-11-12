@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/app_error_dialog.dart';
 import '../../../authentication/presentation/providers/auth_providers.dart';
 import '../../domain/entities/medication_intake.dart';
 import '../../domain/entities/pill_schedule.dart';
 import '../../domain/entities/scheduled_medication_dose.dart';
 import '../providers/medication_providers.dart';
-import '../widgets/stop_medication_button.dart';
 import '../widgets/medication_history_section.dart';
+import '../widgets/stop_medication_button.dart';
 
 class ElderMedicationPage extends ConsumerWidget {
   const ElderMedicationPage({super.key});
@@ -88,10 +89,6 @@ class _MedicationList extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Lịch uống thuốc hôm nay được đồng bộ từ Firebase.',
-            style: TextStyle(fontSize: 17, color: AppColors.textMuted),
-          ),
           const SizedBox(height: 20),
           if (schedules.isEmpty)
             const _EmptyState()
@@ -269,9 +266,11 @@ class _MedicationList extends ConsumerWidget {
           );
     } catch (error) {
       if (context.mounted) {
-        ScaffoldMessenger.of(
+        await showAppErrorDialog(
           context,
-        ).showSnackBar(SnackBar(content: Text('Không thể lưu: $error')));
+          title: 'Không thể lưu thuốc',
+          message: error,
+        );
       }
     } finally {
       name.dispose();
@@ -307,9 +306,11 @@ class _DoseCardState extends ConsumerState<_DoseCard> {
           );
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(
+        await showAppErrorDialog(
           context,
-        ).showSnackBar(SnackBar(content: Text('Không thể xác nhận: $error')));
+          title: 'Không thể xác nhận',
+          message: error,
+        );
       }
     } finally {
       if (mounted) setState(() => loading = false);

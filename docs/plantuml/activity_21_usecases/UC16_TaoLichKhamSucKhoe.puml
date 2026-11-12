@@ -1,0 +1,39 @@
+@startuml Activity_UC16_TaoLichKhamSucKhoe
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC16: Tạo lịch khám sức khỏe
+
+|Người dùng|
+start
+:Chọn Tạo lịch khám bệnh mới;
+
+|Hệ thống|
+label form_UC16
+:Hiển thị form tạo lịch khám bệnh;
+
+|Người dùng|
+:Điền Tiêu đề, Bệnh viện, Bác sĩ, Thời gian khám;
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo thiếu thông tin hoặc thời gian quá khứ;
+    goto form_UC16
+  else (true)
+    :Lưu Firestore medical_appointments & đồng bộ gia đình;
+    :Thông báo tạo lịch khám sức khỏe thành công;
+    stop
+  endif
+endif
+@enduml

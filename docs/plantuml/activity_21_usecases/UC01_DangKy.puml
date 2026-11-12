@@ -1,0 +1,39 @@
+@startuml Activity_UC01_DangKy
+skinparam backgroundColor #FFFFFF
+skinparam defaultTextAlignment center
+skinparam roundCorner 10
+skinparam arrowColor #000000
+skinparam arrowFontSize 11
+skinparam activityBorderColor #000000
+skinparam activityBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activityDiamondBackgroundColor #FFFFFF
+
+title UC01: Đăng ký tài khoản
+
+|Người dùng|
+start
+:Chọn đăng ký;
+
+|Hệ thống|
+label form_UC01
+:Hiển thị form đăng ký;
+
+|Người dùng|
+:Điền thông tin cá nhân (SĐT, Email, PIN, Họ tên, Vai trò);
+
+if (xác nhận?) then (huỷ)
+  |Hệ thống|
+  stop
+else (xác nhận)
+  |Hệ thống|
+  if (kiểm tra) then (false)
+    :Thông báo lỗi thông tin hoặc mã OTP;
+    goto form_UC01
+  else (true)
+    :Tạo tài khoản Firebase Auth & lưu Firestore;
+    :Thông báo đăng ký thành công;
+    stop
+  endif
+endif
+@enduml

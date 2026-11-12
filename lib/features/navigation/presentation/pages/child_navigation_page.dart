@@ -18,6 +18,7 @@ import '../../../sos/presentation/providers/sos_providers.dart';
 import '../../../sos/domain/entities/sos_alert.dart';
 import '../../../sos/presentation/pages/child_sos_alert_page.dart';
 import '../../../care/presentation/pages/child_care_page.dart';
+import '../../../appointments/presentation/pages/family_coordination_page.dart';
 import '../../../home/presentation/pages/child_home_page.dart';
 
 class ChildNavigationPage extends ConsumerStatefulWidget {
@@ -34,6 +35,7 @@ class _ChildNavigationPageState extends ConsumerState<ChildNavigationPage> {
   int _healthTab = 0;
   final Set<String> _presentedSosIds = <String>{};
   bool _sosScreenOpen = false;
+  String? _selectedElderId;
   StreamSubscription<String>? _notificationOpenedSubscription;
   StreamSubscription<String>? _medicationReminderSubscription;
 
@@ -97,6 +99,27 @@ class _ChildNavigationPageState extends ConsumerState<ChildNavigationPage> {
     });
   }
 
+  Future<void> _openSosDetails({
+    required SosAlert alert,
+    required String elderDisplayName,
+    required String? elderPhone,
+  }) async {
+    if (_sosScreenOpen) return;
+    _sosScreenOpen = true;
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        fullscreenDialog: true,
+        builder: (_) => ChildSosAlertPage(
+          alert: alert,
+          childId: widget.user.id,
+          elderDisplayName: elderDisplayName,
+          elderPhone: elderPhone,
+        ),
+      ),
+    );
+    _sosScreenOpen = false;
+  }
+
   void _openHealth(int tab) {
     setState(() {
       _healthTab = tab;
@@ -116,7 +139,12 @@ class _ChildNavigationPageState extends ConsumerState<ChildNavigationPage> {
             )
             .toList() ??
         const <AccountLinkRequest>[];
-    final accepted = acceptedLinks.isEmpty ? null : acceptedLinks.first;
+    final selectedIndex = acceptedLinks.indexWhere(
+      (link) => link.elderId == _selectedElderId,
+    );
+    final accepted = acceptedLinks.isEmpty
+        ? null
+        : acceptedLinks[selectedIndex < 0 ? 0 : selectedIndex];
     final sosAlerts = accepted == null
         ? null
         : ref.watch(activeSosAlertsProvider(accepted.elderId));
@@ -164,6 +192,17 @@ class _ChildNavigationPageState extends ConsumerState<ChildNavigationPage> {
         shape: const Border(bottom: BorderSide(color: AppColors.border)),
         titleSpacing: 20,
         title: const AppBrand(compact: true),
+        bottom: acceptedLinks.length > 1
+            ? PreferredSize(
+                preferredSize: const Size.fromHeight(66),
+                child: _ElderSelectorBar(
+                  links: acceptedLinks,
+                  selectedId: accepted?.elderId,
+                  onSelected: (value) =>
+                      setState(() => _selectedElderId = value),
+                ),
+              )
+            : null,
       ),
       body: IndexedStack(
         index: _index,
@@ -175,13 +214,20 @@ class _ChildNavigationPageState extends ConsumerState<ChildNavigationPage> {
             elderPhone: accepted?.elderPhone,
             onOpenMedication: () => _openHealth(0),
             onOpenHealth: () => _openHealth(1),
-            onOpenLinks: () => setState(() => _index = 2),
+            onOpenLinks: () => setState(() => _index = 3),
+            onOpenSos: (alert) => _openSosDetails(
+              alert: alert,
+              elderDisplayName: elderDisplayName,
+              elderPhone: accepted?.elderPhone,
+            ),
           ),
           ChildCarePage(
-            key: ValueKey(_healthTab),
+            key: ValueKey('${accepted?.elderId}_$_healthTab'),
             user: widget.user,
             initialTab: _healthTab,
+            elderId: accepted?.elderId,
           ),
+          FamilyCoordinationPage(user: widget.user, elderId: accepted?.elderId),
           ChildAccountLinkingPage(user: widget.user),
           SettingsPage(userId: widget.user.id),
         ],
@@ -203,6 +249,11 @@ class _ChildNavigationPageState extends ConsumerState<ChildNavigationPage> {
             label: 'Sức khỏe',
           ),
           NavigationDestination(
+            icon: Icon(Icons.event_note_outlined),
+            selectedIcon: Icon(Icons.event_note, color: Colors.white),
+            label: 'Chăm sóc',
+          ),
+          NavigationDestination(
             icon: Icon(Icons.contact_phone_outlined),
             selectedIcon: Icon(Icons.contact_phone, color: Colors.white),
             label: 'Liên kết',
@@ -219,4 +270,63 @@ class _ChildNavigationPageState extends ConsumerState<ChildNavigationPage> {
         ? shell
         : MedicationNotificationSync(elderId: accepted.elderId, child: shell);
   }
+}
+
+class _ElderSelectorBar extends StatelessWidget {
+  const _ElderSelectorBar({
+    required this.links,
+    required this.selectedId,
+    required this.onSelected,
+  });
+
+  final List<AccountLinkRequest> links;
+  final String? selectedId;
+  final ValueChanged<String> onSelected;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    width: double.infinity,
+    padding: const EdgeInsets.fromLTRB(20, 8, 20, 10),
+    decoration: const BoxDecoration(
+      color: Colors.white,
+      border: Border(bottom: BorderSide(color: AppColors.border)),
+    ),
+    child: Row(
+      children: [
+        const Icon(Icons.family_restroom_rounded, color: AppColors.primary),
+        const SizedBox(width: 10),
+        const Text(
+          'Đang theo dõi:',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: selectedId,
+              isExpanded: true,
+              borderRadius: BorderRadius.circular(16),
+              icon: const Icon(Icons.keyboard_arrow_down_rounded),
+              items: links.map((link) {
+                final relationship = userGenderFromName(
+                  link.elderGender,
+                ).parentRelationship;
+                return DropdownMenuItem(
+                  value: link.elderId,
+                  child: Text(
+                    '$relationship ${link.elderName}',
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontWeight: FontWeight.w800),
+                  ),
+                );
+              }).toList(),
+              onChanged: (value) {
+                if (value != null) onSelected(value);
+              },
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }

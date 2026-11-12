@@ -2,6 +2,7 @@ import '../entities/account_link_request.dart';
 
 abstract interface class AccountLinkRepository {
   Stream<List<AccountLinkRequest>> watchElderLinks(String elderId);
+  Stream<List<AccountLinkRequest>> watchAcceptedFamilyLinks(String elderId);
   Stream<List<AccountLinkRequest>> watchChildLinks(String childPhone);
   Future<void> createRequest(AccountLinkRequest request);
   Future<void> respondToRequest({

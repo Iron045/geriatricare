@@ -2,12 +2,27 @@ rules_version = '2';
 
 service firebase.storage {
   match /b/{bucket}/o {
+    function isLinkedChild(elderId) {
+      return request.auth != null
+        && firestore.exists(/databases/(default)/documents/care_relationships/$(elderId + '_' + request.auth.uid));
+    }
+
     match /voice_reminders/{userId}/{fileName} {
       allow read, write: if request.auth != null
         && request.auth.uid == userId
         && (request.resource == null
           || (request.resource.size < 10 * 1024 * 1024
             && request.resource.contentType.matches('audio/.*')));
+    }
+
+    match /medical_documents/{elderId}/{visitId}/{fileName} {
+      allow read: if request.auth != null
+        && (request.auth.uid == elderId || isLinkedChild(elderId));
+      allow create: if request.auth != null
+        && (request.auth.uid == elderId || isLinkedChild(elderId))
+        && request.resource.size < 15 * 1024 * 1024
+        && request.resource.contentType.matches('(image/.*|application/pdf)');
+      allow update, delete: if false;
     }
   }
 }

@@ -1,0 +1,190 @@
+@startuml Database_ERD_Firestore
+!theme plain
+skinparam backgroundColor #FAFAFA
+skinparam entityBorderColor #4A90D9
+skinparam entityBackgroundColor #FFFFFF
+skinparam arrowColor #2C5F8A
+skinparam titleFontSize 18
+skinparam titleFontStyle bold
+
+title Sơ đồ Quan hệ Cơ sở Dữ liệu (Cloud Firestore Data Model)
+
+entity "users" as users {
+    * id : string <<PK>>
+    --
+    phoneNumber : string
+    fullName : string
+    email : string
+    role : string (elder | child | caregiver)
+    gender : string (male | female | other)
+    createdAt : timestamp
+}
+
+entity "health_records" as health {
+    * id : string <<PK>>
+    --
+    * elderUserId : string <<FK>>
+    systolicBp : int
+    diastolicBp : int
+    recordedAt : timestamp
+    contactedAt : timestamp
+    contactedById : string <<FK>>
+}
+
+entity "medication_schedules" as schedules {
+    * id : string <<PK>>
+    --
+    * elderUserId : string <<FK>>
+    medicationName : string
+    dosage : string
+    instruction : string
+    timesInMinutes : array<int>
+    startDate : timestamp
+    endDate : timestamp
+    createdAt : timestamp
+}
+
+entity "medication_intakes" as intakes {
+    * id : string <<PK>>
+    --
+    * elderUserId : string <<FK>>
+    * scheduleId : string <<FK>>
+    scheduledAt : timestamp
+    takenAt : timestamp
+    createdAt : timestamp
+}
+
+entity "medication_history" as history {
+    * id : string <<PK>>
+    --
+    * elderUserId : string <<FK>>
+    * scheduleId : string <<FK>>
+    medicationName : string
+    dosage : string
+    scheduledAt : timestamp
+    takenAt : timestamp
+    status : string (taken | missed)
+    createdAt : timestamp
+}
+
+entity "medical_appointments" as appointments {
+    * id : string <<PK>>
+    --
+    * elderUserId : string <<FK>>
+    title : string
+    hospitalName : string
+    department : string
+    scheduledAt : timestamp
+    status : string (unassigned | assigned | accepted | completed | cancelled)
+    createdById : string <<FK>>
+    note : string
+    assigneeId : string <<FK>>
+    assigneeName : string
+}
+
+entity "medical_visits" as visits {
+    * id : string <<PK>>
+    --
+    * elderUserId : string <<FK>>
+    visitDate : timestamp
+    hospitalName : string
+    department : string
+    doctorName : string
+    diagnosis : string
+    conclusion : string
+    notes : string
+    followUpDate : timestamp
+    createdById : string <<FK>>
+}
+
+entity "medical_documents" as documents {
+    * id : string <<PK>>
+    --
+    * visitId : string <<FK>>
+    fileName : string
+    storagePath : string
+    contentType : string
+    uploadedById : string <<FK>>
+    elderUserId : string <<FK>>
+    createdAt : timestamp
+}
+
+entity "sos_alerts" as sos {
+    * id : string <<PK>>
+    --
+    * elderUserId : string <<FK>>
+    triggerMethod : string (button | shake)
+    status : string (active | acknowledged | enRoute | arrived | resolved | cancelled)
+    triggeredAt : timestamp
+    latitude : double
+    longitude : double
+    locationAccuracy : double
+    acknowledgedAt : timestamp
+    acknowledgedById : string <<FK>>
+    resolvedAt : timestamp
+    resolvedById : string <<FK>>
+    resolutionType : string (safe | hospitalized | false_alarm)
+    resolutionNote : string
+}
+
+entity "elder_locations" as locations {
+    * elderId : string <<PK, FK>>
+    --
+    latitude : double
+    longitude : double
+    accuracyMeters : double
+    updatedAt : timestamp
+}
+
+entity "account_links" as account_links {
+    * id : string <<PK>>
+    --
+    * elderId : string <<FK>>
+    elderName : string
+    elderPhone : string
+    childPhone : string
+    childId : string <<FK>>
+    childName : string
+    relationship : string
+    status : string (pending | accepted | rejected | cancelled)
+    createdAt : timestamp
+    updatedAt : timestamp
+}
+
+entity "care_relationships" as care_relationships {
+    * id : string <<elderId_childId>>
+    --
+    * elderId : string <<FK>>
+    * childId : string <<FK>>
+    invitationId : string <<FK>>
+    status : string (accepted)
+    createdAt : timestamp
+}
+
+entity "voice_reminders" as voice {
+    * id : string <<PK>>
+    --
+    * ownerId : string <<FK>>
+    title : string
+    storagePath : string
+    downloadUrl : string
+    durationSeconds : int
+    createdAt : timestamp
+}
+
+' Quan he giua cac thuc the
+users ||--o{ health : "1 elder - N chỉ số"
+users ||--o{ schedules : "1 elder - N đơn thuốc"
+schedules ||--o{ intakes : "1 đơn - N lần uống"
+schedules ||--o{ history : "1 đơn - N nhật ký"
+users ||--o{ appointments : "1 elder - N lịch hẹn"
+users ||--o{ visits : "1 elder - N hồ sơ khám"
+visits ||--o{ documents : "1 lần khám - N tài liệu đính kèm"
+users ||--o{ sos : "1 elder - N cảnh báo SOS"
+users ||--o| locations : "1 elder - 1 vị trí trực tiếp"
+users ||--o{ account_links : "1 elder - N yêu cầu liên kết"
+users ||--o{ care_relationships : "tham gia liên kết"
+users ||--o{ voice : "1 người dùng - N ghi âm nhắc nhở"
+
+@enduml
+
