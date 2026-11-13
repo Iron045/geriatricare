@@ -27,6 +27,15 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 8. Hệ thống kiểm tra mã xác nhận và tạo tài khoản.
 9. Hệ thống lưu thông tin người dùng và thông báo đăng ký thành công.
 
+**Ràng buộc thông tin nhập:**
+- Họ và tên: bắt buộc, tối thiểu 2 ký tự sau khi bỏ khoảng trắng ở đầu và cuối; chưa quy định độ dài tối đa.
+- Email: bắt buộc, phải có dạng địa chỉ email hợp lệ; hệ thống chuyển email về chữ thường khi xử lý.
+- Số điện thoại: bắt buộc, đúng 10 chữ số và bắt đầu bằng số 0; chỉ nhận chữ số.
+- Mật khẩu: bắt buộc, đúng 6 chữ số; không nhận chữ cái hoặc ký tự đặc biệt.
+- Vai trò: bắt buộc chọn một trong ba lựa chọn: Người cao tuổi, Con cái hoặc Người chăm sóc.
+- Giới tính: bắt buộc chọn Nam, Nữ hoặc Khác.
+- Mã xác nhận: bắt buộc, đúng 6 chữ số; có hiệu lực 10 phút, được gửi lại sau 60 giây và tối đa 5 lần nhập sai.
+
 **Luồng thay thế:**
 - **6A:** Tại bước 6, nếu chưa nhận được email, người dùng có thể yêu cầu gửi lại mã sau thời gian chờ.
 
@@ -55,6 +64,11 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 5. Nếu thông tin chính xác, hệ thống tải hồ sơ và xác định vai trò của người dùng.
 6. Hệ thống mở màn hình chính phù hợp với vai trò đã đăng ký.
 
+**Ràng buộc thông tin nhập:**
+- Số điện thoại: bắt buộc, đúng 10 chữ số và bắt đầu bằng số 0.
+- Mật khẩu: bắt buộc, đúng 6 chữ số.
+- Không chấp nhận để trống một trong hai trường.
+
 **Luồng thay thế:** Không có.
 
 **Ngoại lệ:**
@@ -79,6 +93,8 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 4. Người dùng chọn “Đăng xuất”.
 5. Hệ thống kết thúc phiên sử dụng trên thiết bị.
 6. Ứng dụng chuyển về màn hình đăng nhập.
+
+**Ràng buộc thông tin nhập:** Không có trường nhập liệu. Người dùng chỉ chọn xác nhận đăng xuất hoặc ở lại ứng dụng.
 
 **Luồng thay thế:**
 - **4A:** Tại bước 4, nếu người dùng chọn “Ở lại” hoặc “Hủy”, hệ thống đóng thông báo và giữ nguyên màn hình đang sử dụng.
@@ -105,6 +121,11 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 6. Hệ thống kiểm tra thông tin vừa nhập.
 7. Nếu thông tin hợp lệ, hệ thống lưu thay đổi và hiển thị thông báo thành công.
 
+**Ràng buộc thông tin nhập:**
+- Họ và tên: bắt buộc, tối thiểu 2 ký tự sau khi bỏ khoảng trắng ở đầu và cuối; chưa quy định độ dài tối đa.
+- Giới tính: bắt buộc chọn một trong ba lựa chọn: Nam, Nữ hoặc Khác.
+- Chỉ cho phép chỉnh sửa họ tên và giới tính; không có trường sửa email hoặc số điện thoại.
+
 **Luồng thay thế:**
 - **5A:** Tại bước 5, người dùng chọn “Hủy” để đóng biểu mẫu và giữ nguyên thông tin cũ.
 
@@ -130,6 +151,8 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 5. Hệ thống lấy vị trí hiện tại nếu thiết bị cho phép.
 6. Hệ thống gửi thông báo đến những người thân đã liên kết với tài khoản người cao tuổi.
 7. Ứng dụng hiển thị thông báo đã gửi cảnh báo.
+
+**Ràng buộc thông tin nhập:** Không có trường nhập liệu. Người cao tuổi gửi cảnh báo bằng nút SOS hoặc xác nhận/không phản hồi với thông báo hỏi khi ứng dụng phát hiện dấu hiệu té ngã. Vị trí là thông tin thiết bị tự lấy, không phải nội dung người dùng nhập.
 
 **Luồng thay thế:**
 - **3A:** Nếu người cao tuổi chọn “Tôi vẫn ổn” trong thời gian đếm ngược, ứng dụng đóng thông báo té ngã và không gửi cảnh báo.
@@ -159,6 +182,10 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 7. Sau khi đã liên hệ hoặc hỗ trợ người cao tuổi, người thân chọn “Kết thúc cảnh báo”.
 8. Người thân chọn kết quả hỗ trợ và có thể nhập ghi chú ngắn.
 9. Hệ thống lưu kết quả, kết thúc cảnh báo và thông báo cho những người thân liên quan.
+
+**Ràng buộc thông tin nhập:**
+- Kết quả hỗ trợ: bắt buộc chọn một trong ba lựa chọn: Đã an toàn, Đã đưa đến cơ sở y tế hoặc Báo động nhầm.
+- Ghi chú: không bắt buộc, tối đa 300 ký tự; có thể để trống.
 
 **Luồng thay thế:**
 - **3A1:** Nếu cảnh báo không có vị trí, người thân vẫn có thể gọi cho người cao tuổi hoặc gọi cấp cứu 115.
@@ -193,6 +220,12 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 7. Hệ thống lưu kết quả đo, đánh giá mức độ và hiển thị hướng dẫn phù hợp.
 8. Người dùng có thể xem lại các lần đo đã lưu trong lịch sử.
 
+**Ràng buộc thông tin nhập:**
+- Huyết áp trên: số nguyên từ 70 đến 250.
+- Huyết áp dưới: số nguyên từ 40 đến 150.
+- Huyết áp trên phải lớn hơn huyết áp dưới.
+- Hai giá trị được chọn bằng nút tăng/giảm, không nhập chữ.
+
 **Luồng thay thế:**
 - **7A1:** Nếu chỉ số ở mức bình thường hoặc tốt, hệ thống hiển thị lời khuyên tiếp tục theo dõi định kỳ.
 - **7A2:** Nếu chỉ số ở mức cần chú ý, hệ thống hiển thị hướng dẫn nghỉ ngơi và đo lại.
@@ -222,6 +255,8 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 4. Hệ thống hiển thị danh sách các lần đo, sắp xếp từ mới nhất đến cũ nhất.
 5. Người dùng chọn một lần đo để xem thông tin chi tiết và mức đánh giá.
 
+**Ràng buộc thông tin nhập:** Không có trường nhập liệu. Hệ thống tự hiển thị tối đa 7 lần đo gần nhất; người dùng chỉ chọn một lần đo để xem chi tiết.
+
 **Luồng thay thế:** Không có.
 
 **Ngoại lệ:**
@@ -248,6 +283,14 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 7. Hệ thống kiểm tra thông tin và lưu lịch uống thuốc.
 8. Ứng dụng thiết lập các lần nhắc uống thuốc theo những khung giờ đã chọn.
 
+**Ràng buộc thông tin nhập:**
+- Tên thuốc: bắt buộc; chưa quy định giới hạn độ dài trong màn hình hiện tại.
+- Liều lượng: bắt buộc chọn số nguyên từ 1 đến 20 viên.
+- Hướng dẫn uống: không bắt buộc; mặc định là “Uống sau ăn”; chưa quy định giới hạn độ dài.
+- Ngày bắt đầu: bắt buộc chọn từ ngày hiện tại đến tối đa 10 năm sau.
+- Giờ uống: bắt buộc chọn một giờ trong ngày; mỗi lịch thuốc hiện chỉ lưu một khung giờ.
+- Màn hình hiện tại không có trường nhập ngày kết thúc.
+
 **Luồng thay thế:**
 - **2A:** Người dùng có thể mở một lịch thuốc đã có để thay đổi thông tin hoặc chọn “Dừng thuốc” khi không còn sử dụng lịch đó.
 
@@ -272,6 +315,8 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 3. Người cao tuổi mở mục “Thuốc” để xem các lần uống trong ngày.
 4. Các lần uống được sắp xếp theo giờ đã cài đặt.
 5. Người thân đã liên kết có thể mở phần theo dõi để xem lịch uống thuốc của người cao tuổi.
+
+**Ràng buộc thông tin nhập:** Không có trường nhập liệu. Thời điểm nhắc được lấy từ lịch uống thuốc đã tạo; người thân chỉ xem thông tin lịch.
 
 **Luồng thay thế:**
 - **2A:** Người dùng có thể mở thông báo để chuyển thẳng đến phần lịch uống thuốc.
@@ -300,6 +345,8 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 6. Người thân đã liên kết có thể xem thông tin vừa được cập nhật.
 7. Hệ thống kiểm tra các lần uống đã quá giờ 5 tiếng mà chưa được xác nhận và ghi nhận là bỏ lỡ.
 
+**Ràng buộc thông tin nhập:** Không có trường nhập liệu. Người dùng chỉ chọn “Đã uống” tại lần uống tương ứng; hệ thống tự ghi thời điểm xác nhận.
+
 **Luồng thay thế:**
 - **3A:** Người dùng có thể xem lại các lần uống đã hoàn thành hoặc bị bỏ lỡ trong phần lịch sử.
 
@@ -327,6 +374,11 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 7. Nếu người cao tuổi chấp nhận, hệ thống ghi nhận hai tài khoản đã liên kết.
 8. Hệ thống hiển thị danh sách người thân đã liên kết cho người cao tuổi và danh sách người cao tuổi đã liên kết cho người thân.
 9. Người dùng chọn một người trong danh sách để xem thông tin liên hệ được hiển thị.
+
+**Ràng buộc thông tin nhập:**
+- Số điện thoại người cao tuổi: bắt buộc, đúng 10 chữ số và bắt đầu bằng số 0.
+- Có thể nhập khoảng trắng để dễ đọc; hệ thống bỏ khoảng trắng trước khi kiểm tra.
+- Không tìm người dùng bằng họ tên hoặc email trong màn hình này.
 
 **Luồng thay thế:**
 - **6A1:** Người cao tuổi chọn “Từ chối”; hệ thống không tạo liên kết.
@@ -357,6 +409,8 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 4. Hệ thống hiển thị thông báo xác nhận cuộc gọi.
 5. Người dùng chọn “Gọi 115”.
 6. Thiết bị mở chức năng gọi điện để người dùng thực hiện cuộc gọi.
+
+**Ràng buộc thông tin nhập:** Không có trường nhập liệu. Người dùng chọn nút gọi 115 và xác nhận trước khi thiết bị mở chức năng gọi điện.
 
 **Luồng thay thế:**
 - **5A:** Người dùng chọn “Hủy” để đóng thông báo và không thực hiện cuộc gọi.
@@ -390,6 +444,14 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 11. Người phụ trách mở lịch khám và chọn “Hoàn thành” sau khi đã đến hoặc qua thời gian hẹn.
 12. Hệ thống kiểm tra người thao tác có phải người phụ trách và cập nhật lịch thành đã hoàn thành.
 13. Ứng dụng mở phần thêm hồ sơ khám và điền sẵn tên cơ sở y tế cùng ngày khám nếu có thông tin.
+
+**Ràng buộc thông tin nhập:**
+- Nội dung khám: bắt buộc, không được để trống; chưa quy định độ dài tối đa.
+- Bệnh viện/Cơ sở khám: bắt buộc, không được để trống; chưa quy định độ dài tối đa.
+- Khoa khám: không bắt buộc; chưa quy định độ dài tối đa.
+- Người đưa đi khám: phải chọn một người thân đã liên kết; màn hình hiện tại không cho lưu nếu chưa chọn.
+- Thời gian khám: bắt buộc chọn thời điểm sau thời điểm hiện tại; ngày được chọn trong phạm vi tối đa 10 năm kể từ hiện tại.
+- Ghi chú chuẩn bị: không bắt buộc, hiển thị tối đa 3 dòng; chưa đặt giới hạn số ký tự.
 
 **Luồng thay thế:**
 - **4A1:** Nếu chưa xác định người đưa đi khám, lịch được lưu ở tình trạng chưa có người phụ trách.
@@ -431,6 +493,15 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 10. Hệ thống kiểm tra loại tệp và dung lượng, sau đó lưu tài liệu vào hồ sơ khám đã chọn.
 11. Người dùng chọn một hồ sơ trong danh sách để xem thông tin chi tiết và các tài liệu đính kèm.
 
+**Ràng buộc thông tin nhập:**
+- Ngày khám: bắt buộc chọn từ ngày 01/01/2000 đến ngày hiện tại.
+- Bệnh viện: bắt buộc, không được để trống.
+- Chẩn đoán: bắt buộc, không được để trống.
+- Kết luận/Ghi chú: không bắt buộc, hiển thị tối đa 3 dòng; chưa đặt giới hạn số ký tự.
+- Khoa khám và tên bác sĩ: hiện không có ô nhập trong biểu mẫu đang triển khai.
+- Tài liệu đính kèm: chỉ nhận ảnh hoặc PDF; dung lượng tệp phải nhỏ hơn 15 MB. Tên tệp không được để trống.
+- Ngày tái khám: hiện chưa có ô nhập trong biểu mẫu đang triển khai.
+
 **Luồng thay thế:**
 - **3A1:** Người dùng có thể mở chức năng thêm hồ sơ từ màn hình hoàn tất lịch khám; tên cơ sở y tế và ngày khám được điền sẵn nếu có.
 - **9A1:** Người dùng có thể chọn mở tài liệu PDF bằng chức năng xem tài liệu trên thiết bị.
@@ -470,6 +541,11 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 9. Người dùng chọn lưu bản ghi.
 10. Hệ thống lưu bản ghi vào tài khoản; trên thiết bị Android, người dùng có thể chọn dùng bản ghi làm âm thanh nhắc uống thuốc.
 
+**Ràng buộc thông tin nhập:**
+- Tên lời nhắc: không bắt buộc; nếu để trống hệ thống tự dùng tên mặc định; chưa quy định độ dài tối đa.
+- Thời lượng ghi âm: phải lớn hơn 0 và tối đa 29 giây.
+- Chỉ lưu được khi đã có bản ghi âm hợp lệ.
+
 **Luồng thay thế:**
 - **8A1:** Người dùng nghe lại bản ghi và có thể ghi âm lại nếu chưa hài lòng.
 - **10A1:** Người dùng không chọn dùng bản ghi làm âm thanh nhắc thuốc; hệ thống chỉ lưu bản ghi vào tài khoản.
@@ -498,6 +574,8 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 4. Người thân mở màn hình chính của tài khoản gia đình đã liên kết.
 5. Hệ thống hiển thị vị trí gần nhất của người cao tuổi nếu có dữ liệu.
 6. Người thân xem thời điểm cập nhật để biết vị trí đang hiển thị có mới hay không.
+
+**Ràng buộc thông tin nhập:** Không có trường nhập liệu. Vị trí và thời điểm cập nhật do thiết bị tự gửi; người thân chỉ xem thông tin được hiển thị.
 
 **Luồng thay thế:**
 - **5A1:** Nếu chưa có vị trí được lưu, hệ thống hiển thị thông báo chưa có thông tin vị trí.
