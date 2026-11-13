@@ -2,7 +2,7 @@
 
 Tài liệu được trình bày theo mẫu trong đồ án Word. Mỗi chức năng gồm: UsecaseID, Tên usecase, Tác nhân, Tiền điều kiện, Luồng sự kiện chính, Luồng thay thế (nếu có) và Ngoại lệ. Không sử dụng mục Hậu điều kiện.
 
-Các mô tả dưới đây được đối chiếu với mã nguồn hiện có. Những chức năng chưa có đầy đủ màn hình hoặc thao tác trong dự án được ghi rõ, không mô tả như thể đã hoàn thiện.
+Hai vai trò người dùng trong đặc tả là Người cao tuổi và Người chăm sóc. Hệ thống chỉ được ghi là tác nhân phụ khi tự thực hiện bước xử lý. Các mô tả dưới đây được đối chiếu với mã nguồn hiện có. Những chức năng chưa có đầy đủ màn hình hoặc thao tác trong dự án được ghi rõ, không mô tả như thể đã hoàn thiện.
 
 ---
 
@@ -12,7 +12,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 
 **Tên usecase:** Đăng ký
 
-**Tác nhân:** Người cao tuổi, Con cái / Người thân, Người chăm sóc.
+**Tác nhân:** Người cao tuổi, Người chăm sóc, Người chăm sóc.
 
 **Tiền điều kiện:** Thiết bị có kết nối Internet; email và số điện thoại chưa được sử dụng để đăng ký.
 
@@ -32,7 +32,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 - Email: bắt buộc, phải có dạng địa chỉ email hợp lệ; hệ thống chuyển email về chữ thường khi xử lý.
 - Số điện thoại: bắt buộc, đúng 10 chữ số và bắt đầu bằng số 0; chỉ nhận chữ số.
 - Mật khẩu: bắt buộc, đúng 6 chữ số; không nhận chữ cái hoặc ký tự đặc biệt.
-- Vai trò: bắt buộc chọn một trong ba lựa chọn: Người cao tuổi, Con cái hoặc Người chăm sóc.
+- Vai trò: bắt buộc chọn một trong hai lựa chọn: Người cao tuổi hoặc Người chăm sóc.
 - Giới tính: bắt buộc chọn Nam, Nữ hoặc Khác.
 - Mã xác nhận: bắt buộc, đúng 6 chữ số; có hiệu lực 10 phút, được gửi lại sau 60 giây và tối đa 5 lần nhập sai.
 
@@ -52,7 +52,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 
 **Tên usecase:** Đăng nhập
 
-**Tác nhân:** Người cao tuổi, Con cái / Người thân, Người chăm sóc.
+**Tác nhân:** Người cao tuổi, Người chăm sóc, Người chăm sóc.
 
 **Tiền điều kiện:** Người dùng đã có tài khoản trong hệ thống.
 
@@ -82,7 +82,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 
 **Tên usecase:** Đăng xuất
 
-**Tác nhân:** Người cao tuổi, Con cái / Người thân, Người chăm sóc.
+**Tác nhân:** Người cao tuổi, Người chăm sóc, Người chăm sóc.
 
 **Tiền điều kiện:** Người dùng đang đăng nhập vào ứng dụng.
 
@@ -108,7 +108,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 
 **Tên usecase:** Chỉnh sửa thông tin cá nhân
 
-**Tác nhân:** Người cao tuổi, Con cái / Người thân, Người chăm sóc.
+**Tác nhân:** Người cao tuổi, Người chăm sóc, Người chăm sóc.
 
 **Tiền điều kiện:** Người dùng đã đăng nhập và hồ sơ cá nhân đã được tạo.
 
@@ -149,7 +149,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 3. Người cao tuổi xác nhận cần trợ giúp hoặc không phản hồi trong thời gian đếm ngược.
 4. Hệ thống ghi nhận cảnh báo cùng thời điểm xảy ra.
 5. Hệ thống lấy vị trí hiện tại nếu thiết bị cho phép.
-6. Hệ thống gửi thông báo đến những người thân đã liên kết với tài khoản người cao tuổi.
+6. Hệ thống gửi thông báo đến những người chăm sóc đã liên kết với tài khoản người cao tuổi.
 7. Ứng dụng hiển thị thông báo đã gửi cảnh báo.
 
 **Ràng buộc thông tin nhập:** Không có trường nhập liệu. Người cao tuổi gửi cảnh báo bằng nút SOS hoặc xác nhận/không phản hồi với thông báo hỏi khi ứng dụng phát hiện dấu hiệu té ngã. Vị trí là thông tin thiết bị tự lấy, không phải nội dung người dùng nhập.
@@ -160,7 +160,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 **Ngoại lệ:**
 - **5E:** E1 (Không lấy được vị trí): Hệ thống vẫn gửi cảnh báo và thông báo rằng chưa có thông tin vị trí.
 - **6E:** E2 (Không có kết nối Internet): Hệ thống thông báo chưa gửi được cảnh báo và hiển thị lựa chọn gọi cấp cứu 115.
-- **6E:** E3 (Không có người thân đã liên kết): Hệ thống vẫn ghi nhận cảnh báo nhưng không có người thân để nhận thông báo.
+- **6E:** E3 (Không có người chăm sóc đã liên kết): Hệ thống vẫn ghi nhận cảnh báo nhưng không có người chăm sóc để nhận thông báo.
 
 ## 3.3.6. Usecase tiếp nhận và xử lý cảnh báo
 
@@ -168,38 +168,38 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 
 **Tên usecase:** Tiếp nhận và xử lý cảnh báo
 
-**Tác nhân:** Con cái / Người thân đã liên kết với người cao tuổi.
+**Tác nhân:** Người chăm sóc đã liên kết với người cao tuổi.
 
 **Tiền điều kiện:** Có cảnh báo SOS đang chờ xử lý từ người cao tuổi đã liên kết.
 
 **Luồng sự kiện chính:**
-1. Người thân nhận thông báo có cảnh báo SOS.
-2. Người thân mở thông báo để xem cảnh báo.
+1. Người chăm sóc nhận thông báo có cảnh báo SOS.
+2. Người chăm sóc mở thông báo để xem cảnh báo.
 3. Hệ thống hiển thị tên người cao tuổi, thời điểm gửi cảnh báo, nguyên nhân cảnh báo, số điện thoại và vị trí nếu có.
-4. Người thân chọn “Tiếp nhận” để xác nhận mình sẽ xử lý cảnh báo.
-5. Hệ thống ghi nhận người đầu tiên tiếp nhận và thông báo cho những người thân liên quan để tránh nhiều người cùng xử lý một cảnh báo.
-6. Người thân thực hiện ngay hành động cần thiết: gọi cho người cao tuổi, gọi cấp cứu 115 hoặc mở bản đồ để đến vị trí được gửi kèm.
-7. Sau khi đã liên hệ hoặc hỗ trợ người cao tuổi, người thân chọn “Kết thúc cảnh báo”.
-8. Người thân chọn kết quả hỗ trợ và có thể nhập ghi chú ngắn.
-9. Hệ thống lưu kết quả, kết thúc cảnh báo và thông báo cho những người thân liên quan.
+4. Người chăm sóc chọn “Tiếp nhận” để xác nhận mình sẽ xử lý cảnh báo.
+5. Hệ thống ghi nhận người đầu tiên tiếp nhận và thông báo cho những người chăm sóc liên quan để tránh nhiều người cùng xử lý một cảnh báo.
+6. Người chăm sóc thực hiện ngay hành động cần thiết: gọi cho người cao tuổi, gọi cấp cứu 115 hoặc mở bản đồ để đến vị trí được gửi kèm.
+7. Sau khi đã liên hệ hoặc hỗ trợ người cao tuổi, người chăm sóc chọn “Kết thúc cảnh báo”.
+8. Người chăm sóc chọn kết quả hỗ trợ và có thể nhập ghi chú ngắn.
+9. Hệ thống lưu kết quả, kết thúc cảnh báo và thông báo cho những người chăm sóc liên quan.
 
 **Ràng buộc thông tin nhập:**
 - Kết quả hỗ trợ: bắt buộc chọn một trong ba lựa chọn: Đã an toàn, Đã đưa đến cơ sở y tế hoặc Báo động nhầm.
 - Ghi chú: không bắt buộc, tối đa 300 ký tự; có thể để trống.
 
 **Luồng thay thế:**
-- **3A1:** Nếu cảnh báo không có vị trí, người thân vẫn có thể gọi cho người cao tuổi hoặc gọi cấp cứu 115.
-- **6A1:** Nếu người thân không liên lạc được với người cao tuổi, người thân có thể gọi cấp cứu 115 hoặc nhờ người ở gần hỗ trợ.
-- **6A2:** Người thân có thể mở bản đồ để tìm đường đến vị trí người cao tuổi mà không cần cập nhật tiến trình di chuyển trên ứng dụng.
-- **8A1:** Nếu chưa thể xác định đầy đủ kết quả hỗ trợ, người thân nhập ghi chú ngắn về tình hình đã biết trước khi kết thúc cảnh báo.
+- **3A1:** Nếu cảnh báo không có vị trí, người chăm sóc vẫn có thể gọi cho người cao tuổi hoặc gọi cấp cứu 115.
+- **6A1:** Nếu người chăm sóc không liên lạc được với người cao tuổi, người chăm sóc có thể gọi cấp cứu 115 hoặc nhờ người ở gần hỗ trợ.
+- **6A2:** Người chăm sóc có thể mở bản đồ để tìm đường đến vị trí người cao tuổi mà không cần cập nhật tiến trình di chuyển trên ứng dụng.
+- **8A1:** Nếu chưa thể xác định đầy đủ kết quả hỗ trợ, người chăm sóc nhập ghi chú ngắn về tình hình đã biết trước khi kết thúc cảnh báo.
 
 **Ngoại lệ:**
-- **4E1:** Cảnh báo đã được người thân khác tiếp nhận; hệ thống hiển thị người đang xử lý và thông tin cảnh báo mới nhất.
+- **4E1:** Cảnh báo đã được người chăm sóc khác tiếp nhận; hệ thống hiển thị người đang xử lý và thông tin cảnh báo mới nhất.
 - **2E1:** Cảnh báo đã được kết thúc hoặc hủy; hệ thống chỉ hiển thị thông tin mới nhất và không cho xử lý tiếp.
 - **2E2:** Người dùng không có quyền xem cảnh báo; hệ thống từ chối truy cập.
-- **9E1:** Không lưu được kết quả hỗ trợ; hệ thống thông báo lỗi và giữ cảnh báo ở trạng thái đang chờ kết thúc để người thân thử lại.
+- **9E1:** Không lưu được kết quả hỗ trợ; hệ thống thông báo lỗi và giữ cảnh báo ở trạng thái đang chờ kết thúc để người chăm sóc thử lại.
 
-**Ghi chú:** Không yêu cầu người thân cập nhật các trạng thái như “đang trên đường” hoặc “đã đến nơi”. Khi đã tiếp nhận, người thân có thể gọi điện, gọi cấp cứu hoặc mở bản đồ ngay; chỉ cần cập nhật kết quả sau khi đã hỗ trợ.
+**Ghi chú:** Không yêu cầu người chăm sóc cập nhật các trạng thái như “đang trên đường” hoặc “đã đến nơi”. Khi đã tiếp nhận, người chăm sóc có thể gọi điện, gọi cấp cứu hoặc mở bản đồ ngay; chỉ cần cập nhật kết quả sau khi đã hỗ trợ.
 ## 3.3.7. Usecase ghi chỉ số và theo dõi cảnh báo huyết áp
 
 **UsecaseID:** UC07
@@ -305,7 +305,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 
 **Tên usecase:** Nhắc nhở và theo dõi lịch uống thuốc
 
-**Tác nhân:** Người cao tuổi, Con cái / Người thân, Hệ thống.
+**Tác nhân:** Người cao tuổi, Người chăm sóc, Hệ thống.
 
 **Tiền điều kiện:** Người cao tuổi đã có lịch uống thuốc còn hiệu lực.
 
@@ -314,9 +314,9 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 2. Đến giờ đã chọn, ứng dụng gửi thông báo nhắc người cao tuổi uống thuốc.
 3. Người cao tuổi mở mục “Thuốc” để xem các lần uống trong ngày.
 4. Các lần uống được sắp xếp theo giờ đã cài đặt.
-5. Người thân đã liên kết có thể mở phần theo dõi để xem lịch uống thuốc của người cao tuổi.
+5. Người chăm sóc đã liên kết có thể mở phần theo dõi để xem lịch uống thuốc của người cao tuổi.
 
-**Ràng buộc thông tin nhập:** Không có trường nhập liệu. Thời điểm nhắc được lấy từ lịch uống thuốc đã tạo; người thân chỉ xem thông tin lịch.
+**Ràng buộc thông tin nhập:** Không có trường nhập liệu. Thời điểm nhắc được lấy từ lịch uống thuốc đã tạo; người chăm sóc chỉ xem thông tin lịch.
 
 **Luồng thay thế:**
 - **2A:** Người dùng có thể mở thông báo để chuyển thẳng đến phần lịch uống thuốc.
@@ -342,7 +342,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 3. Sau khi uống thuốc, người cao tuổi chọn “Đã uống” tại lần uống tương ứng.
 4. Hệ thống ghi nhận thời điểm người dùng xác nhận.
 5. Ứng dụng cập nhật lần uống thành đã uống.
-6. Người thân đã liên kết có thể xem thông tin vừa được cập nhật.
+6. Người chăm sóc đã liên kết có thể xem thông tin vừa được cập nhật.
 7. Hệ thống kiểm tra các lần uống đã quá giờ 5 tiếng mà chưa được xác nhận và ghi nhận là bỏ lỡ.
 
 **Ràng buộc thông tin nhập:** Không có trường nhập liệu. Người dùng chỉ chọn “Đã uống” tại lần uống tương ứng; hệ thống tự ghi thời điểm xác nhận.
@@ -354,25 +354,25 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 - **3E:** E1 (Lần uống đã được ghi nhận): Hệ thống không tạo thêm bản ghi trùng cho cùng một lần uống.
 - **4E:** E2 (Không lưu được): Hệ thống thông báo lỗi và cho phép người dùng thử lại.
 
-## 3.3.13. Usecase liên kết và quản lý người thân
+## 3.3.13. Usecase liên kết và quản lý người chăm sóc
 
 **UsecaseID:** UC13
 
-**Tên usecase:** Liên kết và quản lý người thân
+**Tên usecase:** Liên kết và quản lý người chăm sóc
 
-**Tác nhân:** Con cái / Người thân, Người cao tuổi.
+**Tác nhân:** Người chăm sóc, Người cao tuổi.
 
 **Tiền điều kiện:** Hai người đã có tài khoản trong hệ thống.
 
 **Luồng sự kiện chính:**
-1. Người thân mở mục “Người thân của tôi”.
-2. Người thân nhập số điện thoại của người cao tuổi và chọn gửi yêu cầu.
+1. Người chăm sóc mở mục “Người chăm sóc của tôi”.
+2. Người chăm sóc nhập số điện thoại của người cao tuổi và chọn gửi yêu cầu.
 3. Hệ thống kiểm tra tài khoản theo số điện thoại đã nhập.
 4. Hệ thống gửi yêu cầu đến tài khoản người cao tuổi.
 5. Người cao tuổi mở mục “Liên hệ khẩn cấp” để xem yêu cầu đang chờ.
 6. Người cao tuổi chọn “Chấp nhận” hoặc “Từ chối”.
 7. Nếu người cao tuổi chấp nhận, hệ thống ghi nhận hai tài khoản đã liên kết.
-8. Hệ thống hiển thị danh sách người thân đã liên kết cho người cao tuổi và danh sách người cao tuổi đã liên kết cho người thân.
+8. Hệ thống hiển thị danh sách người chăm sóc đã liên kết cho người cao tuổi và danh sách người cao tuổi đã liên kết cho người chăm sóc.
 9. Người dùng chọn một người trong danh sách để xem thông tin liên hệ được hiển thị.
 
 **Ràng buộc thông tin nhập:**
@@ -383,14 +383,14 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 **Luồng thay thế:**
 - **6A1:** Người cao tuổi chọn “Từ chối”; hệ thống không tạo liên kết.
 - **4A1:** Khi yêu cầu còn đang chờ phản hồi, người gửi có thể hủy yêu cầu.
-- **8A1:** Nếu chưa có người thân liên kết, hệ thống hiển thị hướng dẫn gửi hoặc xác nhận yêu cầu.
+- **8A1:** Nếu chưa có người chăm sóc liên kết, hệ thống hiển thị hướng dẫn gửi hoặc xác nhận yêu cầu.
 
 **Ngoại lệ:**
 - **3E1:** Không tìm thấy số điện thoại; hệ thống thông báo chưa có tài khoản phù hợp.
 - **3E2:** Tài khoản được chọn không phải tài khoản người cao tuổi; hệ thống không cho gửi yêu cầu.
 - **3E3:** Hai tài khoản đã liên kết hoặc đang có yêu cầu chờ; hệ thống không tạo yêu cầu trùng.
 - **6E1:** Yêu cầu không còn hiệu lực; hệ thống thông báo và tải lại danh sách yêu cầu.
-- **8E1:** Không tải được danh sách người thân; hệ thống thông báo lỗi và cho phép tải lại.
+- **8E1:** Không tải được danh sách người chăm sóc; hệ thống thông báo lỗi và cho phép tải lại.
 
 ## 3.3.15. Usecase liên hệ khẩn cấp
 
@@ -398,7 +398,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 
 **Tên usecase:** Liên hệ khẩn cấp
 
-**Tác nhân:** Người cao tuổi, Con cái / Người thân.
+**Tác nhân:** Người cao tuổi, Người chăm sóc.
 
 **Tiền điều kiện:** Người dùng đang mở ứng dụng trên thiết bị có thể thực hiện cuộc gọi.
 
@@ -418,7 +418,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 **Ngoại lệ:**
 - **5E:** E1 (Thiết bị không thể gọi điện): Hệ thống thông báo không thể thực hiện cuộc gọi trên thiết bị hiện tại.
 
-**Ghi chú:** Mã nguồn hiện có nút gọi cấp cứu 115 và hiển thị người thân đã liên kết. Chưa thấy chức năng thêm, sửa, xóa danh bạ khẩn cấp riêng; vì vậy đặc tả không mô tả các thao tác này.
+**Ghi chú:** Mã nguồn hiện có nút gọi cấp cứu 115 và hiển thị người chăm sóc đã liên kết. Chưa thấy chức năng thêm, sửa, xóa danh bạ khẩn cấp riêng; vì vậy đặc tả không mô tả các thao tác này.
 
 ## 3.3.14. Usecase quản lý lịch khám gia đình
 
@@ -426,16 +426,16 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 
 **Tên usecase:** Quản lý lịch khám gia đình
 
-**Tác nhân:** Con cái / Người thân đã liên kết với người cao tuổi.
+**Tác nhân:** Người chăm sóc đã liên kết với người cao tuổi.
 
-**Tiền điều kiện:** Người thân đã liên kết với tài khoản người cao tuổi.
+**Tiền điều kiện:** Người chăm sóc đã liên kết với tài khoản người cao tuổi.
 
 **Luồng sự kiện chính:**
-1. Người thân mở mục “Lịch khám”.
-2. Người thân chọn “Thêm lịch”.
-3. Người thân nhập nội dung khám, tên bệnh viện hoặc cơ sở y tế, khoa khám, ngày giờ và ghi chú cần thiết.
-4. Người thân có thể chọn người dự kiến đưa người cao tuổi đi khám.
-5. Người thân chọn “Lưu”.
+1. Người chăm sóc mở mục “Lịch khám”.
+2. Người chăm sóc chọn “Thêm lịch”.
+3. Người chăm sóc nhập nội dung khám, tên bệnh viện hoặc cơ sở y tế, khoa khám, ngày giờ và ghi chú cần thiết.
+4. Người chăm sóc có thể chọn người dự kiến đưa người cao tuổi đi khám.
+5. Người chăm sóc chọn “Lưu”.
 6. Hệ thống kiểm tra thông tin và tạo lịch khám.
 7. Lịch khám được hiển thị trong danh sách để các thành viên liên quan theo dõi.
 8. Với lịch chưa có người phụ trách, một thành viên chọn “Tôi sẽ đưa đi”.
@@ -449,7 +449,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 - Nội dung khám: bắt buộc, không được để trống; chưa quy định độ dài tối đa.
 - Bệnh viện/Cơ sở khám: bắt buộc, không được để trống; chưa quy định độ dài tối đa.
 - Khoa khám: không bắt buộc; chưa quy định độ dài tối đa.
-- Người đưa đi khám: phải chọn một người thân đã liên kết; màn hình hiện tại không cho lưu nếu chưa chọn.
+- Người đưa đi khám: phải chọn một người chăm sóc đã liên kết; màn hình hiện tại không cho lưu nếu chưa chọn.
 - Thời gian khám: bắt buộc chọn thời điểm sau thời điểm hiện tại; ngày được chọn trong phạm vi tối đa 10 năm kể từ hiện tại.
 - Ghi chú chuẩn bị: không bắt buộc, hiển thị tối đa 3 dòng; chưa đặt giới hạn số ký tự.
 
@@ -461,7 +461,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 **Ngoại lệ:**
 - **3E1:** Thiếu nội dung khám hoặc thời gian khám; hệ thống yêu cầu bổ sung.
 - **4E1:** Thời gian khám đã qua; hệ thống yêu cầu chọn thời gian trong tương lai.
-- **4E2:** Người được chọn không thuộc nhóm người thân đã liên kết; hệ thống không chấp nhận người phụ trách đó.
+- **4E2:** Người được chọn không thuộc nhóm người chăm sóc đã liên kết; hệ thống không chấp nhận người phụ trách đó.
 - **8E1:** Lịch đã có người nhận; hệ thống thông báo lịch đã được thành viên khác đảm nhận.
 - **10E1:** Người dùng không phải người đang phụ trách; hệ thống không cho phép trả lại lịch.
 - **11E1:** Chưa đến thời gian hẹn; hệ thống chưa cho phép hoàn thành lịch.
@@ -476,7 +476,7 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 
 **Tên usecase:** Quản lý hồ sơ khám và tài liệu
 
-**Tác nhân:** Người cao tuổi, Con cái / Người thân đã liên kết.
+**Tác nhân:** Người cao tuổi, Người chăm sóc đã liên kết.
 
 **Tiền điều kiện:** Người dùng đã đăng nhập và có quyền xem hoặc thêm hồ sơ cho tài khoản người cao tuổi được chọn.
 
@@ -563,19 +563,19 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 
 **Tên usecase:** Xem vị trí người cao tuổi
 
-**Tác nhân:** Con cái / Người thân đã liên kết; Người cao tuổi; Hệ thống.
+**Tác nhân:** Người chăm sóc đã liên kết; Người cao tuổi; Hệ thống.
 
-**Tiền điều kiện:** Người thân đã liên kết với tài khoản người cao tuổi; thiết bị người cao tuổi có kết nối và cho phép lấy vị trí.
+**Tiền điều kiện:** Người chăm sóc đã liên kết với tài khoản người cao tuổi; thiết bị người cao tuổi có kết nối và cho phép lấy vị trí.
 
 **Luồng sự kiện chính:**
 1. Người cao tuổi đăng nhập và mở ứng dụng.
 2. Ứng dụng lấy vị trí hiện tại của thiết bị theo chu kỳ khoảng 5 phút.
 3. Hệ thống lưu vị trí và thời điểm cập nhật.
-4. Người thân mở màn hình chính của tài khoản gia đình đã liên kết.
+4. Người chăm sóc mở màn hình chính của tài khoản gia đình đã liên kết.
 5. Hệ thống hiển thị vị trí gần nhất của người cao tuổi nếu có dữ liệu.
-6. Người thân xem thời điểm cập nhật để biết vị trí đang hiển thị có mới hay không.
+6. Người chăm sóc xem thời điểm cập nhật để biết vị trí đang hiển thị có mới hay không.
 
-**Ràng buộc thông tin nhập:** Không có trường nhập liệu. Vị trí và thời điểm cập nhật do thiết bị tự gửi; người thân chỉ xem thông tin được hiển thị.
+**Ràng buộc thông tin nhập:** Không có trường nhập liệu. Vị trí và thời điểm cập nhật do thiết bị tự gửi; người chăm sóc chỉ xem thông tin được hiển thị.
 
 **Luồng thay thế:**
 - **5A1:** Nếu chưa có vị trí được lưu, hệ thống hiển thị thông báo chưa có thông tin vị trí.
@@ -593,11 +593,11 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 1. Tài khoản hiện đăng ký bằng email, số điện thoại, mật khẩu 6 chữ số, họ tên, giới tính và vai trò; mã xác nhận email có hiệu lực 10 phút. Vì vậy tài liệu đã sửa thời hạn từ 5 phút thành 10 phút.
 2. Màn hình chỉnh sửa hồ sơ hiện chỉ cho sửa họ tên và giới tính; không mô tả sửa email, số điện thoại hoặc ảnh đại diện.
 3. Phát hiện té ngã hiện dựa trên cảm biến chuyển động và có bước hỏi xác nhận; không mô tả là tự động gọi cấp cứu.
-4. Cảnh báo SOS có thể lưu và gửi thông báo đến người thân đã liên kết; vị trí có thể không có nếu thiết bị không lấy được vị trí.
+4. Cảnh báo SOS có thể lưu và gửi thông báo đến người chăm sóc đã liên kết; vị trí có thể không có nếu thiết bị không lấy được vị trí.
 5. Ghi chỉ số huyết áp và xem lịch sử được triển khai trong ứng dụng. Hướng dẫn khi chỉ số rất cao được hiển thị cho người dùng; không mô tả đây là kết luận của bác sĩ.
 6. Lịch uống thuốc được nhắc trên thiết bị; lịch sử bỏ lỡ được ghi khi quá giờ 5 tiếng. Không mô tả hệ thống tự biết người dùng đã uống thuốc nếu họ chưa xác nhận.
 7. Yêu cầu liên kết chỉ được chấp nhận khi người cao tuổi phản hồi đồng ý. Dự án hiện chưa có thao tác thu hồi một liên kết đã được chấp nhận.
 8. Lịch khám cho phép để trống người phụ trách, một thành viên nhận lịch và người đang phụ trách trả lại lịch. Việc nhận lịch chưa có nghĩa là đã đặt lịch với bệnh viện.
 9. Tài liệu đính kèm hiện hỗ trợ hình ảnh và PDF, dung lượng tối đa 15 MB.
-10. Chức năng liên hệ khẩn cấp hiện có nút gọi 115 và hiển thị thông tin người thân đã liên kết; chưa thấy phần quản lý một danh bạ số khẩn cấp riêng.
+10. Chức năng liên hệ khẩn cấp hiện có nút gọi 115 và hiển thị thông tin người chăm sóc đã liên kết; chưa thấy phần quản lý một danh bạ số khẩn cấp riêng.
 11. Trong bản Word, phần mục lục liệt kê 21 chức năng nhưng nội dung chi tiết bị thiếu một số mục và có mục chỉnh sửa thông tin bị chép nhầm từ đăng xuất. Bản này khôi phục cấu trúc 21 mục theo danh sách trong mục lục, đồng thời ghi chú rõ các giới hạn triển khai để tránh mô tả sai chức năng.
