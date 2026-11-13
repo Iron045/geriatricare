@@ -168,11 +168,11 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 - **2E:** E3 (Người dùng không có quyền xem cảnh báo): Hệ thống từ chối truy cập.
 - **8E:** E4 (Không lưu được thay đổi): Hệ thống thông báo lỗi và giữ nguyên thông tin cảnh báo trước đó.
 
-## 3.3.7. Usecase ghi chỉ số huyết áp
+## 3.3.7. Usecase ghi chỉ số và theo dõi cảnh báo huyết áp
 
 **UsecaseID:** UC07
 
-**Tên usecase:** Ghi chỉ số huyết áp
+**Tên usecase:** Ghi chỉ số và theo dõi cảnh báo huyết áp
 
 **Tác nhân:** Người cao tuổi.
 
@@ -185,14 +185,20 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 4. Người dùng nhập chỉ số huyết áp trên và huyết áp dưới.
 5. Người dùng chọn “Lưu kết quả đo”.
 6. Hệ thống kiểm tra hai chỉ số, trong đó chỉ số trên phải lớn hơn chỉ số dưới.
-7. Hệ thống lưu kết quả đo và hiển thị mức đánh giá kèm hướng dẫn phù hợp.
+7. Hệ thống lưu kết quả đo, đánh giá mức độ và hiển thị hướng dẫn phù hợp.
+8. Người dùng có thể xem lại các lần đo đã lưu trong lịch sử.
 
-**Luồng thay thế:** Không có.
+**Luồng thay thế:**
+- **7A1:** Nếu chỉ số ở mức bình thường hoặc tốt, hệ thống hiển thị lời khuyên tiếp tục theo dõi định kỳ.
+- **7A2:** Nếu chỉ số ở mức cần chú ý, hệ thống hiển thị hướng dẫn nghỉ ngơi và đo lại.
+- **7A3:** Nếu chỉ số ở mức rất cao, hệ thống hiển thị hướng dẫn khẩn cấp.
 
 **Ngoại lệ:**
-- **4E:** E1 (Thiếu chỉ số): Hệ thống yêu cầu nhập đầy đủ hai chỉ số.
-- **4E:** E2 (Chỉ số không hợp lệ): Hệ thống thông báo nếu chỉ số trên nằm ngoài khoảng 70–250, chỉ số dưới nằm ngoài khoảng 40–150 hoặc chỉ số trên không lớn hơn chỉ số dưới.
-- **6E:** E3 (Không lưu được): Hệ thống thông báo lỗi và cho phép người dùng thử lại.
+- **4E1:** Người dùng chưa nhập đủ hai chỉ số; hệ thống yêu cầu nhập bổ sung.
+- **4E2:** Chỉ số nằm ngoài khoảng cho phép hoặc chỉ số trên không lớn hơn chỉ số dưới; hệ thống yêu cầu kiểm tra và nhập lại.
+- **6E1:** Không thể lưu kết quả; hệ thống thông báo lỗi và cho phép thử lại.
+
+**Ghi chú:** Phần cảnh báo huyết áp được gộp vào chức năng ghi chỉ số vì đây là kết quả xử lý ngay sau khi người dùng nhập số đo, không phải mục đích sử dụng độc lập.
 
 ## 3.3.8. Usecase theo dõi lịch sử huyết áp
 
@@ -216,30 +222,6 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 **Ngoại lệ:**
 - **2E:** E1 (Chưa có dữ liệu): Hệ thống hiển thị thông báo chưa có kết quả đo và hướng dẫn người dùng ghi chỉ số lần đầu.
 - **2E:** E2 (Không tải được dữ liệu): Hệ thống thông báo lỗi và cho phép tải lại.
-
-## 3.3.9. Usecase cảnh báo chỉ số huyết áp bất thường
-
-**UsecaseID:** UC09
-
-**Tên usecase:** Cảnh báo chỉ số huyết áp bất thường
-
-**Tác nhân:** Người cao tuổi.
-
-**Tiền điều kiện:** Người dùng đang nhập hoặc vừa ghi nhận kết quả đo huyết áp.
-
-**Luồng sự kiện chính:**
-1. Người dùng nhập hai chỉ số huyết áp.
-2. Hệ thống kiểm tra và đánh giá kết quả vừa nhập.
-3. Nếu chỉ số ở mức cần chú ý, hệ thống hiển thị thông báo hướng dẫn nghỉ ngơi và đo lại.
-4. Nếu chỉ số ở mức rất cao, hệ thống hiển thị hướng dẫn khẩn cấp.
-5. Người dùng đọc hướng dẫn và thực hiện theo tình trạng thực tế.
-
-**Luồng thay thế:**
-- **2A:** Nếu chỉ số ở mức bình thường hoặc tốt, hệ thống hiển thị lời khuyên tiếp tục theo dõi định kỳ.
-
-**Ngoại lệ:**
-- **2E:** E1 (Chỉ số nhập không hợp lệ): Hệ thống yêu cầu nhập lại và không đưa ra đánh giá.
-- **2E:** E2 (Người dùng có dấu hiệu nguy hiểm): Hệ thống hướng dẫn gọi cấp cứu 115 khi có các dấu hiệu như đau ngực, khó thở, yếu liệt hoặc khó nói.
 
 ## 3.3.10. Usecase thiết lập lịch uống thuốc
 
@@ -320,58 +302,38 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 - **3E:** E1 (Lần uống đã được ghi nhận): Hệ thống không tạo thêm bản ghi trùng cho cùng một lần uống.
 - **4E:** E2 (Không lưu được): Hệ thống thông báo lỗi và cho phép người dùng thử lại.
 
-## 3.3.13. Usecase gửi và phản hồi yêu cầu liên kết
+## 3.3.13. Usecase liên kết và quản lý người thân
 
 **UsecaseID:** UC13
 
-**Tên usecase:** Gửi và phản hồi yêu cầu liên kết
+**Tên usecase:** Liên kết và quản lý người thân
 
-**Tác nhân:** Con cái / Người thân (gửi yêu cầu), Người cao tuổi (phản hồi).
+**Tác nhân:** Con cái / Người thân, Người cao tuổi.
 
-**Tiền điều kiện:** Cả hai người đã có tài khoản trong hệ thống.
+**Tiền điều kiện:** Hai người đã có tài khoản trong hệ thống.
 
 **Luồng sự kiện chính:**
 1. Người thân mở mục “Người thân của tôi”.
 2. Người thân nhập số điện thoại của người cao tuổi và chọn gửi yêu cầu.
 3. Hệ thống kiểm tra tài khoản theo số điện thoại đã nhập.
 4. Hệ thống gửi yêu cầu đến tài khoản người cao tuổi.
-5. Người cao tuổi mở mục “Liên hệ khẩn cấp” để xem yêu cầu.
+5. Người cao tuổi mở mục “Liên hệ khẩn cấp” để xem yêu cầu đang chờ.
 6. Người cao tuổi chọn “Chấp nhận” hoặc “Từ chối”.
-7. Nếu chấp nhận, hệ thống ghi nhận hai tài khoản đã liên kết.
-8. Người thân có thể xem thông tin người cao tuổi đã liên kết.
+7. Nếu người cao tuổi chấp nhận, hệ thống ghi nhận hai tài khoản đã liên kết.
+8. Hệ thống hiển thị danh sách người thân đã liên kết cho người cao tuổi và danh sách người cao tuổi đã liên kết cho người thân.
+9. Người dùng chọn một người trong danh sách để xem thông tin liên hệ được hiển thị.
 
 **Luồng thay thế:**
-- **6A:** Khi yêu cầu còn đang chờ phản hồi, người gửi có thể chọn hủy yêu cầu.
+- **6A1:** Người cao tuổi chọn “Từ chối”; hệ thống không tạo liên kết.
+- **4A1:** Khi yêu cầu còn đang chờ phản hồi, người gửi có thể hủy yêu cầu.
+- **8A1:** Nếu chưa có người thân liên kết, hệ thống hiển thị hướng dẫn gửi hoặc xác nhận yêu cầu.
 
 **Ngoại lệ:**
-- **3E:** E1 (Không tìm thấy số điện thoại): Hệ thống thông báo chưa có tài khoản phù hợp.
-- **3E:** E2 (Tài khoản được chọn không phải người cao tuổi): Hệ thống không cho gửi yêu cầu.
-- **3E:** E3 (Đã liên kết hoặc đang chờ phản hồi): Hệ thống thông báo không thể tạo yêu cầu trùng.
-- **6E:** E4 (Yêu cầu không còn hiệu lực): Hệ thống thông báo và tải lại danh sách yêu cầu.
-
-## 3.3.14. Usecase quản lý danh sách người thân
-
-**UsecaseID:** UC14
-
-**Tên usecase:** Quản lý danh sách người thân
-
-**Tác nhân:** Người cao tuổi, Con cái / Người thân.
-
-**Tiền điều kiện:** Người dùng đã đăng nhập vào ứng dụng.
-
-**Luồng sự kiện chính:**
-1. Người dùng mở mục “Liên hệ” hoặc “Người thân của tôi”.
-2. Hệ thống tải danh sách các tài khoản đã liên kết.
-3. Người cao tuổi xem danh sách người thân đã chấp nhận liên kết.
-4. Người thân xem danh sách người cao tuổi đã liên kết.
-5. Người dùng chọn một người trong danh sách để xem thông tin liên hệ được hiển thị.
-
-**Luồng thay thế:**
-- **2A:** Nếu có yêu cầu đang chờ, người dùng mở phần yêu cầu để xem và phản hồi.
-
-**Ngoại lệ:**
-- **2E:** E1 (Chưa có người thân liên kết): Hệ thống hiển thị hướng dẫn gửi hoặc xác nhận yêu cầu liên kết.
-- **2E:** E2 (Không tải được danh sách): Hệ thống thông báo lỗi và cho phép tải lại.
+- **3E1:** Không tìm thấy số điện thoại; hệ thống thông báo chưa có tài khoản phù hợp.
+- **3E2:** Tài khoản được chọn không phải tài khoản người cao tuổi; hệ thống không cho gửi yêu cầu.
+- **3E3:** Hai tài khoản đã liên kết hoặc đang có yêu cầu chờ; hệ thống không tạo yêu cầu trùng.
+- **6E1:** Yêu cầu không còn hiệu lực; hệ thống thông báo và tải lại danh sách yêu cầu.
+- **8E1:** Không tải được danh sách người thân; hệ thống thông báo lỗi và cho phép tải lại.
 
 ## 3.3.15. Usecase liên hệ khẩn cấp
 
@@ -399,11 +361,11 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 
 **Ghi chú:** Mã nguồn hiện có nút gọi cấp cứu 115 và hiển thị người thân đã liên kết. Chưa thấy chức năng thêm, sửa, xóa danh bạ khẩn cấp riêng; vì vậy đặc tả không mô tả các thao tác này.
 
-## 3.3.16. Usecase tạo lịch khám sức khỏe
+## 3.3.14. Usecase quản lý lịch khám gia đình
 
-**UsecaseID:** UC16
+**UsecaseID:** UC14
 
-**Tên usecase:** Tạo lịch khám sức khỏe
+**Tên usecase:** Quản lý lịch khám gia đình
 
 **Tác nhân:** Con cái / Người thân đã liên kết với người cao tuổi.
 
@@ -413,154 +375,133 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 1. Người thân mở mục “Lịch khám”.
 2. Người thân chọn “Thêm lịch”.
 3. Người thân nhập nội dung khám, tên bệnh viện hoặc cơ sở y tế, khoa khám, ngày giờ và ghi chú cần thiết.
-4. Người thân chọn người dự kiến đưa người cao tuổi đi khám nếu đã xác định được người phụ trách.
+4. Người thân có thể chọn người dự kiến đưa người cao tuổi đi khám.
 5. Người thân chọn “Lưu”.
 6. Hệ thống kiểm tra thông tin và tạo lịch khám.
 7. Lịch khám được hiển thị trong danh sách để các thành viên liên quan theo dõi.
+8. Với lịch chưa có người phụ trách, một thành viên chọn “Tôi sẽ đưa đi”.
+9. Hệ thống kiểm tra lịch vẫn chưa có người nhận và ghi nhận người vừa chọn là người phụ trách.
+10. Nếu người phụ trách không thể tiếp tục, họ chọn “Nhờ người khác”; hệ thống bỏ tên người phụ trách và đưa lịch về tình trạng chưa có người nhận.
+11. Người phụ trách mở lịch khám và chọn “Hoàn thành” sau khi đã đến hoặc qua thời gian hẹn.
+12. Hệ thống kiểm tra người thao tác có phải người phụ trách và cập nhật lịch thành đã hoàn thành.
+13. Ứng dụng mở phần thêm hồ sơ khám và điền sẵn tên cơ sở y tế cùng ngày khám nếu có thông tin.
 
 **Luồng thay thế:**
-- **4A:** Nếu chưa xác định người đưa đi khám, lịch được lưu ở tình trạng chưa có người phụ trách để thành viên phù hợp nhận sau.
+- **4A1:** Nếu chưa xác định người đưa đi khám, lịch được lưu ở tình trạng chưa có người phụ trách.
+- **10A1:** Sau khi lịch được trả lại, một thành viên khác có thể nhận lịch.
+- **13A1:** Người dùng có thể bỏ qua việc thêm hồ sơ khám và thực hiện sau.
 
 **Ngoại lệ:**
-- **3E:** E1 (Thiếu thông tin cần thiết): Hệ thống yêu cầu bổ sung nội dung khám hoặc thời gian khám.
-- **4E:** E2 (Thời gian đã qua): Hệ thống thông báo cần chọn thời gian trong tương lai.
-- **4E:** E3 (Người được chọn không thuộc gia đình đã liên kết): Hệ thống không chấp nhận người phụ trách đó.
-- **6E:** E4 (Không lưu được lịch): Hệ thống thông báo lỗi và giữ lại thông tin đã nhập.
+- **3E1:** Thiếu nội dung khám hoặc thời gian khám; hệ thống yêu cầu bổ sung.
+- **4E1:** Thời gian khám đã qua; hệ thống yêu cầu chọn thời gian trong tương lai.
+- **4E2:** Người được chọn không thuộc nhóm người thân đã liên kết; hệ thống không chấp nhận người phụ trách đó.
+- **8E1:** Lịch đã có người nhận; hệ thống thông báo lịch đã được thành viên khác đảm nhận.
+- **10E1:** Người dùng không phải người đang phụ trách; hệ thống không cho phép trả lại lịch.
+- **11E1:** Chưa đến thời gian hẹn; hệ thống chưa cho phép hoàn thành lịch.
+- **12E1:** Lịch đã được hoàn thành hoặc không còn tồn tại; hệ thống tải lại thông tin mới nhất.
+- **6E1:** Không lưu được lịch; hệ thống thông báo lỗi và giữ lại thông tin đã nhập.
 
-## 3.3.17. Usecase điều phối người đưa đi khám
+**Ghi chú:** Việc nhận lịch chỉ thể hiện thành viên trong gia đình nhận trách nhiệm đưa người cao tuổi đi khám, không có nghĩa là hệ thống đã đặt lịch với bệnh viện.
+
+## 3.3.15. Usecase quản lý hồ sơ khám và tài liệu
+
+**UsecaseID:** UC15
+
+**Tên usecase:** Quản lý hồ sơ khám và tài liệu
+
+**Tác nhân:** Người cao tuổi, Con cái / Người thân đã liên kết.
+
+**Tiền điều kiện:** Người dùng đã đăng nhập và có quyền xem hoặc thêm hồ sơ cho tài khoản người cao tuổi được chọn.
+
+**Luồng sự kiện chính:**
+1. Người dùng mở mục “Hồ sơ khám”.
+2. Hệ thống hiển thị các lần khám đã lưu, sắp xếp từ gần nhất đến cũ nhất.
+3. Người dùng chọn “Thêm hồ sơ”.
+4. Người dùng nhập ngày khám, tên bệnh viện, khoa khám, tên bác sĩ, chẩn đoán, kết luận và ghi chú nếu có.
+5. Người dùng có thể nhập ngày tái khám.
+6. Người dùng chọn “Lưu”.
+7. Hệ thống kiểm tra thông tin và lưu hồ sơ khám.
+8. Người dùng mở một hồ sơ khám và chọn chức năng thêm tài liệu.
+9. Người dùng chọn hình ảnh hoặc tệp PDF từ thiết bị.
+10. Hệ thống kiểm tra loại tệp và dung lượng, sau đó lưu tài liệu vào hồ sơ khám đã chọn.
+11. Người dùng chọn một hồ sơ trong danh sách để xem thông tin chi tiết và các tài liệu đính kèm.
+
+**Luồng thay thế:**
+- **3A1:** Người dùng có thể mở chức năng thêm hồ sơ từ màn hình hoàn tất lịch khám; tên cơ sở y tế và ngày khám được điền sẵn nếu có.
+- **9A1:** Người dùng có thể chọn mở tài liệu PDF bằng chức năng xem tài liệu trên thiết bị.
+
+**Ngoại lệ:**
+- **4E1:** Thiếu ngày khám, cơ sở y tế hoặc chẩn đoán; hệ thống yêu cầu bổ sung.
+- **4E2:** Ngày khám ở tương lai; hệ thống yêu cầu kiểm tra lại ngày khám.
+- **7E1:** Không có quyền thêm hồ sơ cho tài khoản đã chọn; hệ thống từ chối thao tác.
+- **7E2:** Không lưu được hồ sơ; hệ thống thông báo lỗi và giữ lại nội dung đã nhập.
+- **9E1:** Loại tệp không được hỗ trợ; hệ thống chỉ chấp nhận hình ảnh hoặc PDF.
+- **9E2:** Tệp lớn hơn 15 MB; hệ thống thông báo tệp vượt quá dung lượng cho phép.
+- **10E1:** Không có quyền truy cập hoặc không tải được tệp; hệ thống thông báo lỗi.
+- **2E1:** Chưa có hồ sơ khám; hệ thống hiển thị hướng dẫn thêm hồ sơ mới.
+- **11E1:** Tài liệu không còn hoặc không mở được; hệ thống thông báo tài liệu hiện không thể xem.
+
+**Ghi chú:** Tạo hồ sơ, xem lịch sử khám và thêm tài liệu được gộp vì đều là các bước quản lý cùng một hồ sơ khám.
+
+## 3.3.16. Usecase ghi âm lời nhắc
+
+**UsecaseID:** UC16
+
+**Tên usecase:** Ghi âm lời nhắc
+
+**Tác nhân:** Người dùng đã đăng nhập.
+
+**Tiền điều kiện:** Người dùng đã đăng nhập; thiết bị có chức năng ghi âm.
+
+**Luồng sự kiện chính:**
+1. Người dùng mở mục “Cài đặt”.
+2. Người dùng chọn chức năng ghi âm lời nhắc.
+3. Hệ thống hiển thị màn hình ghi âm.
+4. Người dùng nhập tên cho lời nhắc nếu muốn.
+5. Người dùng chọn bắt đầu ghi âm.
+6. Hệ thống kiểm tra quyền sử dụng micro và bắt đầu ghi âm.
+7. Người dùng chọn dừng ghi âm hoặc hệ thống tự dừng khi đạt giới hạn thời gian.
+8. Người dùng nghe lại bản ghi để kiểm tra.
+9. Người dùng chọn lưu bản ghi.
+10. Hệ thống lưu bản ghi vào tài khoản; trên thiết bị Android, người dùng có thể chọn dùng bản ghi làm âm thanh nhắc uống thuốc.
+
+**Luồng thay thế:**
+- **8A1:** Người dùng nghe lại bản ghi và có thể ghi âm lại nếu chưa hài lòng.
+- **10A1:** Người dùng không chọn dùng bản ghi làm âm thanh nhắc thuốc; hệ thống chỉ lưu bản ghi vào tài khoản.
+
+**Ngoại lệ:**
+- **6E1:** Người dùng chưa cấp quyền sử dụng micro; hệ thống thông báo cần cấp quyền trước khi ghi âm.
+- **6E2:** Không thể bắt đầu ghi âm; hệ thống thông báo lỗi.
+- **9E1:** Không có bản ghi hợp lệ hoặc thời lượng bằng 0; hệ thống yêu cầu ghi âm lại.
+- **10E1:** Không lưu được bản ghi; hệ thống thông báo lỗi.
+- **10E2:** Không đặt được bản ghi làm âm thanh nhắc thuốc; nếu bản ghi đã được lưu, hệ thống thông báo riêng rằng phần đặt âm thanh chưa thành công.
+
+## 3.3.17. Usecase xem vị trí người cao tuổi
 
 **UsecaseID:** UC17
 
-**Tên usecase:** Điều phối người đưa đi khám
+**Tên usecase:** Xem vị trí người cao tuổi
 
-**Tác nhân:** Con cái / Người thân đã liên kết.
+**Tác nhân:** Con cái / Người thân đã liên kết; Người cao tuổi; Hệ thống.
 
-**Tiền điều kiện:** Có lịch khám chưa có người phụ trách hoặc lịch đang do người dùng đảm nhận.
+**Tiền điều kiện:** Người thân đã liên kết với tài khoản người cao tuổi; thiết bị người cao tuổi có kết nối và cho phép lấy vị trí.
 
 **Luồng sự kiện chính:**
-1. Người thân mở danh sách lịch khám của gia đình.
-2. Với lịch chưa có người phụ trách, người thân chọn “Tôi sẽ đưa đi”.
-3. Hệ thống kiểm tra lịch vẫn chưa có người nhận.
-4. Hệ thống ghi nhận người vừa chọn là người phụ trách lịch khám.
-5. Những thành viên khác nhìn thấy tên người đang phụ trách.
-6. Nếu người phụ trách không thể tiếp tục, họ chọn “Nhờ người khác”.
-7. Hệ thống bỏ tên người phụ trách hiện tại và đưa lịch về tình trạng chưa có người nhận.
+1. Người cao tuổi đăng nhập và mở ứng dụng.
+2. Ứng dụng lấy vị trí hiện tại của thiết bị theo chu kỳ khoảng 5 phút.
+3. Hệ thống lưu vị trí và thời điểm cập nhật.
+4. Người thân mở màn hình chính của tài khoản gia đình đã liên kết.
+5. Hệ thống hiển thị vị trí gần nhất của người cao tuổi nếu có dữ liệu.
+6. Người thân xem thời điểm cập nhật để biết vị trí đang hiển thị có mới hay không.
 
 **Luồng thay thế:**
-- **7A:** Sau khi lịch được trả lại, một thành viên khác có thể chọn “Tôi sẽ đưa đi” để nhận trách nhiệm.
+- **5A1:** Nếu chưa có vị trí được lưu, hệ thống hiển thị thông báo chưa có thông tin vị trí.
 
 **Ngoại lệ:**
-- **3E:** E1 (Lịch đã có người nhận): Hệ thống thông báo lịch đã được thành viên khác đảm nhận.
-- **6E:** E2 (Người dùng không phải người phụ trách): Hệ thống không cho phép trả lại lịch.
-- **3E:** E3 (Lịch đã hoàn tất): Hệ thống không cho nhận hoặc trả lại lịch đã kết thúc.
+- **2E1:** Người dùng chưa cho phép truy cập vị trí; ứng dụng không thể lấy vị trí.
+- **2E2:** Thiết bị mất kết nối hoặc không lấy được vị trí; hệ thống không cập nhật vị trí mới.
+- **5E1:** Chưa có dữ liệu vị trí; hệ thống thông báo không thể hiển thị vị trí hiện tại.
 
-## 3.3.18. Usecase xác nhận hoàn tất lịch khám
-
-**UsecaseID:** UC18
-
-**Tên usecase:** Xác nhận hoàn tất lịch khám
-
-**Tác nhân:** Con cái / Người thân đang phụ trách lịch khám.
-
-**Tiền điều kiện:** Lịch khám đã có người phụ trách và đã đến hoặc qua thời gian hẹn.
-
-**Luồng sự kiện chính:**
-1. Người phụ trách mở danh sách lịch khám.
-2. Người phụ trách chọn lịch khám cần cập nhật.
-3. Người phụ trách chọn “Hoàn thành”.
-4. Hệ thống kiểm tra người đang thao tác có phải người phụ trách lịch khám hay không và thời gian hẹn đã đến chưa.
-5. Hệ thống cập nhật lịch khám thành đã hoàn thành.
-6. Ứng dụng mở phần thêm hồ sơ khám và điền sẵn tên cơ sở y tế cùng ngày khám nếu có thông tin.
-
-**Luồng thay thế:**
-- **6A:** Người dùng có thể bỏ qua việc thêm hồ sơ khám ở thời điểm này và thực hiện sau.
-
-**Ngoại lệ:**
-- **4E:** E1 (Chưa đến giờ hẹn): Hệ thống thông báo chỉ có thể hoàn thành lịch sau thời gian đã hẹn.
-- **4E:** E2 (Không phải người phụ trách): Hệ thống không cho phép hoàn tất lịch.
-- **5E:** E3 (Lịch đã được hoàn thành hoặc không còn tồn tại): Hệ thống tải lại thông tin mới nhất.
-
-## 3.3.19. Usecase lưu hồ sơ y tế
-
-**UsecaseID:** UC19
-
-**Tên usecase:** Lưu hồ sơ y tế
-
-**Tác nhân:** Người cao tuổi, Con cái / Người thân đã liên kết.
-
-**Tiền điều kiện:** Người dùng đã đăng nhập và có quyền lưu hồ sơ cho người cao tuổi được chọn.
-
-**Luồng sự kiện chính:**
-1. Người dùng mở mục “Hồ sơ khám”.
-2. Người dùng chọn “Thêm hồ sơ”.
-3. Người dùng chọn ngày khám và nhập tên bệnh viện, khoa khám, tên bác sĩ, chẩn đoán, kết luận và ghi chú nếu có.
-4. Người dùng có thể nhập ngày tái khám.
-5. Người dùng chọn “Lưu”.
-6. Hệ thống kiểm tra thông tin và lưu hồ sơ khám.
-7. Hồ sơ mới được hiển thị trong danh sách lịch sử khám.
-
-**Luồng thay thế:**
-- **3A:** Người dùng có thể mở chức năng thêm hồ sơ từ màn hình xác nhận hoàn tất lịch khám; thông tin cơ sở y tế và ngày khám được điền sẵn nếu có.
-
-**Ngoại lệ:**
-- **3E:** E1 (Thiếu thông tin bắt buộc): Hệ thống yêu cầu bổ sung ngày khám, cơ sở y tế hoặc chẩn đoán.
-- **6E:** E2 (Ngày khám ở tương lai): Hệ thống yêu cầu kiểm tra lại ngày khám.
-- **6E:** E3 (Không có quyền lưu): Hệ thống thông báo người dùng không được phép thêm hồ sơ cho tài khoản đã chọn.
-- **6E:** E4 (Không lưu được hồ sơ): Hệ thống thông báo lỗi và giữ lại nội dung đã nhập.
-
-## 3.3.20. Usecase quản lý tài liệu đính kèm
-
-**UsecaseID:** UC20
-
-**Tên usecase:** Quản lý tài liệu đính kèm
-
-**Tác nhân:** Người cao tuổi, Con cái / Người thân đã liên kết.
-
-**Tiền điều kiện:** Đã có hồ sơ khám và người dùng có quyền xem hoặc thêm tài liệu cho hồ sơ đó.
-
-**Luồng sự kiện chính:**
-1. Người dùng mở một hồ sơ khám cụ thể.
-2. Người dùng chọn chức năng thêm tài liệu.
-3. Người dùng chọn hình ảnh hoặc tệp PDF từ thiết bị.
-4. Hệ thống kiểm tra loại tệp và dung lượng.
-5. Hệ thống gửi tài liệu lên nơi lưu trữ và ghi nhận tài liệu thuộc hồ sơ khám đã chọn.
-6. Khi cần xem, người dùng chọn tài liệu trong hồ sơ.
-7. Hệ thống kiểm tra quyền truy cập và hiển thị tài liệu.
-
-**Luồng thay thế:**
-- **6A:** Người dùng có thể chọn mở tài liệu PDF bằng chức năng xem tài liệu trên thiết bị.
-
-**Ngoại lệ:**
-- **3E:** E1 (Loại tệp không được hỗ trợ): Hệ thống chỉ chấp nhận hình ảnh hoặc PDF.
-- **4E:** E2 (Tệp lớn hơn 15 MB): Hệ thống thông báo tệp vượt quá dung lượng cho phép.
-- **7E:** E3 (Không có quyền truy cập): Hệ thống từ chối xem hoặc thêm tài liệu.
-- **5E:** E4 (Không tải được tệp): Hệ thống thông báo lỗi và không hiển thị tài liệu như thể đã tải thành công.
-
-## 3.3.21. Usecase tra cứu lịch sử khám bệnh
-
-**UsecaseID:** UC21
-
-**Tên usecase:** Tra cứu lịch sử khám bệnh
-
-**Tác nhân:** Người cao tuổi, Con cái / Người thân đã liên kết.
-
-**Tiền điều kiện:** Người dùng đã đăng nhập và có quyền xem hồ sơ khám của tài khoản được chọn.
-
-**Luồng sự kiện chính:**
-1. Người dùng mở mục “Hồ sơ khám”.
-2. Hệ thống tải danh sách các lần khám đã lưu.
-3. Hệ thống sắp xếp các lần khám theo ngày gần nhất.
-4. Người dùng chọn một lần khám để xem chi tiết.
-5. Hệ thống hiển thị ngày khám, cơ sở y tế, khoa khám, bác sĩ, chẩn đoán, kết luận và ghi chú.
-6. Người dùng có thể mở các tài liệu được đính kèm trong lần khám đó.
-
-**Luồng thay thế:** Không có.
-
-**Ngoại lệ:**
-- **2E:** E1 (Chưa có hồ sơ khám): Hệ thống hiển thị thông báo chưa có hồ sơ và hướng dẫn thêm hồ sơ mới.
-- **6E:** E2 (Tài liệu không còn hoặc không mở được): Hệ thống thông báo tài liệu hiện không thể xem.
-- **5E:** E3 (Không có quyền xem): Hệ thống từ chối truy cập hồ sơ.
-- **2E:** E4 (Không tải được danh sách): Hệ thống thông báo lỗi và cho phép thử lại.
 
 ---
 
