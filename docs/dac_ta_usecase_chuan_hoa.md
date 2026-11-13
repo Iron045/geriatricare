@@ -145,29 +145,34 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 
 **Tên usecase:** Tiếp nhận và xử lý cảnh báo
 
-**Tác nhân:** Con cái / Người thân đã liên kết với người cao tuổi; Người cao tuổi.
+**Tác nhân:** Con cái / Người thân đã liên kết với người cao tuổi.
 
-**Tiền điều kiện:** Có cảnh báo SOS chưa được xử lý của người cao tuổi đã liên kết.
+**Tiền điều kiện:** Có cảnh báo SOS đang chờ xử lý từ người cao tuổi đã liên kết.
 
 **Luồng sự kiện chính:**
 1. Người thân nhận thông báo có cảnh báo SOS.
-2. Người thân mở thông báo để xem chi tiết.
-3. Hệ thống hiển thị tên người cao tuổi, thời điểm gửi cảnh báo, nguyên nhân cảnh báo và vị trí nếu có.
-4. Người thân chọn “Tiếp nhận”.
-5. Hệ thống ghi nhận người đầu tiên tiếp nhận cảnh báo.
-6. Người thân di chuyển đến hỗ trợ và có thể chọn cập nhật tình trạng đang trên đường hoặc đã đến nơi.
-7. Sau khi hỗ trợ, người thân chọn chức năng kết thúc xử lý và nhập kết quả hỗ trợ.
-8. Hệ thống cập nhật tình trạng cảnh báo và thông báo cho những người thân liên quan.
+2. Người thân mở thông báo để xem cảnh báo.
+3. Hệ thống hiển thị tên người cao tuổi, thời điểm gửi cảnh báo, nguyên nhân cảnh báo, số điện thoại và vị trí nếu có.
+4. Người thân chọn “Tiếp nhận” để xác nhận mình sẽ xử lý cảnh báo.
+5. Hệ thống ghi nhận người đầu tiên tiếp nhận và thông báo cho những người thân liên quan để tránh nhiều người cùng xử lý một cảnh báo.
+6. Người thân thực hiện ngay hành động cần thiết: gọi cho người cao tuổi, gọi cấp cứu 115 hoặc mở bản đồ để đến vị trí được gửi kèm.
+7. Sau khi đã liên hệ hoặc hỗ trợ người cao tuổi, người thân chọn “Kết thúc cảnh báo”.
+8. Người thân chọn kết quả hỗ trợ và có thể nhập ghi chú ngắn.
+9. Hệ thống lưu kết quả, kết thúc cảnh báo và thông báo cho những người thân liên quan.
 
 **Luồng thay thế:**
-- **6A:** Người thân có thể chọn gọi điện hoặc mở bản đồ để tìm đường đến vị trí người cao tuổi trước khi cập nhật quá trình hỗ trợ.
+- **3A1:** Nếu cảnh báo không có vị trí, người thân vẫn có thể gọi cho người cao tuổi hoặc gọi cấp cứu 115.
+- **6A1:** Nếu người thân không liên lạc được với người cao tuổi, người thân có thể gọi cấp cứu 115 hoặc nhờ người ở gần hỗ trợ.
+- **6A2:** Người thân có thể mở bản đồ để tìm đường đến vị trí người cao tuổi mà không cần cập nhật tiến trình di chuyển trên ứng dụng.
+- **8A1:** Nếu chưa thể xác định đầy đủ kết quả hỗ trợ, người thân nhập ghi chú ngắn về tình hình đã biết trước khi kết thúc cảnh báo.
 
 **Ngoại lệ:**
-- **4E:** E1 (Người khác đã tiếp nhận): Hệ thống thông báo tên người đã nhận xử lý và không cho người dùng tiếp nhận lần nữa.
-- **2E:** E2 (Cảnh báo đã kết thúc): Hệ thống hiển thị thông tin mới nhất và không cho cập nhật tiếp.
-- **2E:** E3 (Người dùng không có quyền xem cảnh báo): Hệ thống từ chối truy cập.
-- **8E:** E4 (Không lưu được thay đổi): Hệ thống thông báo lỗi và giữ nguyên thông tin cảnh báo trước đó.
+- **4E1:** Cảnh báo đã được người thân khác tiếp nhận; hệ thống hiển thị người đang xử lý và thông tin cảnh báo mới nhất.
+- **2E1:** Cảnh báo đã được kết thúc hoặc hủy; hệ thống chỉ hiển thị thông tin mới nhất và không cho xử lý tiếp.
+- **2E2:** Người dùng không có quyền xem cảnh báo; hệ thống từ chối truy cập.
+- **9E1:** Không lưu được kết quả hỗ trợ; hệ thống thông báo lỗi và giữ cảnh báo ở trạng thái đang chờ kết thúc để người thân thử lại.
 
+**Ghi chú:** Không yêu cầu người thân cập nhật các trạng thái như “đang trên đường” hoặc “đã đến nơi”. Khi đã tiếp nhận, người thân có thể gọi điện, gọi cấp cứu hoặc mở bản đồ ngay; chỉ cần cập nhật kết quả sau khi đã hỗ trợ.
 ## 3.3.7. Usecase ghi chỉ số và theo dõi cảnh báo huyết áp
 
 **UsecaseID:** UC07
