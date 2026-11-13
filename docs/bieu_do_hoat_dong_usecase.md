@@ -8,14 +8,14 @@ Các sơ đồ dưới đây được dựng từ luồng sự kiện chính, lu
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Chọn Đăng ký]
     C[Nhập số điện thoại, email, mật khẩu, họ tên, giới tính, vai trò]
     D[Chọn Gửi mã xác thực]
     H[Người dùng nhập mã xác nhận]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     B[Hiển thị biểu mẫu]
@@ -51,14 +51,14 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Mở màn hình Đăng nhập]
     B[Nhập số điện thoại và mật khẩu]
     C[Chọn Đăng nhập]
     I[Mở màn hình chính theo vai trò]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     D{Thông tin hợp lệ?}
@@ -84,13 +84,13 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Mở Cài đặt]
     B[Chọn Đăng xuất]
     D{Người dùng xác nhận?}
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     C[Hiển thị xác nhận]
@@ -117,14 +117,14 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Mở Cài đặt]
     B[Chọn Chỉnh sửa hồ sơ]
     D[Thay đổi họ tên hoặc giới tính]
     E[Chọn Lưu thay đổi]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     C[Hiển thị họ tên và giới tính hiện tại]
@@ -154,12 +154,12 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     B[Chọn nút SOS]
     D{Người cao tuổi chọn Tôi vẫn ổn?}
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     A{Cách phát hiện sự cố?}
@@ -192,7 +192,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Người chăm sóc nhận thông báo SOS]
     B[Mở thông báo]
@@ -201,7 +201,7 @@ flowchart LR
     M[Chọn Kết thúc cảnh báo]
     N[Chọn kết quả hỗ trợ và nhập ghi chú nếu cần]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     C[Hiển thị người gặp sự cố, thời điểm, nguyên nhân, số điện thoại và vị trí nếu có]
@@ -243,14 +243,14 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Mở Nhật ký sức khỏe]
     B[Chọn Ghi chỉ số]
     D[Nhập huyết áp trên và huyết áp dưới]
     E[Chọn Lưu kết quả đo]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     C[Hiển thị màn hình nhập kết quả]
@@ -282,12 +282,12 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Mở Nhật ký sức khỏe]
     G[Người dùng chọn một lần đo]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     B[Tải các lần đo đã lưu]
@@ -313,7 +313,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Mở mục Thuốc]
     B[Chọn Thêm thuốc]
@@ -325,7 +325,7 @@ flowchart LR
     O[Chọn lịch thuốc đã có]
     P[Thay đổi thông tin hoặc dừng thuốc]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     G[Bỏ qua ngày kết thúc]
@@ -362,13 +362,13 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     F[Người cao tuổi vẫn có thể mở ứng dụng xem lịch]
     H[Người cao tuổi mở thông báo hoặc mục Thuốc]
     J[Người chăm sóc có thể mở phần theo dõi]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     A[Hệ thống kiểm tra lịch thuốc còn hiệu lực]
@@ -396,7 +396,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Người cao tuổi mở mục Thuốc]
     C[Chọn Đã uống tại lần uống tương ứng]
@@ -404,7 +404,7 @@ flowchart LR
     J[Người chăm sóc xem thông tin cập nhật]
     K[Hệ thống kiểm tra liều quá giờ 5 tiếng chưa xác nhận]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     B[Hiển thị các lần uống trong ngày]
@@ -435,7 +435,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Người chăm sóc mở mục Người chăm sóc của tôi]
     B[Nhập số điện thoại người cao tuổi]
@@ -444,7 +444,7 @@ flowchart LR
     H[Người chăm sóc có thể hủy yêu cầu]
     M[Người dùng chọn một người để xem thông tin liên hệ]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     D{Tìm thấy tài khoản phù hợp và chưa liên kết/chờ?}
@@ -476,7 +476,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Mở mục Liên hệ khẩn cấp]
     C[Chọn Gọi 115]
@@ -484,7 +484,7 @@ flowchart LR
     G[Thiết bị mở chức năng gọi điện]
     J[Người dùng thực hiện cuộc gọi 115]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     B[Hiển thị nút gọi 115 và người chăm sóc đã liên kết]
@@ -511,7 +511,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Mở mục Lịch khám]
     B[Chọn Thêm lịch]
@@ -524,7 +524,7 @@ flowchart LR
     V[Chọn Hoàn thành]
     X[Mở phần thêm hồ sơ khám, điền sẵn cơ sở và ngày khám]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     F{Thông tin hợp lệ và người phụ trách hợp lệ?}
@@ -576,7 +576,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Mở mục Hồ sơ khám]
     E{Người dùng muốn thêm?}
@@ -588,7 +588,7 @@ flowchart LR
     R[Chọn thêm tài liệu]
     U[Chọn ảnh hoặc PDF]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     B[Tải danh sách các lần khám]
@@ -642,7 +642,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Mở Cài đặt]
     B[Chọn Ghi âm lời nhắc]
@@ -654,7 +654,7 @@ flowchart LR
     N[Chọn Lưu bản ghi]
     Q{Có đặt làm âm thanh nhắc thuốc trên Android?}
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     C[Hiển thị màn hình ghi âm]
@@ -700,12 +700,12 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  subgraph U["NGƯỜI DÙNG"]
+  subgraph USER_LANE["NGƯỜI DÙNG"]
     direction TB
     A[Người cao tuổi đăng nhập và mở ứng dụng]
     E[Người chăm sóc mở màn hình gia đình]
   end
-  subgraph H["HỆ THỐNG"]
+  subgraph SYSTEM_LANE["HỆ THỐNG"]
     direction TB
     S([Bắt đầu])
     B[Ứng dụng xin quyền và lấy vị trí theo chu kỳ]
