@@ -28,14 +28,14 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 9. Hệ thống lưu thông tin người dùng và thông báo đăng ký thành công.
 
 **Luồng thay thế:**
-- Tại bước 6, nếu chưa nhận được email, người dùng có thể yêu cầu gửi lại mã sau thời gian chờ.
+- **A1 (Tại bước 6):** Tại bước 6, nếu chưa nhận được email, người dùng có thể yêu cầu gửi lại mã sau thời gian chờ.
 
 **Ngoại lệ:**
-- E1 (Email đã được sử dụng): Hệ thống thông báo email đã tồn tại và yêu cầu dùng email khác hoặc đăng nhập.
-- E2 (Số điện thoại đã được sử dụng): Hệ thống thông báo số điện thoại đã tồn tại.
-- E3 (Thông tin không hợp lệ): Hệ thống chỉ rõ nội dung còn thiếu hoặc chưa đúng để người dùng sửa lại.
-- E4 (Mã xác nhận sai, hết hạn hoặc nhập sai quá số lần cho phép): Hệ thống thông báo và yêu cầu lấy mã mới.
-- E5 (Mất kết nối): Hệ thống thông báo không thể tiếp tục và giữ lại thông tin đã nhập nếu màn hình còn mở.
+- **E1 (Tại bước 4):** E1 (Email đã được sử dụng): Hệ thống thông báo email đã tồn tại và yêu cầu dùng email khác hoặc đăng nhập.
+- **E2 (Tại bước 4):** E2 (Số điện thoại đã được sử dụng): Hệ thống thông báo số điện thoại đã tồn tại.
+- **E3 (Tại bước 3):** E3 (Thông tin không hợp lệ): Hệ thống chỉ rõ nội dung còn thiếu hoặc chưa đúng để người dùng sửa lại.
+- **E4 (Tại bước 7):** E4 (Mã xác nhận sai, hết hạn hoặc nhập sai quá số lần cho phép): Hệ thống thông báo và yêu cầu lấy mã mới.
+- **E5 (Tại bước 4):** E5 (Mất kết nối): Hệ thống thông báo không thể tiếp tục và giữ lại thông tin đã nhập nếu màn hình còn mở.
 
 ## 3.3.2. Usecase đăng nhập
 
@@ -58,9 +58,9 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 **Luồng thay thế:** Không có.
 
 **Ngoại lệ:**
-- E1 (Sai số điện thoại hoặc mật khẩu): Hệ thống thông báo thông tin đăng nhập không chính xác.
-- E2 (Tài khoản không tồn tại): Hệ thống thông báo chưa tìm thấy tài khoản tương ứng.
-- E3 (Mất kết nối): Hệ thống thông báo không thể đăng nhập và cho phép thử lại.
+- **E1 (Tại bước 3):** E1 (Sai số điện thoại hoặc mật khẩu): Hệ thống thông báo thông tin đăng nhập không chính xác.
+- **E2 (Tại bước 4):** E2 (Tài khoản không tồn tại): Hệ thống thông báo chưa tìm thấy tài khoản tương ứng.
+- **E3 (Tại bước 4):** E3 (Mất kết nối): Hệ thống thông báo không thể đăng nhập và cho phép thử lại.
 
 ## 3.3.3. Usecase đăng xuất
 
@@ -81,10 +81,10 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 6. Ứng dụng chuyển về màn hình đăng nhập.
 
 **Luồng thay thế:**
-- Tại bước 4, nếu người dùng chọn “Ở lại” hoặc “Hủy”, hệ thống đóng thông báo và giữ nguyên màn hình đang sử dụng.
+- **A1 (Tại bước 4):** Tại bước 4, nếu người dùng chọn “Ở lại” hoặc “Hủy”, hệ thống đóng thông báo và giữ nguyên màn hình đang sử dụng.
 
 **Ngoại lệ:**
-- E1 (Không thể đăng xuất): Hệ thống thông báo lỗi; người dùng có thể thử lại.
+- **E1 (Tại bước 4):** E1 (Không thể đăng xuất): Hệ thống thông báo lỗi; người dùng có thể thử lại.
 
 ## 3.3.4. Usecase chỉnh sửa thông tin cá nhân
 
@@ -106,11 +106,11 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 7. Nếu thông tin hợp lệ, hệ thống lưu thay đổi và hiển thị thông báo thành công.
 
 **Luồng thay thế:**
-- Tại bước 5, người dùng chọn “Hủy” để đóng biểu mẫu và giữ nguyên thông tin cũ.
+- **A1 (Tại bước 5):** Tại bước 5, người dùng chọn “Hủy” để đóng biểu mẫu và giữ nguyên thông tin cũ.
 
 **Ngoại lệ:**
-- E1 (Họ tên bị bỏ trống hoặc quá ngắn): Hệ thống yêu cầu nhập lại họ tên.
-- E2 (Không lưu được thông tin): Hệ thống thông báo lỗi và giữ lại nội dung người dùng vừa nhập.
+- **E1 (Tại bước 5):** E1 (Họ tên bị bỏ trống hoặc quá ngắn): Hệ thống yêu cầu nhập lại họ tên.
+- **E2 (Tại bước 6):** E2 (Không lưu được thông tin): Hệ thống thông báo lỗi và giữ lại nội dung người dùng vừa nhập.
 
 ## 3.3.5. Usecase gửi cảnh báo SOS
 
@@ -132,12 +132,12 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 7. Ứng dụng hiển thị thông báo đã gửi cảnh báo.
 
 **Luồng thay thế:**
-- Nếu người cao tuổi chọn “Tôi vẫn ổn” trong thời gian đếm ngược, ứng dụng đóng thông báo té ngã và không gửi cảnh báo.
+- **A1 (Tại bước 3):** Nếu người cao tuổi chọn “Tôi vẫn ổn” trong thời gian đếm ngược, ứng dụng đóng thông báo té ngã và không gửi cảnh báo.
 
 **Ngoại lệ:**
-- E1 (Không lấy được vị trí): Hệ thống vẫn gửi cảnh báo và thông báo rằng chưa có thông tin vị trí.
-- E2 (Không có kết nối Internet): Hệ thống thông báo chưa gửi được cảnh báo và hiển thị lựa chọn gọi cấp cứu 115.
-- E3 (Không có người thân đã liên kết): Hệ thống vẫn ghi nhận cảnh báo nhưng không có người thân để nhận thông báo.
+- **E1 (Tại bước 5):** E1 (Không lấy được vị trí): Hệ thống vẫn gửi cảnh báo và thông báo rằng chưa có thông tin vị trí.
+- **E2 (Tại bước 6):** E2 (Không có kết nối Internet): Hệ thống thông báo chưa gửi được cảnh báo và hiển thị lựa chọn gọi cấp cứu 115.
+- **E3 (Tại bước 6):** E3 (Không có người thân đã liên kết): Hệ thống vẫn ghi nhận cảnh báo nhưng không có người thân để nhận thông báo.
 
 ## 3.3.6. Usecase tiếp nhận và xử lý cảnh báo
 
@@ -160,13 +160,13 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 8. Hệ thống cập nhật tình trạng cảnh báo và thông báo cho những người thân liên quan.
 
 **Luồng thay thế:**
-- Người thân có thể chọn gọi điện hoặc mở bản đồ để tìm đường đến vị trí người cao tuổi trước khi cập nhật quá trình hỗ trợ.
+- **A1 (Tại bước 6):** Người thân có thể chọn gọi điện hoặc mở bản đồ để tìm đường đến vị trí người cao tuổi trước khi cập nhật quá trình hỗ trợ.
 
 **Ngoại lệ:**
-- E1 (Người khác đã tiếp nhận): Hệ thống thông báo tên người đã nhận xử lý và không cho người dùng tiếp nhận lần nữa.
-- E2 (Cảnh báo đã kết thúc): Hệ thống hiển thị thông tin mới nhất và không cho cập nhật tiếp.
-- E3 (Người dùng không có quyền xem cảnh báo): Hệ thống từ chối truy cập.
-- E4 (Không lưu được thay đổi): Hệ thống thông báo lỗi và giữ nguyên thông tin cảnh báo trước đó.
+- **E1 (Tại bước 4):** E1 (Người khác đã tiếp nhận): Hệ thống thông báo tên người đã nhận xử lý và không cho người dùng tiếp nhận lần nữa.
+- **E2 (Tại bước 2):** E2 (Cảnh báo đã kết thúc): Hệ thống hiển thị thông tin mới nhất và không cho cập nhật tiếp.
+- **E3 (Tại bước 2):** E3 (Người dùng không có quyền xem cảnh báo): Hệ thống từ chối truy cập.
+- **E4 (Tại bước 8):** E4 (Không lưu được thay đổi): Hệ thống thông báo lỗi và giữ nguyên thông tin cảnh báo trước đó.
 
 ## 3.3.7. Usecase ghi chỉ số huyết áp
 
@@ -190,9 +190,9 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 **Luồng thay thế:** Không có.
 
 **Ngoại lệ:**
-- E1 (Thiếu chỉ số): Hệ thống yêu cầu nhập đầy đủ hai chỉ số.
-- E2 (Chỉ số không hợp lệ): Hệ thống thông báo nếu chỉ số trên nằm ngoài khoảng 70–250, chỉ số dưới nằm ngoài khoảng 40–150 hoặc chỉ số trên không lớn hơn chỉ số dưới.
-- E3 (Không lưu được): Hệ thống thông báo lỗi và cho phép người dùng thử lại.
+- **E1 (Tại bước 4):** E1 (Thiếu chỉ số): Hệ thống yêu cầu nhập đầy đủ hai chỉ số.
+- **E2 (Tại bước 4):** E2 (Chỉ số không hợp lệ): Hệ thống thông báo nếu chỉ số trên nằm ngoài khoảng 70–250, chỉ số dưới nằm ngoài khoảng 40–150 hoặc chỉ số trên không lớn hơn chỉ số dưới.
+- **E3 (Tại bước 6):** E3 (Không lưu được): Hệ thống thông báo lỗi và cho phép người dùng thử lại.
 
 ## 3.3.8. Usecase theo dõi lịch sử huyết áp
 
@@ -214,8 +214,8 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 **Luồng thay thế:** Không có.
 
 **Ngoại lệ:**
-- E1 (Chưa có dữ liệu): Hệ thống hiển thị thông báo chưa có kết quả đo và hướng dẫn người dùng ghi chỉ số lần đầu.
-- E2 (Không tải được dữ liệu): Hệ thống thông báo lỗi và cho phép tải lại.
+- **E1 (Tại bước 2):** E1 (Chưa có dữ liệu): Hệ thống hiển thị thông báo chưa có kết quả đo và hướng dẫn người dùng ghi chỉ số lần đầu.
+- **E2 (Tại bước 2):** E2 (Không tải được dữ liệu): Hệ thống thông báo lỗi và cho phép tải lại.
 
 ## 3.3.9. Usecase cảnh báo chỉ số huyết áp bất thường
 
@@ -235,11 +235,11 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 5. Người dùng đọc hướng dẫn và thực hiện theo tình trạng thực tế.
 
 **Luồng thay thế:**
-- Nếu chỉ số ở mức bình thường hoặc tốt, hệ thống hiển thị lời khuyên tiếp tục theo dõi định kỳ.
+- **A1 (Tại bước 2):** Nếu chỉ số ở mức bình thường hoặc tốt, hệ thống hiển thị lời khuyên tiếp tục theo dõi định kỳ.
 
 **Ngoại lệ:**
-- E1 (Chỉ số nhập không hợp lệ): Hệ thống yêu cầu nhập lại và không đưa ra đánh giá.
-- E2 (Người dùng có dấu hiệu nguy hiểm): Hệ thống hướng dẫn gọi cấp cứu 115 khi có các dấu hiệu như đau ngực, khó thở, yếu liệt hoặc khó nói.
+- **E1 (Tại bước 2):** E1 (Chỉ số nhập không hợp lệ): Hệ thống yêu cầu nhập lại và không đưa ra đánh giá.
+- **E2 (Tại bước 2):** E2 (Người dùng có dấu hiệu nguy hiểm): Hệ thống hướng dẫn gọi cấp cứu 115 khi có các dấu hiệu như đau ngực, khó thở, yếu liệt hoặc khó nói.
 
 ## 3.3.10. Usecase thiết lập lịch uống thuốc
 
@@ -262,12 +262,12 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 8. Ứng dụng thiết lập các lần nhắc uống thuốc theo những khung giờ đã chọn.
 
 **Luồng thay thế:**
-- Người dùng có thể mở một lịch thuốc đã có để thay đổi thông tin hoặc chọn “Dừng thuốc” khi không còn sử dụng lịch đó.
+- **A1 (Tại bước 2):** Người dùng có thể mở một lịch thuốc đã có để thay đổi thông tin hoặc chọn “Dừng thuốc” khi không còn sử dụng lịch đó.
 
 **Ngoại lệ:**
-- E1 (Thiếu tên thuốc hoặc giờ uống): Hệ thống yêu cầu bổ sung thông tin còn thiếu.
-- E2 (Ngày kết thúc trước ngày bắt đầu): Hệ thống yêu cầu chọn lại ngày.
-- E3 (Không lưu được lịch): Hệ thống thông báo lỗi và giữ lại thông tin đã nhập.
+- **E1 (Tại bước 3):** E1 (Thiếu tên thuốc hoặc giờ uống): Hệ thống yêu cầu bổ sung thông tin còn thiếu.
+- **E2 (Tại bước 4):** E2 (Ngày kết thúc trước ngày bắt đầu): Hệ thống yêu cầu chọn lại ngày.
+- **E3 (Tại bước 7):** E3 (Không lưu được lịch): Hệ thống thông báo lỗi và giữ lại thông tin đã nhập.
 
 ## 3.3.11. Usecase nhắc nhở và theo dõi lịch uống thuốc
 
@@ -287,12 +287,12 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 5. Người thân đã liên kết có thể mở phần theo dõi để xem lịch uống thuốc của người cao tuổi.
 
 **Luồng thay thế:**
-- Người dùng có thể mở thông báo để chuyển thẳng đến phần lịch uống thuốc.
+- **A1 (Tại bước 2):** Người dùng có thể mở thông báo để chuyển thẳng đến phần lịch uống thuốc.
 
 **Ngoại lệ:**
-- E1 (Chưa cho phép thông báo): Ứng dụng hiển thị hướng dẫn bật quyền thông báo trên thiết bị.
-- E2 (Lịch thuốc đã dừng hoặc chưa đến ngày bắt đầu): Ứng dụng không tạo lời nhắc cho lịch đó.
-- E3 (Thiết bị không hỗ trợ lời nhắc): Người dùng vẫn có thể xem lịch uống thuốc trong ứng dụng.
+- **E1 (Tại bước 2):** E1 (Chưa cho phép thông báo): Ứng dụng hiển thị hướng dẫn bật quyền thông báo trên thiết bị.
+- **E2 (Tại bước 1):** E2 (Lịch thuốc đã dừng hoặc chưa đến ngày bắt đầu): Ứng dụng không tạo lời nhắc cho lịch đó.
+- **E3 (Tại bước 2):** E3 (Thiết bị không hỗ trợ lời nhắc): Người dùng vẫn có thể xem lịch uống thuốc trong ứng dụng.
 
 ## 3.3.12. Usecase ghi nhận nhật ký uống thuốc
 
@@ -314,11 +314,11 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 7. Hệ thống kiểm tra các lần uống đã quá giờ 5 tiếng mà chưa được xác nhận và ghi nhận là bỏ lỡ.
 
 **Luồng thay thế:**
-- Người dùng có thể xem lại các lần uống đã hoàn thành hoặc bị bỏ lỡ trong phần lịch sử.
+- **A1 (Tại bước 3):** Người dùng có thể xem lại các lần uống đã hoàn thành hoặc bị bỏ lỡ trong phần lịch sử.
 
 **Ngoại lệ:**
-- E1 (Lần uống đã được ghi nhận): Hệ thống không tạo thêm bản ghi trùng cho cùng một lần uống.
-- E2 (Không lưu được): Hệ thống thông báo lỗi và cho phép người dùng thử lại.
+- **E1 (Tại bước 3):** E1 (Lần uống đã được ghi nhận): Hệ thống không tạo thêm bản ghi trùng cho cùng một lần uống.
+- **E2 (Tại bước 4):** E2 (Không lưu được): Hệ thống thông báo lỗi và cho phép người dùng thử lại.
 
 ## 3.3.13. Usecase gửi và phản hồi yêu cầu liên kết
 
@@ -341,13 +341,13 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 8. Người thân có thể xem thông tin người cao tuổi đã liên kết.
 
 **Luồng thay thế:**
-- Khi yêu cầu còn đang chờ phản hồi, người gửi có thể chọn hủy yêu cầu.
+- **A1 (Tại bước 6):** Khi yêu cầu còn đang chờ phản hồi, người gửi có thể chọn hủy yêu cầu.
 
 **Ngoại lệ:**
-- E1 (Không tìm thấy số điện thoại): Hệ thống thông báo chưa có tài khoản phù hợp.
-- E2 (Tài khoản được chọn không phải người cao tuổi): Hệ thống không cho gửi yêu cầu.
-- E3 (Đã liên kết hoặc đang chờ phản hồi): Hệ thống thông báo không thể tạo yêu cầu trùng.
-- E4 (Yêu cầu không còn hiệu lực): Hệ thống thông báo và tải lại danh sách yêu cầu.
+- **E1 (Tại bước 3):** E1 (Không tìm thấy số điện thoại): Hệ thống thông báo chưa có tài khoản phù hợp.
+- **E2 (Tại bước 3):** E2 (Tài khoản được chọn không phải người cao tuổi): Hệ thống không cho gửi yêu cầu.
+- **E3 (Tại bước 3):** E3 (Đã liên kết hoặc đang chờ phản hồi): Hệ thống thông báo không thể tạo yêu cầu trùng.
+- **E4 (Tại bước 6):** E4 (Yêu cầu không còn hiệu lực): Hệ thống thông báo và tải lại danh sách yêu cầu.
 
 ## 3.3.14. Usecase quản lý danh sách người thân
 
@@ -367,11 +367,11 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 5. Người dùng chọn một người trong danh sách để xem thông tin liên hệ được hiển thị.
 
 **Luồng thay thế:**
-- Nếu có yêu cầu đang chờ, người dùng mở phần yêu cầu để xem và phản hồi.
+- **A1 (Tại bước 2):** Nếu có yêu cầu đang chờ, người dùng mở phần yêu cầu để xem và phản hồi.
 
 **Ngoại lệ:**
-- E1 (Chưa có người thân liên kết): Hệ thống hiển thị hướng dẫn gửi hoặc xác nhận yêu cầu liên kết.
-- E2 (Không tải được danh sách): Hệ thống thông báo lỗi và cho phép tải lại.
+- **E1 (Tại bước 2):** E1 (Chưa có người thân liên kết): Hệ thống hiển thị hướng dẫn gửi hoặc xác nhận yêu cầu liên kết.
+- **E2 (Tại bước 2):** E2 (Không tải được danh sách): Hệ thống thông báo lỗi và cho phép tải lại.
 
 ## 3.3.15. Usecase liên hệ khẩn cấp
 
@@ -392,10 +392,10 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 6. Thiết bị mở chức năng gọi điện để người dùng thực hiện cuộc gọi.
 
 **Luồng thay thế:**
-- Người dùng chọn “Hủy” để đóng thông báo và không thực hiện cuộc gọi.
+- **A1 (Tại bước 5):** Người dùng chọn “Hủy” để đóng thông báo và không thực hiện cuộc gọi.
 
 **Ngoại lệ:**
-- E1 (Thiết bị không thể gọi điện): Hệ thống thông báo không thể thực hiện cuộc gọi trên thiết bị hiện tại.
+- **E1 (Tại bước 5):** E1 (Thiết bị không thể gọi điện): Hệ thống thông báo không thể thực hiện cuộc gọi trên thiết bị hiện tại.
 
 **Ghi chú:** Mã nguồn hiện có nút gọi cấp cứu 115 và hiển thị người thân đã liên kết. Chưa thấy chức năng thêm, sửa, xóa danh bạ khẩn cấp riêng; vì vậy đặc tả không mô tả các thao tác này.
 
@@ -419,13 +419,13 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 7. Lịch khám được hiển thị trong danh sách để các thành viên liên quan theo dõi.
 
 **Luồng thay thế:**
-- Nếu chưa xác định người đưa đi khám, lịch được lưu ở tình trạng chưa có người phụ trách để thành viên phù hợp nhận sau.
+- **A1 (Tại bước 4):** Nếu chưa xác định người đưa đi khám, lịch được lưu ở tình trạng chưa có người phụ trách để thành viên phù hợp nhận sau.
 
 **Ngoại lệ:**
-- E1 (Thiếu thông tin cần thiết): Hệ thống yêu cầu bổ sung nội dung khám hoặc thời gian khám.
-- E2 (Thời gian đã qua): Hệ thống thông báo cần chọn thời gian trong tương lai.
-- E3 (Người được chọn không thuộc gia đình đã liên kết): Hệ thống không chấp nhận người phụ trách đó.
-- E4 (Không lưu được lịch): Hệ thống thông báo lỗi và giữ lại thông tin đã nhập.
+- **E1 (Tại bước 3):** E1 (Thiếu thông tin cần thiết): Hệ thống yêu cầu bổ sung nội dung khám hoặc thời gian khám.
+- **E2 (Tại bước 4):** E2 (Thời gian đã qua): Hệ thống thông báo cần chọn thời gian trong tương lai.
+- **E3 (Tại bước 4):** E3 (Người được chọn không thuộc gia đình đã liên kết): Hệ thống không chấp nhận người phụ trách đó.
+- **E4 (Tại bước 6):** E4 (Không lưu được lịch): Hệ thống thông báo lỗi và giữ lại thông tin đã nhập.
 
 ## 3.3.17. Usecase điều phối người đưa đi khám
 
@@ -447,12 +447,12 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 7. Hệ thống bỏ tên người phụ trách hiện tại và đưa lịch về tình trạng chưa có người nhận.
 
 **Luồng thay thế:**
-- Sau khi lịch được trả lại, một thành viên khác có thể chọn “Tôi sẽ đưa đi” để nhận trách nhiệm.
+- **A1 (Tại bước 7):** Sau khi lịch được trả lại, một thành viên khác có thể chọn “Tôi sẽ đưa đi” để nhận trách nhiệm.
 
 **Ngoại lệ:**
-- E1 (Lịch đã có người nhận): Hệ thống thông báo lịch đã được thành viên khác đảm nhận.
-- E2 (Người dùng không phải người phụ trách): Hệ thống không cho phép trả lại lịch.
-- E3 (Lịch đã hoàn tất): Hệ thống không cho nhận hoặc trả lại lịch đã kết thúc.
+- **E1 (Tại bước 3):** E1 (Lịch đã có người nhận): Hệ thống thông báo lịch đã được thành viên khác đảm nhận.
+- **E2 (Tại bước 6):** E2 (Người dùng không phải người phụ trách): Hệ thống không cho phép trả lại lịch.
+- **E3 (Tại bước 3):** E3 (Lịch đã hoàn tất): Hệ thống không cho nhận hoặc trả lại lịch đã kết thúc.
 
 ## 3.3.18. Usecase xác nhận hoàn tất lịch khám
 
@@ -473,12 +473,12 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 6. Ứng dụng mở phần thêm hồ sơ khám và điền sẵn tên cơ sở y tế cùng ngày khám nếu có thông tin.
 
 **Luồng thay thế:**
-- Người dùng có thể bỏ qua việc thêm hồ sơ khám ở thời điểm này và thực hiện sau.
+- **A1 (Tại bước 6):** Người dùng có thể bỏ qua việc thêm hồ sơ khám ở thời điểm này và thực hiện sau.
 
 **Ngoại lệ:**
-- E1 (Chưa đến giờ hẹn): Hệ thống thông báo chỉ có thể hoàn thành lịch sau thời gian đã hẹn.
-- E2 (Không phải người phụ trách): Hệ thống không cho phép hoàn tất lịch.
-- E3 (Lịch đã được hoàn thành hoặc không còn tồn tại): Hệ thống tải lại thông tin mới nhất.
+- **E1 (Tại bước 4):** E1 (Chưa đến giờ hẹn): Hệ thống thông báo chỉ có thể hoàn thành lịch sau thời gian đã hẹn.
+- **E2 (Tại bước 4):** E2 (Không phải người phụ trách): Hệ thống không cho phép hoàn tất lịch.
+- **E3 (Tại bước 5):** E3 (Lịch đã được hoàn thành hoặc không còn tồn tại): Hệ thống tải lại thông tin mới nhất.
 
 ## 3.3.19. Usecase lưu hồ sơ y tế
 
@@ -500,13 +500,13 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 7. Hồ sơ mới được hiển thị trong danh sách lịch sử khám.
 
 **Luồng thay thế:**
-- Người dùng có thể mở chức năng thêm hồ sơ từ màn hình xác nhận hoàn tất lịch khám; thông tin cơ sở y tế và ngày khám được điền sẵn nếu có.
+- **A1 (Tại bước 3):** Người dùng có thể mở chức năng thêm hồ sơ từ màn hình xác nhận hoàn tất lịch khám; thông tin cơ sở y tế và ngày khám được điền sẵn nếu có.
 
 **Ngoại lệ:**
-- E1 (Thiếu thông tin bắt buộc): Hệ thống yêu cầu bổ sung ngày khám, cơ sở y tế hoặc chẩn đoán.
-- E2 (Ngày khám ở tương lai): Hệ thống yêu cầu kiểm tra lại ngày khám.
-- E3 (Không có quyền lưu): Hệ thống thông báo người dùng không được phép thêm hồ sơ cho tài khoản đã chọn.
-- E4 (Không lưu được hồ sơ): Hệ thống thông báo lỗi và giữ lại nội dung đã nhập.
+- **E1 (Tại bước 3):** E1 (Thiếu thông tin bắt buộc): Hệ thống yêu cầu bổ sung ngày khám, cơ sở y tế hoặc chẩn đoán.
+- **E2 (Tại bước 6):** E2 (Ngày khám ở tương lai): Hệ thống yêu cầu kiểm tra lại ngày khám.
+- **E3 (Tại bước 6):** E3 (Không có quyền lưu): Hệ thống thông báo người dùng không được phép thêm hồ sơ cho tài khoản đã chọn.
+- **E4 (Tại bước 6):** E4 (Không lưu được hồ sơ): Hệ thống thông báo lỗi và giữ lại nội dung đã nhập.
 
 ## 3.3.20. Usecase quản lý tài liệu đính kèm
 
@@ -528,13 +528,13 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 7. Hệ thống kiểm tra quyền truy cập và hiển thị tài liệu.
 
 **Luồng thay thế:**
-- Người dùng có thể chọn mở tài liệu PDF bằng chức năng xem tài liệu trên thiết bị.
+- **A1 (Tại bước 6):** Người dùng có thể chọn mở tài liệu PDF bằng chức năng xem tài liệu trên thiết bị.
 
 **Ngoại lệ:**
-- E1 (Loại tệp không được hỗ trợ): Hệ thống chỉ chấp nhận hình ảnh hoặc PDF.
-- E2 (Tệp lớn hơn 15 MB): Hệ thống thông báo tệp vượt quá dung lượng cho phép.
-- E3 (Không có quyền truy cập): Hệ thống từ chối xem hoặc thêm tài liệu.
-- E4 (Không tải được tệp): Hệ thống thông báo lỗi và không hiển thị tài liệu như thể đã tải thành công.
+- **E1 (Tại bước 3):** E1 (Loại tệp không được hỗ trợ): Hệ thống chỉ chấp nhận hình ảnh hoặc PDF.
+- **E2 (Tại bước 4):** E2 (Tệp lớn hơn 15 MB): Hệ thống thông báo tệp vượt quá dung lượng cho phép.
+- **E3 (Tại bước 7):** E3 (Không có quyền truy cập): Hệ thống từ chối xem hoặc thêm tài liệu.
+- **E4 (Tại bước 5):** E4 (Không tải được tệp): Hệ thống thông báo lỗi và không hiển thị tài liệu như thể đã tải thành công.
 
 ## 3.3.21. Usecase tra cứu lịch sử khám bệnh
 
@@ -557,10 +557,10 @@ Các mô tả dưới đây được đối chiếu với mã nguồn hiện có
 **Luồng thay thế:** Không có.
 
 **Ngoại lệ:**
-- E1 (Chưa có hồ sơ khám): Hệ thống hiển thị thông báo chưa có hồ sơ và hướng dẫn thêm hồ sơ mới.
-- E2 (Tài liệu không còn hoặc không mở được): Hệ thống thông báo tài liệu hiện không thể xem.
-- E3 (Không có quyền xem): Hệ thống từ chối truy cập hồ sơ.
-- E4 (Không tải được danh sách): Hệ thống thông báo lỗi và cho phép thử lại.
+- **E1 (Tại bước 2):** E1 (Chưa có hồ sơ khám): Hệ thống hiển thị thông báo chưa có hồ sơ và hướng dẫn thêm hồ sơ mới.
+- **E2 (Tại bước 6):** E2 (Tài liệu không còn hoặc không mở được): Hệ thống thông báo tài liệu hiện không thể xem.
+- **E3 (Tại bước 5):** E3 (Không có quyền xem): Hệ thống từ chối truy cập hồ sơ.
+- **E4 (Tại bước 2):** E4 (Không tải được danh sách): Hệ thống thông báo lỗi và cho phép thử lại.
 
 ---
 
